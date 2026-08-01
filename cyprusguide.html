@@ -18,6 +18,7 @@
     --accent: #f7801e;
     --accent-dark: #dd6a0c;
     --accent-soft: #fff2e5;
+    --green: #34c759;
     --nav-bg: rgba(255,255,255,.86);
     --ease-out: cubic-bezier(.16,1,.3,1);
     --ease-spring: cubic-bezier(.34,1.4,.44,1);
@@ -36,7 +37,7 @@
   }
   #app { max-width: 480px; margin: 0 auto; min-height: 100%; background: var(--bg-grouped); }
 
-  /* ---------- Верхняя панель (как в Telegram) ---------- */
+  /* ---------- Верхняя панель ---------- */
   header.nav {
     position: sticky; top: 0; z-index: 20;
     background: var(--nav-bg);
@@ -52,6 +53,14 @@
     padding: 0 64px; pointer-events: none;
   }
   .nav-sub { text-align: center; font-size: 13px; color: var(--muted); margin-top: 1px; }
+  .nav-action {
+    margin-left: auto; position: relative; z-index: 1;
+    background: none; border: none; padding: 4px 2px; cursor: pointer;
+    color: var(--accent); display: inline-flex; align-items: center; gap: 4px;
+    font: inherit; font-size: 15px; font-weight: 500;
+    transition: opacity .2s var(--ease-out), transform .3s var(--ease-spring);
+  }
+  .nav-action:active { opacity: .5; transform: scale(.92); }
   .back-btn {
     position: relative; z-index: 1;
     background: none; border: none; padding: 4px 8px 4px 0; margin-left: -4px;
@@ -96,6 +105,12 @@
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
   .row .chev { flex: none; color: #c4c4c7; display: flex; }
+  .row .geo {
+    flex: none; width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center; color: var(--accent); background: var(--accent-soft);
+    cursor: pointer; transition: transform .35s var(--ease-spring);
+  }
+  .row .geo:active { transform: scale(.86); }
 
   /* ---------- Аватар-фото ---------- */
   .avatar {
@@ -108,11 +123,11 @@
   .avatar img.loaded { opacity: 1; }
   .avatar .initial {
     position: absolute; inset: 0; display: grid; place-items: center;
-    color: #fff; font-size: 21px; font-weight: 600; letter-spacing: .01em;
+    color: #fff; font-size: 21px; font-weight: 600;
   }
   .avatar img.loaded + .initial { opacity: 0; transition: opacity .4s var(--ease-out); }
 
-  /* ---------- Большое фото на экране города ---------- */
+  /* ---------- Обложка города ---------- */
   .cover {
     position: relative; height: 210px; overflow: hidden;
     background: var(--ph, linear-gradient(135deg, #f7801e, #ffb36b));
@@ -125,11 +140,10 @@
   .cover .caption h2 { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
   .cover .caption .tagline { font-size: 14px; font-weight: 500; color: #ffd8b0; margin-top: 2px; }
 
-  /* ---------- Фильтры-«пилюли» ---------- */
+  /* ---------- Фильтры ---------- */
   .chip-row {
     display: flex; gap: 8px; padding: 10px 14px; overflow-x: auto;
-    background: var(--bg); border-bottom: .5px solid var(--separator);
-    scrollbar-width: none;
+    background: var(--bg); border-bottom: .5px solid var(--separator); scrollbar-width: none;
   }
   .chip-row::-webkit-scrollbar { display: none; }
   .chip {
@@ -141,7 +155,6 @@
   .chip:active { transform: scale(.93); }
   .chip.active { background: var(--accent); color: #fff; }
 
-  /* ---------- Текстовые блоки ---------- */
   .prose { background: var(--row); padding: 14px 16px 16px; border-bottom: .5px solid var(--separator); }
   .prose p { margin: 0; font-size: 15px; line-height: 1.5; color: #3a3a3c; }
   .info-label { font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 3px; }
@@ -150,7 +163,125 @@
     background: var(--accent-soft); border-radius: 6px; padding: 1px 7px; margin-bottom: 4px;
   }
 
-  /* ---------- Звезда «в избранное» ---------- */
+  /* ---------- Часы Кипра ---------- */
+  .clock {
+    background: linear-gradient(135deg, var(--accent), #ffa552);
+    color: #fff; padding: 16px 18px; display: flex; align-items: center; gap: 16px;
+  }
+  @media (min-width: 460px) { .clock { margin: 12px 12px 0; border-radius: 14px; } }
+  .clock .time {
+    font-size: 40px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .clock .time .sec { font-size: 22px; font-weight: 600; opacity: .75; }
+  .clock .meta { font-size: 13px; line-height: 1.45; opacity: .95; }
+  .clock .meta b { font-weight: 600; }
+  .clock .dot {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #fff;
+    margin-right: 5px; animation: pulse 2s var(--ease-out) infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.8); } }
+
+  /* ---------- Карта ---------- */
+  .map-wrap { position: relative; height: calc(100vh - 200px); min-height: 340px; background: #0d1b26; overflow: hidden; touch-action: none; }
+  .map-layer { position: absolute; inset: 0; }
+  .map-layer img { position: absolute; width: 256px; height: 256px; user-select: none; -webkit-user-drag: none; }
+  .map-fallback {
+    position: absolute; inset: 0; display: grid; place-items: end center; text-align: center;
+    color: #6d8a9c; font-size: 12px; padding: 0 24px 46px; line-height: 1.5;
+    background: repeating-linear-gradient(45deg, #0d1b26, #0d1b26 12px, #10202c 12px, #10202c 24px);
+  }
+  .marker {
+    position: absolute; transform: translate(-50%, -100%); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; will-change: transform;
+  }
+  .marker .pin {
+    width: 26px; height: 26px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+    background: var(--accent); border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.45);
+    transition: transform .35s var(--ease-spring);
+  }
+  .marker.beach .pin { background: #0a9bd8; }
+  .marker.city .pin { background: var(--accent); }
+  .marker.spot .pin { background: #ff4f4f; width: 18px; height: 18px; }
+  .marker:active .pin { transform: rotate(-45deg) scale(1.25); }
+  .marker .lbl {
+    margin-top: 5px; font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.6);
+  }
+  .map-ctrl {
+    position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 8px; z-index: 5;
+  }
+  .map-btn {
+    width: 38px; height: 38px; border-radius: 10px; border: none; cursor: pointer;
+    background: rgba(255,255,255,.94); color: var(--text); font-size: 19px; font-weight: 600;
+    box-shadow: 0 2px 10px rgba(0,0,0,.28); display: grid; place-items: center;
+    transition: transform .3s var(--ease-spring);
+  }
+  .map-btn:active { transform: scale(.9); }
+  .map-btn.wide { width: auto; padding: 0 12px; font-size: 13px; font-weight: 600; }
+  .map-btn.on { background: var(--accent); color: #fff; }
+  .map-legend {
+    position: absolute; left: 10px; bottom: 10px; z-index: 5; display: flex; gap: 10px;
+    background: rgba(255,255,255,.92); border-radius: 10px; padding: 7px 10px;
+    font-size: 11px; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,.25);
+  }
+  .map-legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  .map-attr {
+    position: absolute; right: 8px; bottom: 6px; z-index: 5;
+    font-size: 10px; color: rgba(255,255,255,.75); text-shadow: 0 1px 3px rgba(0,0,0,.8);
+  }
+  .place-sheet {
+    position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 6;
+    background: var(--bg); border-radius: 14px; padding: 12px 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+    animation: sheetUp .4s var(--ease-out) both;
+  }
+  @keyframes sheetUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .place-sheet .h { display: flex; align-items: flex-start; gap: 10px; }
+  .place-sheet .h .title { font-size: 16px; font-weight: 600; flex: 1; }
+  .place-sheet .close { background: none; border: none; font-size: 20px; color: var(--muted); cursor: pointer; line-height: 1; padding: 0 2px; }
+  .place-sheet .coords { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .place-sheet .acts { display: flex; gap: 8px; margin-top: 10px; }
+  .place-sheet a.btn, .place-sheet button.btn { flex: 1; }
+
+  /* ---------- Кнопки и форма заявки ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 16px; border-radius: 12px; border: none; cursor: pointer;
+    font: inherit; font-size: 16px; font-weight: 600; text-decoration: none;
+    background: var(--accent); color: #fff;
+    transition: transform .3s var(--ease-spring), background .25s var(--ease-out), opacity .25s;
+  }
+  .btn:active { transform: scale(.97); background: var(--accent-dark); }
+  .btn.secondary { background: var(--bg-grouped); color: var(--text); }
+  .btn.wa { background: #25d366; }
+  .btn:disabled { opacity: .45; pointer-events: none; }
+  .btn svg { width: 20px; height: 20px; }
+
+  .field { background: var(--row); padding: 10px 16px; position: relative; }
+  .field + .field::before { content: ''; position: absolute; top: 0; left: 16px; right: 0; height: .5px; background: var(--separator); }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 3px; letter-spacing: .02em; text-transform: uppercase; }
+  .field input, .field textarea, .field select {
+    width: 100%; border: none; outline: none; background: none; font: inherit; font-size: 16px;
+    color: var(--text); padding: 2px 0; resize: none;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: #bdbdc2; }
+  .field.invalid label { color: #ff3b30; }
+  .form-actions { padding: 4px 14px 0; display: flex; flex-direction: column; gap: 10px; }
+  .preview {
+    background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; margin: 0 14px 8px;
+    font-size: 14px; line-height: 1.5; color: #7a4310; white-space: pre-wrap;
+  }
+  .hint { font-size: 13px; color: var(--muted); padding: 0 16px; line-height: 1.45; }
+  .toast {
+    position: fixed; left: 50%; bottom: calc(120px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+    background: rgba(0,0,0,.86); color: #fff; font-size: 14px; font-weight: 500;
+    padding: 10px 16px; border-radius: 999px; z-index: 60;
+    animation: toastIn .35s var(--ease-spring) both;
+  }
+  @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+  /* ---------- Избранное ---------- */
   .fav-star {
     flex: none; width: 36px; height: 36px; display: grid; place-items: center;
     color: var(--accent); cursor: pointer; user-select: none;
@@ -166,7 +297,7 @@
     border-radius: 50%; background: var(--accent-soft); color: var(--accent);
   }
 
-  /* ---------- Нижняя панель вкладок ---------- */
+  /* ---------- Таб-бар ---------- */
   nav.tabbar {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
     width: 100%; max-width: 480px; z-index: 30;
@@ -180,11 +311,11 @@
     background: none; border: none; font-family: inherit;
     font-size: 10px; font-weight: 500; color: var(--muted);
     display: flex; flex-direction: column; align-items: center; gap: 2px;
-    cursor: pointer; padding: 4px 10px;
+    cursor: pointer; padding: 4px 8px;
     transition: color .25s var(--ease-out), transform .35s var(--ease-spring);
   }
   nav.tabbar button:active { transform: scale(.9); }
-  nav.tabbar button svg { width: 26px; height: 26px; }
+  nav.tabbar button svg { width: 25px; height: 25px; }
   nav.tabbar button.active { color: var(--accent); }
   nav.tabbar button.active svg { animation: tabPop .45s var(--ease-spring); }
   @keyframes tabPop { 0% { transform: scale(.82); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
@@ -194,10 +325,7 @@
     from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(5px); }
     to   { opacity: 1; transform: none; filter: blur(0); }
   }
-  @keyframes riseInSoft {
-    from { opacity: 0; transform: translate3d(0, 7px, 0); }
-    to   { opacity: 1; transform: none; }
-  }
+  @keyframes riseInSoft { from { opacity: 0; transform: translate3d(0, 7px, 0); } to { opacity: 1; transform: none; } }
   .reveal { opacity: 0; animation: riseIn .7s var(--ease-out) forwards; animation-delay: var(--d, 0ms); will-change: opacity, transform, filter; }
   .reveal-soft { opacity: 0; animation: riseInSoft .5s var(--ease-out) forwards; animation-delay: var(--d, 0ms); }
   .word { display: inline-block; opacity: 0; animation: riseIn .75s var(--ease-out) forwards; animation-delay: var(--d, 0ms); }
@@ -220,80 +348,88 @@
 <div id="app"></div>
 
 <script>
-/* Фото — Wikimedia Commons (свободные лицензии), отдаются через Special:FilePath.
-   Если картинка не загрузилась (нет сети или файл переименован), остаётся
-   цветная подложка `ph` — интерфейс не ломается. */
+/* ================== Настройки ================== */
+const CONFIG = {
+  // Номер для заявок в WhatsApp (в международном формате, только цифры).
+  // 0500054367 — Кыргызстан, код страны 996.
+  whatsapp: '996500054367',
+  whatsappDisplay: '+996 500 054 367',
+  timezone: 'Asia/Nicosia',
+};
+
+/* Фото — Wikimedia Commons (свободные лицензии) через Special:FilePath.
+   Не загрузилось — остаётся цветная подложка, вёрстка не ломается. */
 const W = (file, w) => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${w}`;
 const photo = (file) => ({ thumb: W(file, 160), cover: W(file, 900) });
 
 const cities = [
   { id: 'nicosia', name: 'Никосия (Lefkosia)', region: 'south', tagline: 'Последняя разделённая столица Европы',
-    ph: 'linear-gradient(135deg,#e0762c,#f6b46a)',
+    lat: 35.1856, lon: 33.3823, ph: 'linear-gradient(135deg,#e0762c,#f6b46a)',
     img: photo('Ledra Street Nicosia Republic of Cyprus.jpg'),
     description: 'Столица Кипра, разделена «зелёной линией» ООН на греческую и турецкую части. Старый город в венецианских стенах, музеи, торговые улицы Ledra и Onasagorou.',
     attractions: [
-      { id: 'n1', name: 'Ledra Street', description: 'Главная пешеходная улица, переход через КПП Ледра на север города.' },
-      { id: 'n2', name: 'Кипрский музей', description: 'Крупнейшее собрание археологии острова: от неолита до римской эпохи.' },
-      { id: 'n3', name: 'Венецианские стены', description: 'Фортификации XVI века, окружающие старый город, 11 бастионов.' },
+      { id: 'n1', name: 'Ledra Street', lat: 35.1741, lon: 33.3620, description: 'Главная пешеходная улица, переход через КПП Ледра на север города.' },
+      { id: 'n2', name: 'Кипрский музей', lat: 35.1719, lon: 33.3564, description: 'Крупнейшее собрание археологии острова: от неолита до римской эпохи.' },
+      { id: 'n3', name: 'Венецианские стены', lat: 35.1735, lon: 33.3665, description: 'Фортификации XVI века, окружающие старый город, 11 бастионов.' },
     ]},
   { id: 'limassol', name: 'Лимассол', region: 'south', tagline: 'Деловая столица и порт',
-    ph: 'linear-gradient(135deg,#2f7fa8,#7fc0d8)',
+    lat: 34.7071, lon: 33.0226, ph: 'linear-gradient(135deg,#2f7fa8,#7fc0d8)',
     img: photo('Limassol Marina 01.jpg'),
     description: 'Крупнейший порт острова, центр деловой и ночной жизни, много выходцев из СНГ. Замок, набережная Molos, старый город.',
     attractions: [
-      { id: 'l1', name: 'Замок Лимассола', description: 'Средневековая крепость, где по преданию венчался Ричард Львиное Сердце.' },
-      { id: 'l2', name: 'Набережная Molos', description: 'Парк вдоль моря 2 км, скульптуры, велодорожка.' },
-      { id: 'l3', name: 'Древний Курион (Kourion)', description: 'Греко-римский амфитеатр с видом на море, действующая сцена.' },
+      { id: 'l1', name: 'Замок Лимассола', lat: 34.6737, lon: 33.0421, description: 'Средневековая крепость, где по преданию венчался Ричард Львиное Сердце.' },
+      { id: 'l2', name: 'Набережная Molos', lat: 34.6720, lon: 33.0500, description: 'Парк вдоль моря 2 км, скульптуры, велодорожка.' },
+      { id: 'l3', name: 'Древний Курион (Kourion)', lat: 34.6644, lon: 32.8878, description: 'Греко-римский амфитеатр с видом на море, действующая сцена.' },
     ]},
   { id: 'larnaca', name: 'Ларнака', region: 'south', tagline: 'Ворота острова с главным аэропортом',
-    ph: 'linear-gradient(135deg,#d9536f,#f2a07c)',
+    lat: 34.9182, lon: 33.6201, ph: 'linear-gradient(135deg,#d9536f,#f2a07c)',
     img: photo('Finikoudes Beach, Larnaca, Cyprus.jpg'),
     description: 'Город с международным аэропортом, набережной Finikoudes, солёным озером с фламинго зимой.',
     attractions: [
-      { id: 'la1', name: 'Церковь Св. Лазаря', description: 'Храм IX века над гробницей воскрешённого Лазаря.' },
-      { id: 'la2', name: 'Соляное озеро', description: 'Зимовье фламинго, рядом мечеть Хала Султан Текке.' },
-      { id: 'la3', name: 'Набережная Finikoudes', description: 'Пальмовая набережная и городской пляж в центре.' },
+      { id: 'la1', name: 'Церковь Св. Лазаря', lat: 34.9109, lon: 33.6353, description: 'Храм IX века над гробницей воскрешённого Лазаря.' },
+      { id: 'la2', name: 'Соляное озеро', lat: 34.8846, lon: 33.6060, description: 'Зимовье фламинго, рядом мечеть Хала Султан Текке.' },
+      { id: 'la3', name: 'Набережная Finikoudes', lat: 34.9166, lon: 33.6414, description: 'Пальмовая набережная и городской пляж в центре.' },
     ]},
   { id: 'paphos', name: 'Пафос', region: 'south', tagline: 'Мифология и объект ЮНЕСКО',
-    ph: 'linear-gradient(135deg,#3f8f86,#93cfbf)',
+    lat: 34.7754, lon: 32.4245, ph: 'linear-gradient(135deg,#3f8f86,#93cfbf)',
     img: photo('Petra tou Romiou, Paphos, Cyprus.jpg'),
     description: 'По легенде — место рождения Афродиты. Археологический парк Пафоса в списке ЮНЕСКО, мозаики римских вилл.',
     attractions: [
-      { id: 'p1', name: 'Скала Афродиты (Petra tou Romiou)', description: 'Прибрежная скала — по мифу, место рождения богини любви.' },
-      { id: 'p2', name: 'Археологический парк Пафоса', description: 'Римские мозаики виллы Диониса, объект наследия ЮНЕСКО.' },
-      { id: 'p3', name: 'Гробницы царей', description: 'Подземные усыпальницы элиты III века до н.э., высечены в скале.' },
+      { id: 'p1', name: 'Скала Афродиты (Petra tou Romiou)', lat: 34.6636, lon: 32.6272, description: 'Прибрежная скала — по мифу, место рождения богини любви.' },
+      { id: 'p2', name: 'Археологический парк Пафоса', lat: 34.7561, lon: 32.4069, description: 'Римские мозаики виллы Диониса, объект наследия ЮНЕСКО.' },
+      { id: 'p3', name: 'Гробницы царей', lat: 34.7714, lon: 32.4064, description: 'Подземные усыпальницы элиты III века до н.э., высечены в скале.' },
     ]},
   { id: 'ayianapa', name: 'Айя-Напа', region: 'south', tagline: 'Пляжи и ночная жизнь',
-    ph: 'linear-gradient(135deg,#1e91b8,#7fdcd6)',
+    lat: 34.9882, lon: 33.9997, ph: 'linear-gradient(135deg,#1e91b8,#7fdcd6)',
     img: photo('Nissi Beach, Ayia Napa, Cyprus.jpg'),
     description: 'Курорт на юго-востоке с одними из лучших пляжей Средиземноморья и главным клубным районом острова.',
     attractions: [
-      { id: 'an1', name: 'Пляж Нисси Бич', description: 'Белый песок, бирюзовая вода, песчаная коса до островка.' },
-      { id: 'an2', name: 'Тропа Кейп-Греко', description: 'Нацпарк с морскими пещерами, скалами и смотровыми точками.' },
-      { id: 'an3', name: 'Монастырь Айя-Напы', description: 'Венецианский монастырь XVI века в центре курорта.' },
+      { id: 'an1', name: 'Пляж Нисси Бич', lat: 34.9866, lon: 33.9694, description: 'Белый песок, бирюзовая вода, песчаная коса до островка.' },
+      { id: 'an2', name: 'Тропа Кейп-Греко', lat: 34.9612, lon: 34.0757, description: 'Нацпарк с морскими пещерами, скалами и смотровыми точками.' },
+      { id: 'an3', name: 'Монастырь Айя-Напы', lat: 34.9880, lon: 33.9997, description: 'Венецианский монастырь XVI века в центре курорта.' },
     ]},
   { id: 'kyrenia', name: 'Кирения (Girne)', region: 'north', tagline: 'Северная часть острова',
-    ph: 'linear-gradient(135deg,#7a5ea8,#b79ad8)',
+    lat: 35.3414, lon: 33.3192, ph: 'linear-gradient(135deg,#7a5ea8,#b79ad8)',
     img: photo('Kyrenia Harbour 2019.jpg'),
     description: 'Портовый город на непризнанной Турецкой Республике Северного Кипра. Требуется пересечение погранперехода из южной части.',
     attractions: [
-      { id: 'k1', name: 'Гавань Кирении', description: 'Венецианская гавань с крепостью в устье порта.' },
-      { id: 'k2', name: 'Замок Св. Иллариона', description: 'Крепость крестоносцев в горах Пентадактилос.' },
+      { id: 'k1', name: 'Гавань Кирении', lat: 35.3417, lon: 33.3192, description: 'Венецианская гавань с крепостью в устье порта.' },
+      { id: 'k2', name: 'Замок Св. Иллариона', lat: 35.3122, lon: 33.2814, description: 'Крепость крестоносцев в горах Пентадактилос.' },
     ]},
 ];
 
 const beaches = [
-  { id: 'b1', name: 'Нисси Бич', location: 'Айя-Напа', ph: 'linear-gradient(135deg,#1e91b8,#7fdcd6)',
-    img: photo('Nissi Beach, Ayia Napa, Cyprus.jpg'),
+  { id: 'b1', name: 'Нисси Бич', location: 'Айя-Напа', lat: 34.9866, lon: 33.9694,
+    ph: 'linear-gradient(135deg,#1e91b8,#7fdcd6)', img: photo('Nissi Beach, Ayia Napa, Cyprus.jpg'),
     note: 'Флаг ЕС «Голубой флаг», семейный, шумный днём летом.' },
-  { id: 'b2', name: 'Фигового дерева (Fig Tree Bay)', location: 'Протарас', ph: 'linear-gradient(135deg,#2f9e8f,#8ad6c4)',
-    img: photo('Fig Tree Bay, Protaras, Cyprus.jpg'),
+  { id: 'b2', name: 'Фигового дерева (Fig Tree Bay)', location: 'Протарас', lat: 35.0130, lon: 34.0575,
+    ph: 'linear-gradient(135deg,#2f9e8f,#8ad6c4)', img: photo('Fig Tree Bay, Protaras, Cyprus.jpg'),
     note: 'Спокойная вода, подходит для детей и снорклинга.' },
-  { id: 'b3', name: 'Coral Bay', location: 'Пафос', ph: 'linear-gradient(135deg,#e08a3c,#f7c98b)',
-    img: photo('Coral Bay, Peyia, Cyprus.jpg'),
+  { id: 'b3', name: 'Coral Bay', location: 'Пафос', lat: 34.8583, lon: 32.3742,
+    ph: 'linear-gradient(135deg,#e08a3c,#f7c98b)', img: photo('Coral Bay, Peyia, Cyprus.jpg'),
     note: 'Песчаный, развитая инфраструктура, закаты.' },
-  { id: 'b4', name: 'Ленивый пляж (Lady’s Mile)', location: 'Лимассол', ph: 'linear-gradient(135deg,#c88a52,#efc79a)',
-    img: photo('Lady’s Mile Beach, Limassol.jpg'),
+  { id: 'b4', name: 'Ленивый пляж (Lady’s Mile)', location: 'Лимассол', lat: 34.6350, lon: 33.0100,
+    ph: 'linear-gradient(135deg,#c88a52,#efc79a)', img: photo('Lady’s Mile Beach, Limassol.jpg'),
     note: 'Длинная песчаная коса у солёного озера, кайтсёрфинг.' },
 ];
 
@@ -317,19 +453,29 @@ const cuisine = [
 
 const icons = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/></svg>',
+  map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.7 3.9 5.7 3.9 9s-1.3 6.3-3.9 9c-2.6-2.7-3.9-5.7-3.9-9S9.4 5.7 12 3z"/></svg>',
   beaches: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3.2"/><path d="M3 16.5c1.6-1.4 3.2-1.4 4.8 0s3.2 1.4 4.8 0 3.2-1.4 4.8 0 2.2 1.2 3.6.4"/><path d="M3 20.2c1.6-1.4 3.2-1.4 4.8 0s3.2 1.4 4.8 0 3.2-1.4 4.8 0 2.2 1.2 3.6.4"/></svg>',
   info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r="1" fill="currentColor" stroke="none"/></svg>',
+  apply: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 11.5 20 4.5l-7 15.5-2.2-6.3z"/><path d="M10.8 13.7 20 4.5"/></svg>',
   favorites: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3.8 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9-5.3-2.9-5.3 2.9 1.1-5.9L3.5 10l5.9-.8z"/></svg>',
+  pin: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>',
   chevron: '<svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m1 1 6 6-6 6"/></svg>',
   back: '<svg viewBox="0 0 11 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 1.5 2 9l7.5 7.5"/></svg>',
   starOn: '<svg width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="m12 3.5 2.7 5.6 6.1.8-4.5 4.2 1.2 6.1L12 17.2 6.5 20.2l1.2-6.1L3.2 9.9l6.1-.8z"/></svg>',
   starOff: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="m12 3.9 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 17.2l-5.3 2.9 1.1-5.9L3.5 10l5.9-.8z"/></svg>',
   bigStar: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="m12 3.9 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 17.2l-5.3 2.9 1.1-5.9L3.5 10l5.9-.8z"/></svg>',
+  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.94.55 3.75 1.5 5.3L2 22.5l5.5-1.65a9.8 9.8 0 0 0 4.54 1.12h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2zm5.72 13.9c-.24.68-1.4 1.3-1.93 1.34-.5.05-.96.23-3.23-.67-2.72-1.07-4.44-3.85-4.57-4.03-.13-.18-1.1-1.46-1.1-2.78 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34.18 0 .36 0 .52.01.17.01.39-.06.61.47.23.55.78 1.9.85 2.04.07.13.11.29.02.47-.09.18-.13.29-.26.45-.13.16-.28.35-.4.47-.13.13-.27.28-.12.54.15.27.67 1.1 1.44 1.79.99.88 1.82 1.15 2.09 1.28.26.13.42.11.57-.07.15-.18.66-.77.83-1.03.18-.27.35-.22.59-.13.24.09 1.53.72 1.79.85.26.13.44.2.5.31.07.11.07.63-.17 1.31z"/></svg>',
+  copy: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5.5 15H5a1.5 1.5 0 0 1-1.5-1.5V5A1.5 1.5 0 0 1 5 3.5h8.5A1.5 1.5 0 0 1 15 5v.5"/></svg>',
 };
 
-let state = { tab: 'home', cityId: null, cityFilter: 'all', favorites: new Set(), transition: '' };
+/* ================== Состояние ================== */
+let state = {
+  tab: 'home', cityId: null, cityFilter: 'all', showFavorites: false,
+  favorites: new Set(), transition: '',
+  form: { name: '', phone: '', city: '', when: '', people: '2', comment: '' },
+};
 
-/* ---- каскад появления: каждый следующий блок стартует чуть позже ---- */
+/* ================== Плавное появление ================== */
 let tick = 0;
 const STEP = 50, BASE = 40;
 function d(extra = 0) { return `style="--d:${BASE + (tick++) * STEP + extra}ms"`; }
@@ -339,7 +485,378 @@ function words(text, start = 0, step = 70) {
 }
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 
-/* картинка появляется мягко; пока грузится — цветной кружок с буквой */
+/* ================== Часы Кипра (реальное время) ================== */
+let clockTimer = null;
+function cyprusParts() {
+  const fmt = new Intl.DateTimeFormat('ru-RU', {
+    timeZone: CONFIG.timezone, hour: '2-digit', minute: '2-digit', second: '2-digit',
+    weekday: 'long', day: 'numeric', month: 'long', hour12: false,
+  });
+  const p = Object.fromEntries(fmt.formatToParts(new Date()).map(x => [x.type, x.value]));
+  // смещение Кипра и локальное — считаем через ту же метку времени
+  const now = new Date();
+  const cy = new Date(now.toLocaleString('en-US', { timeZone: CONFIG.timezone }));
+  const loc = new Date(now.toLocaleString('en-US'));
+  const diffH = Math.round((cy - loc) / 3.6e6);
+  const offset = -new Date(now.toLocaleString('en-US', { timeZone: 'UTC' })).getTimezoneOffset();
+  const utc = Math.round((cy - new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }))) / 3.6e6);
+  return { h: p.hour, m: p.minute, s: p.second, date: `${p.weekday}, ${p.day} ${p.month}`, diffH, utc, offset };
+}
+function clockHTML() {
+  const t = cyprusParts();
+  const rel = t.diffH === 0 ? 'как у вас' : t.diffH > 0 ? `на ${t.diffH} ч впереди вас` : `на ${Math.abs(t.diffH)} ч позади вас`;
+  return `<div class="clock reveal" style="--d:60ms">
+    <div>
+      <div class="time" id="clock-time">${t.h}:${t.m}<span class="sec">:${t.s}</span></div>
+    </div>
+    <div class="meta">
+      <div><span class="dot"></span>Время на Кипре</div>
+      <div id="clock-date">${t.date}</div>
+      <div><b>UTC${t.utc >= 0 ? '+' : ''}${t.utc}</b> · ${rel}</div>
+    </div>
+  </div>`;
+}
+function startClock() {
+  stopClock();
+  clockTimer = setInterval(() => {
+    const el = document.getElementById('clock-time');
+    if (!el) return stopClock();
+    const t = cyprusParts();
+    el.innerHTML = `${t.h}:${t.m}<span class="sec">:${t.s}</span>`;
+    const dt = document.getElementById('clock-date');
+    if (dt) dt.textContent = t.date;
+  }, 1000);
+}
+function stopClock() { if (clockTimer) { clearInterval(clockTimer); clockTimer = null; } }
+
+/* ================== Карта (свой лёгкий слой тайлов) ================== */
+const TILES = {
+  sat: { url: (z,x,y) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,
+         attr: 'Esri World Imagery', max: 18 },
+  osm: { url: (z,x,y) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
+         attr: '© OpenStreetMap', max: 19 },
+};
+
+const MapView = {
+  lat: 35.00, lon: 33.20, z: 8, style: 'sat',
+  el: null, layer: null, pins: null, tiles: new Map(), failed: 0, loaded: 0, selected: null,
+
+  points() {
+    const p = [];
+    cities.forEach(c => {
+      p.push({ kind: 'city', id: c.id, name: c.name.split(' (')[0], lat: c.lat, lon: c.lon, sub: c.tagline, cityId: c.id });
+      c.attractions.forEach(a => p.push({ kind: 'spot', id: a.id, name: a.name, lat: a.lat, lon: a.lon, sub: a.description, cityId: c.id }));
+    });
+    beaches.forEach(b => p.push({ kind: 'beach', id: b.id, name: b.name, lat: b.lat, lon: b.lon, sub: b.location }));
+    return p;
+  },
+
+  project(lat, lon, z) {
+    const s = 256 * Math.pow(2, z);
+    const sin = Math.sin(Math.max(-85, Math.min(85, lat)) * Math.PI / 180);
+    return { x: (lon + 180) / 360 * s, y: (0.5 - Math.log((1 + sin) / (1 - sin)) / (4 * Math.PI)) * s };
+  },
+  unproject(x, y, z) {
+    const s = 256 * Math.pow(2, z);
+    const n = Math.PI - 2 * Math.PI * y / s;
+    return { lat: 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))), lon: x / s * 360 - 180 };
+  },
+
+  mount() {
+    this.el = document.getElementById('map');
+    if (!this.el) return;
+    this.layer = this.el.querySelector('.map-layer');
+    this.pins = this.el.querySelector('.map-pins');
+    this.tiles = new Map(); this.failed = 0; this.loaded = 0;
+    this.bind();
+    this.draw();
+  },
+
+  bind() {
+    let dragging = false, lastX = 0, lastY = 0, moved = 0;
+    const el = this.el;
+    el.addEventListener('pointerdown', e => {
+      if (e.target.closest('.marker, .map-btn, .place-sheet')) return;
+      dragging = true; moved = 0; lastX = e.clientX; lastY = e.clientY;
+      el.setPointerCapture(e.pointerId);
+    });
+    el.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      lastX = e.clientX; lastY = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+      const c = this.project(this.lat, this.lon, this.z);
+      const p = this.unproject(c.x - dx, c.y - dy, this.z);
+      this.lat = Math.max(-85, Math.min(85, p.lat));
+      this.lon = ((p.lon + 540) % 360) - 180;
+      this.draw();
+    });
+    const stop = e => { if (dragging) { dragging = false; try { el.releasePointerCapture(e.pointerId); } catch (_) {} } };
+    el.addEventListener('pointerup', stop);
+    el.addEventListener('pointercancel', stop);
+    el.addEventListener('wheel', e => { e.preventDefault(); this.zoom(e.deltaY < 0 ? 1 : -1); }, { passive: false });
+    el.addEventListener('dblclick', () => this.zoom(1));
+
+    // щипок двумя пальцами
+    let pinchStart = 0, startZ = 0;
+    el.addEventListener('touchstart', e => {
+      if (e.touches.length === 2) { pinchStart = this.dist(e.touches); startZ = this.z; }
+    }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      if (e.touches.length === 2 && pinchStart) {
+        const k = this.dist(e.touches) / pinchStart;
+        const z = Math.round(Math.max(2, Math.min(TILES[this.style].max, startZ + Math.log2(k))));
+        if (z !== this.z) { this.z = z; this.draw(); }
+      }
+    }, { passive: true });
+    el.addEventListener('touchend', () => { pinchStart = 0; }, { passive: true });
+  },
+  dist(t) { return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY); },
+
+  zoom(dz) {
+    this.z = Math.max(2, Math.min(TILES[this.style].max, this.z + dz));
+    this.draw();
+  },
+  flyTo(lat, lon, z) { this.lat = lat; this.lon = lon; if (z) this.z = z; this.draw(); },
+  setStyle(s) { this.style = s; this.tiles.forEach(n => n.remove()); this.tiles.clear(); this.failed = 0; this.loaded = 0; this.draw(); renderMapControls(); },
+
+  draw() {
+    if (!this.el) return;
+    const W = this.el.clientWidth, H = this.el.clientHeight, z = this.z, S = 256;
+    const c = this.project(this.lat, this.lon, z);
+    const ox = c.x - W / 2, oy = c.y - H / 2;
+    const world = Math.pow(2, z);
+    const x0 = Math.floor(ox / S), x1 = Math.floor((ox + W) / S);
+    const y0 = Math.max(0, Math.floor(oy / S)), y1 = Math.min(world - 1, Math.floor((oy + H) / S));
+    const src = TILES[this.style];
+    const keep = new Set();
+
+    for (let x = x0; x <= x1; x++) {
+      for (let y = y0; y <= y1; y++) {
+        const wx = ((x % world) + world) % world;
+        const key = `${z}/${wx}/${y}/${this.style}`;
+        keep.add(key + '|' + x);
+        let img = this.tiles.get(key + '|' + x);
+        if (!img) {
+          img = new Image();
+          img.decoding = 'async';
+          img.alt = '';
+          img.style.opacity = '0';
+          img.style.transition = 'opacity .35s var(--ease-out)';
+          img.onload = () => { img.style.opacity = '1'; this.loaded++; this.updateFallback(); };
+          img.onerror = () => { img.remove(); this.failed++; this.updateFallback(); };
+          img.src = src.url(z, wx, y);
+          this.layer.appendChild(img);
+          this.tiles.set(key + '|' + x, img);
+        }
+        img.style.left = (x * S - ox) + 'px';
+        img.style.top = (y * S - oy) + 'px';
+      }
+    }
+    this.tiles.forEach((img, key) => { if (!keep.has(key)) { img.remove(); this.tiles.delete(key); } });
+    this.drawPins(ox, oy, z);
+  },
+
+  updateFallback() {
+    const fb = this.el && this.el.querySelector('.map-fallback');
+    if (fb) fb.style.display = this.loaded > 0 ? 'none' : '';
+  },
+
+  drawPins(ox, oy, z) {
+    const pts = this.points().filter(p => z >= 11 || p.kind !== 'spot');
+    const W = this.el.clientWidth, H = this.el.clientHeight;
+    this.pins.innerHTML = pts.map(p => {
+      const q = this.project(p.lat, p.lon, z);
+      const x = q.x - ox, y = q.y - oy;
+      if (x < -60 || y < -60 || x > W + 60 || y > H + 60) return '';
+      const label = z >= 7 ? `<span class="lbl">${esc(p.name)}</span>` : '';
+      return `<div class="marker ${p.kind}" style="left:${x}px;top:${y}px" onclick="selectPlace('${p.kind}','${p.id}')">
+        <span class="pin"></span>${label}</div>`;
+    }).join('');
+  },
+};
+
+function selectPlace(kind, id) {
+  const all = MapView.points();
+  const p = all.find(x => x.id === id && x.kind === kind);
+  if (!p) return;
+  MapView.selected = p;
+  renderSheet();
+}
+function closeSheet() { MapView.selected = null; renderSheet(); }
+
+function renderSheet() {
+  const host = document.getElementById('map-sheet');
+  if (!host) return;
+  const p = MapView.selected;
+  if (!p) { host.innerHTML = ''; return; }
+  const coords = `${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}`;
+  const gmaps = `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}`;
+  host.innerHTML = `<div class="place-sheet">
+    <div class="h">
+      <div>
+        <div class="title">${esc(p.name)}</div>
+        <div class="coords">${coords}</div>
+      </div>
+      <button class="close" onclick="closeSheet()" aria-label="Закрыть">×</button>
+    </div>
+    <div class="acts">
+      <button class="btn secondary" onclick="copyText('${coords}','Координаты скопированы')">${icons.copy} Координаты</button>
+      <a class="btn" href="${gmaps}" target="_blank" rel="noopener">${icons.pin} Открыть</a>
+      ${p.cityId ? `<button class="btn secondary" onclick="openCity('${p.cityId}')">${icons.chevron}</button>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderMapControls() {
+  const host = document.getElementById('map-ctrl');
+  if (!host) return;
+  host.innerHTML = `
+    <button class="map-btn wide ${MapView.style === 'sat' ? 'on' : ''}" onclick="MapView.setStyle('${MapView.style === 'sat' ? 'osm' : 'sat'}')">
+      ${MapView.style === 'sat' ? 'Спутник' : 'Схема'}
+    </button>
+    <button class="map-btn" onclick="MapView.zoom(1)" aria-label="Приблизить">+</button>
+    <button class="map-btn" onclick="MapView.zoom(-1)" aria-label="Отдалить">−</button>
+    <button class="map-btn wide" onclick="MapView.flyTo(35.00,33.20,8)">Кипр</button>
+    <button class="map-btn wide" onclick="MapView.flyTo(25,20,2)">Мир</button>`;
+}
+
+function renderMap() {
+  return `<div class="map-wrap" id="map">
+    <div class="map-layer"></div>
+    <div class="map-fallback">Спутниковые тайлы не загрузились —<br>нет доступа к серверу карт.<br>Метки и координаты работают в любом случае.</div>
+    <div class="map-pins"></div>
+    <div class="map-ctrl" id="map-ctrl"></div>
+    <div class="map-legend">
+      <span><i style="background:#f7801e"></i>Города</span>
+      <span><i style="background:#ff4f4f"></i>Места</span>
+      <span><i style="background:#0a9bd8"></i>Пляжи</span>
+    </div>
+    <div class="map-attr">${TILES[MapView.style].attr}</div>
+    <div id="map-sheet"></div>
+  </div>
+  <div class="hint reveal" style="--d:120ms;padding-top:12px">
+    Тяните карту, щипок или колесо — масштаб. Приблизьте до 11-го зума, чтобы увидеть отдельные
+    достопримечательности. Нажатие на метку показывает точные координаты со спутника.
+  </div>`;
+}
+
+/* ================== Заявка ================== */
+function applyText() {
+  const f = state.form;
+  const lines = [
+    'Здравствуйте! Я хочу полететь на Кипр 🇨🇾',
+    '',
+    `Имя: ${f.name || '—'}`,
+    `Телефон: ${f.phone || '—'}`,
+  ];
+  if (f.city) lines.push(`Направление: ${f.city}`);
+  if (f.when) lines.push(`Даты: ${f.when}`);
+  if (f.people) lines.push(`Человек: ${f.people}`);
+  if (f.comment) lines.push(`Комментарий: ${f.comment}`);
+  lines.push('', 'Заявка из приложения «Кипр — гид».');
+  return lines.join('\n');
+}
+function phoneOk(v) { return (v.replace(/\D/g, '').length >= 9); }
+function formValid() { return state.form.name.trim().length >= 2 && phoneOk(state.form.phone); }
+
+function setField(key, value) {
+  state.form[key] = value;
+  const prev = document.getElementById('apply-preview');
+  if (prev) prev.textContent = applyText();
+  const btn = document.getElementById('apply-send');
+  if (btn) btn.classList.toggle('disabled', !formValid());
+  const send = document.getElementById('apply-send');
+  if (send) send.disabled = !formValid();
+}
+
+function sendApply() {
+  if (!formValid()) { toast('Заполните имя и телефон'); return; }
+  saveLead();
+  const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(applyText())}`;
+  window.open(url, '_blank', 'noopener');
+  toast('Открываем WhatsApp…');
+}
+function saveLead() {
+  try {
+    const leads = JSON.parse(localStorage.getItem('cy_leads') || '[]');
+    leads.push({ ...state.form, ts: new Date().toISOString() });
+    localStorage.setItem('cy_leads', JSON.stringify(leads));
+  } catch (_) {}
+}
+function copyText(text, msg) {
+  const done = () => toast(msg || 'Скопировано');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch (_) { toast('Не удалось скопировать'); }
+  ta.remove();
+}
+let toastTimer = null;
+function toast(msg) {
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  document.body.appendChild(el);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.remove(), 2600);
+}
+
+function renderApply() {
+  const f = state.form;
+  const cityOpts = ['', ...cities.map(c => c.name.split(' (')[0])]
+    .map(n => `<option value="${esc(n)}" ${f.city === n ? 'selected' : ''}>${n || 'Ещё не решил(а)'}</option>`).join('');
+  return `
+    <div class="group-title reveal-soft" style="--d:40ms">Оставить заявку</div>
+    <div class="group">
+      <div class="field reveal" ${d()}>
+        <label>Как вас зовут</label>
+        <input type="text" placeholder="Азиз" value="${esc(f.name)}" oninput="setField('name', this.value)">
+      </div>
+      <div class="field reveal" ${d()}>
+        <label>Ваш номер телефона</label>
+        <input type="tel" inputmode="tel" placeholder="+996 700 123 456" value="${esc(f.phone)}" oninput="setField('phone', this.value)">
+      </div>
+      <div class="field reveal" ${d()}>
+        <label>Куда хотите</label>
+        <select onchange="setField('city', this.value)">${cityOpts}</select>
+      </div>
+      <div class="field reveal" ${d()}>
+        <label>Примерные даты</label>
+        <input type="text" placeholder="Сентябрь, 10 дней" value="${esc(f.when)}" oninput="setField('when', this.value)">
+      </div>
+      <div class="field reveal" ${d()}>
+        <label>Сколько человек</label>
+        <input type="number" min="1" max="20" value="${esc(f.people)}" oninput="setField('people', this.value)">
+      </div>
+      <div class="field reveal" ${d()}>
+        <label>Комментарий</label>
+        <textarea rows="2" placeholder="С детьми, нужен отель у моря" oninput="setField('comment', this.value)">${esc(f.comment)}</textarea>
+      </div>
+    </div>
+
+    <div class="group-title reveal-soft" ${d()}>Что уйдёт менеджеру</div>
+    <div class="preview reveal" ${d()} id="apply-preview">${esc(applyText())}</div>
+
+    <div class="form-actions reveal" ${d()}>
+      <button class="btn wa" id="apply-send" onclick="sendApply()" ${formValid() ? '' : 'disabled'}>
+        ${icons.wa} Отправить в WhatsApp
+      </button>
+      <button class="btn secondary" onclick="copyText(applyText(),'Текст заявки скопирован')">
+        ${icons.copy} Скопировать текст заявки
+      </button>
+    </div>
+    <div class="hint reveal" ${d()} style="padding-top:12px">
+      Заявка уйдёт на WhatsApp <b>${CONFIG.whatsappDisplay}</b>. Нажмите кнопку — откроется WhatsApp
+      с уже готовым сообщением, останется нажать «Отправить».
+    </div>`;
+}
+
+/* ================== Рендер ================== */
 function avatar(item) {
   const src = item.img ? item.img.thumb : '';
   return `<div class="avatar" style="--ph:${item.ph}">
@@ -350,39 +867,55 @@ function avatar(item) {
 
 function render() {
   resetTick();
+  stopClock();
   const app = document.getElementById('app');
   const cls = 'screen' + (state.transition ? ' ' + state.transition : '');
   app.innerHTML = renderHeader() + `<main class="${cls}">` + renderMain() + '</main>' + renderTabbar();
   state.transition = '';
   window.scrollTo(0, 0);
+  if (document.getElementById('clock-time')) startClock();
+  if (document.getElementById('map')) {
+    requestAnimationFrame(() => { MapView.mount(); renderMapControls(); renderSheet(); });
+  }
 }
 
 function renderHeader() {
   if (state.cityId) {
     const c = cities.find(x => x.id === state.cityId);
     return `<header class="nav"><div class="nav-row">
-      <button class="back-btn" onclick="closeCity()">${icons.back}<span>Города</span></button>
+      <button class="back-btn" onclick="closeCity()">${icons.back}<span>Назад</span></button>
       <div class="nav-title reveal-soft" style="--d:180ms">${c.name.split(' (')[0]}</div>
     </div></header>`;
   }
-  const titles = { home: 'Кипр', beaches: 'Пляжи', info: 'Информация', favorites: 'Избранное' };
+  if (state.showFavorites) {
+    return `<header class="nav"><div class="nav-row">
+      <button class="back-btn" onclick="closeFavorites()">${icons.back}<span>Назад</span></button>
+      <div class="nav-title reveal-soft" style="--d:180ms">Избранное</div>
+    </div></header>`;
+  }
+  const titles = { home: 'Кипр', map: 'Карта мира', beaches: 'Пляжи', info: 'Информация', apply: 'Заявка' };
   const subs = {
     home: 'Города и курорты острова',
+    map: 'Спутник и координаты всех мест',
     beaches: 'Куда ехать за морем',
     info: 'Всё, что нужно знать до поездки',
-    favorites: 'Сохранённые места',
+    apply: 'Ответим в WhatsApp',
   };
+  const star = state.tab === 'home'
+    ? `<button class="nav-action" onclick="openFavorites()">${icons.starOn}</button>` : '';
   return `<header class="nav">
-    <div class="nav-row"><div class="nav-title">${words(titles[state.tab], 0, 70)}</div></div>
+    <div class="nav-row"><div class="nav-title">${words(titles[state.tab], 0, 70)}</div>${star}</div>
     <div class="nav-sub reveal-soft" style="--d:190ms">${subs[state.tab]}</div>
   </header>`;
 }
 
 function renderMain() {
   if (state.cityId) return renderCityDetail();
+  if (state.showFavorites) return renderFavorites();
+  if (state.tab === 'map') return renderMap();
   if (state.tab === 'beaches') return renderBeaches();
   if (state.tab === 'info') return renderInfo();
-  if (state.tab === 'favorites') return renderFavorites();
+  if (state.tab === 'apply') return renderApply();
   return renderCities();
 }
 
@@ -398,9 +931,10 @@ function renderCities() {
         <div class="title">${c.name}</div>
         <div class="sub">${c.tagline}</div>
       </div>
+      <div class="geo" onclick="event.stopPropagation();showOnMap(${c.lat},${c.lon},12)">${icons.pin}</div>
       <div class="chev">${icons.chevron}</div>
     </div>`).join('');
-  return `<div class="chip-row">${chips}</div>
+  return clockHTML() + `<div class="chip-row" style="margin-top:14px">${chips}</div>
     <div class="group-title reveal-soft" ${d()}>${list.length} направлени${list.length === 1 ? 'е' : list.length < 5 ? 'я' : 'й'}</div>
     <div class="group">${rows}</div>`;
 }
@@ -411,6 +945,7 @@ function renderCityDetail() {
     const fav = state.favorites.has(a.id);
     return `<div class="row plain reveal" ${d()}>
       <div class="body"><div class="title">${a.name}</div><div class="sub">${a.description}</div></div>
+      <div class="geo" onclick="showOnMap(${a.lat},${a.lon},14)">${icons.pin}</div>
       <div class="fav-star ${fav ? 'on' : ''}" onclick="toggleFav(event,'${a.id}')">${fav ? icons.starOn : icons.starOff}</div>
     </div>`;
   }).join('');
@@ -424,9 +959,12 @@ function renderCityDetail() {
       </div>
     </div>
     <div class="prose"><p class="reveal" ${d(140)}>${c.description}</p></div>
+    <div class="form-actions reveal" ${d()} style="padding:12px 14px 0">
+      <button class="btn secondary" onclick="showOnMap(${c.lat},${c.lon},12)">${icons.pin} Показать на карте · ${c.lat.toFixed(3)}, ${c.lon.toFixed(3)}</button>
+    </div>
     <div class="group-title reveal-soft" ${d()}>Что посмотреть</div>
     <div class="group">${attractions}</div>
-    <div class="group-footer reveal-soft" ${d()}>Отмечайте места звёздочкой — они попадут во вкладку «Избранное».</div>`;
+    <div class="group-footer reveal-soft" ${d()}>Отмечайте места звёздочкой — они попадут в «Избранное».</div>`;
 }
 
 function renderBeaches() {
@@ -438,6 +976,7 @@ function renderBeaches() {
         <div class="title">${b.name}</div>
         <div class="sub">${b.note}</div>
       </div>
+      <div class="geo" onclick="showOnMap(${b.lat},${b.lon},14)">${icons.pin}</div>
     </div>`).join('');
   return `<div class="group-title reveal-soft" style="--d:40ms">Лучшие пляжи</div><div class="group">${rows}</div>`;
 }
@@ -451,8 +990,9 @@ function renderInfo() {
     <div class="row plain reveal" ${d()}>
       <div class="body"><div class="info-label">${c.name}</div><div class="sub" style="-webkit-line-clamp:4">${c.description}</div></div>
     </div>`).join('');
-  return `<div class="group-title reveal-soft" style="--d:40ms">Практическая информация</div><div class="group">${info}</div>
-    <div class="group-title reveal-soft" ${d()}>Кухня</div><div class="group">${food}</div>`;
+  return clockHTML() +
+    `<div class="group-title reveal-soft" ${d()}>Практическая информация</div><div class="group">${info}</div>
+     <div class="group-title reveal-soft" ${d()}>Кухня</div><div class="group">${food}</div>`;
 }
 
 function renderFavorites() {
@@ -466,6 +1006,7 @@ function renderFavorites() {
   const rows = favs.map(a => `
     <div class="row plain reveal" ${d()}>
       <div class="body"><span class="badge">${a.cityName}</span><div class="title">${a.name}</div><div class="sub">${a.description}</div></div>
+      <div class="geo" onclick="showOnMap(${a.lat},${a.lon},14)">${icons.pin}</div>
       <div class="fav-star on" onclick="toggleFav(event,'${a.id}')">${icons.starOn}</div>
     </div>`).join('');
   return `<div class="group-title reveal-soft" style="--d:40ms">${favs.length} мест${favs.length === 1 ? 'о' : favs.length < 5 ? 'а' : ''}</div>
@@ -473,27 +1014,40 @@ function renderFavorites() {
 }
 
 function renderTabbar() {
-  const tabs = [['home','Главная'],['beaches','Пляжи'],['info','Инфо'],['favorites','Избранное']];
+  const tabs = [['home','Главная'],['map','Карта'],['beaches','Пляжи'],['info','Инфо'],['apply','Заявка']];
   const buttons = tabs.map(([key,label]) =>
-    `<button class="${state.tab===key && !state.cityId ?'active':''}" onclick="setTab('${key}')">
+    `<button class="${state.tab===key && !state.cityId && !state.showFavorites ?'active':''}" onclick="setTab('${key}')">
       ${icons[key]}<span>${label}</span>
     </button>`).join('');
   return `<nav class="tabbar">${buttons}</nav>`;
 }
 
-function setTab(tab) { if (tab === state.tab && !state.cityId) return; state.tab = tab; state.cityId = null; render(); }
+/* ================== Действия ================== */
+function setTab(tab) {
+  if (tab === state.tab && !state.cityId && !state.showFavorites) return;
+  state.tab = tab; state.cityId = null; state.showFavorites = false; render();
+}
 function setFilter(f) { if (f === state.cityFilter) return; state.cityFilter = f; render(); }
-function openCity(id) { state.cityId = id; state.transition = 'push'; render(); }
+function openCity(id) { state.cityId = id; state.showFavorites = false; state.transition = 'push'; render(); }
 function closeCity() { state.cityId = null; state.transition = 'pop'; render(); }
+function openFavorites() { state.showFavorites = true; state.transition = 'push'; render(); }
+function closeFavorites() { state.showFavorites = false; state.transition = 'pop'; render(); }
+function showOnMap(lat, lon, z) {
+  state.tab = 'map'; state.cityId = null; state.showFavorites = false; state.transition = 'push';
+  MapView.lat = lat; MapView.lon = lon; MapView.z = z || 13; MapView.selected = null;
+  render();
+}
 function toggleFav(e, id) {
   e.stopPropagation();
   const on = !state.favorites.has(id);
   on ? state.favorites.add(id) : state.favorites.delete(id);
-  if (state.tab === 'favorites' && !state.cityId) { render(); return; }
+  if (state.showFavorites) { render(); return; }
   const el = e.currentTarget;
   el.classList.toggle('on', on);
   el.innerHTML = on ? icons.starOn : icons.starOff;
 }
+
+window.addEventListener('resize', () => { if (MapView.el && document.body.contains(MapView.el)) MapView.draw(); });
 
 render();
 </script>
