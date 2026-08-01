@@ -344,15 +344,48 @@
   .game-wrap { position: relative; height: calc(100vh - 168px); min-height: 420px; overflow: hidden; touch-action: none;
     background: linear-gradient(#7fd3f0 0%, #cfeefb 46%, #bfe4f3 100%); }
   #game-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .g-hud { position: absolute; left: 10px; right: 10px; top: 10px; z-index: 4; display: flex; gap: 8px; align-items: center; pointer-events: none; }
-  .g-pill {
-    background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
-    border-radius: 999px; padding: 7px 13px; font-size: var(--fs-foot); font-weight: 700;
-    box-shadow: 0 2px 10px rgba(0,0,0,.14); font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  /* Единая панель состояния: уровень, счёт, жизни и прогресс — одним блоком */
+  .g-hud { position: absolute; left: 10px; right: 10px; top: 10px; z-index: 4; pointer-events: none; }
+  .g-panel {
+    background: rgba(255,255,255,.8); -webkit-backdrop-filter: saturate(180%) blur(22px); backdrop-filter: saturate(180%) blur(22px);
+    border-radius: 16px; box-shadow: 0 4px 18px rgba(0,0,0,.16); overflow: hidden;
   }
-  .g-pill.lives { color: #ff3b30; letter-spacing: 1px; }
-  .g-pill.combo { color: var(--accent); }
-  .g-pill.spacer { margin-left: auto; background: none; box-shadow: none; padding: 0; }
+  .g-panel .top { display: flex; align-items: center; gap: 12px; padding: 9px 14px 8px; }
+  .g-level { flex: 1; min-width: 0; }
+  .g-level .lv {
+    font-size: calc(10px * var(--scale)); font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .g-level .nm {
+    font-size: var(--fs-foot); font-weight: 650; letter-spacing: -0.02em; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.25;
+  }
+  .g-score { text-align: right; line-height: 1; }
+  .g-score .n {
+    font-size: calc(24px * var(--scale)); font-weight: 700; letter-spacing: -0.035em;
+    font-variant-numeric: tabular-nums; color: var(--text);
+  }
+  .g-score .c { font-size: calc(10px * var(--scale)); font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+  .g-hearts { display: flex; gap: 3px; font-size: 15px; line-height: 1; color: #ff3b30; }
+  .g-hearts .off { color: #d6d6db; }
+  .g-bar { height: 4px; background: rgba(0,0,0,.08); }
+  .g-bar i { display: block; height: 100%; background: linear-gradient(90deg, #ffb340, var(--accent)); border-radius: 0 3px 3px 0; transition: width .5s var(--ease-out); }
+
+  .g-banner {
+    position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 6;
+    background: rgba(255,255,255,.94); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+    border-radius: 18px; padding: 15px 24px; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.24);
+    animation: bannerIn 2.2s var(--ease-out) both; pointer-events: none; min-width: 210px;
+  }
+  .g-banner .lv { font-size: calc(10px * var(--scale)); font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--accent); }
+  .g-banner .nm { font-size: calc(19px * var(--scale)); font-weight: 700; letter-spacing: -0.03em; margin-top: 2px; white-space: nowrap; }
+  .g-banner .sub { font-size: var(--fs-caption); color: var(--muted); margin-top: 4px; }
+  @keyframes bannerIn {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(.84); }
+    12% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    82% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -58%) scale(.97); }
+  }
   .g-overlay {
     position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; padding: 24px;
     background: rgba(255,255,255,.5); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
@@ -920,9 +953,22 @@ function renderMap() {
 }
 
 /* ==================== Игра «Пляжный день» ==================== */
+const LEVELS = [
+  { name: 'Ларнака, утро',      goal: 70,  speed: 1.00, rate: 0.95, bad: .14,
+    sky: ['#8fd8f2', '#d9f1fb'], sea: ['#3fb3dc', '#2793c8', '#1178b2'], sand: '#f3dfae' },
+  { name: 'Нисси Бич, полдень', goal: 170, speed: 1.16, rate: 0.85, bad: .18,
+    sky: ['#63c8ef', '#c8ecfa'], sea: ['#2bb6e0', '#1a97cd', '#0d7cb8'], sand: '#f6e3b4' },
+  { name: 'Лимассол, набережная', goal: 300, speed: 1.34, rate: 0.74, bad: .22,
+    sky: ['#57b6e8', '#ffe2b8'], sea: ['#2f9fce', '#1c84bb', '#0f6ba4'], sand: '#eed9a6' },
+  { name: 'Пафос, закат',       goal: 460, speed: 1.54, rate: 0.64, bad: .26,
+    sky: ['#ff9d5c', '#ffd6a0'], sea: ['#e08a58', '#9c6ba6', '#5c5a9e'], sand: '#e5c493' },
+  { name: 'Кирения, ночь',      goal: 650, speed: 1.76, rate: 0.55, bad: .30,
+    sky: ['#1b2b5c', '#4a5b96'], sea: ['#26407a', '#1b2f5e', '#132247'], sand: '#c9b189' },
+];
+
 const Game = {
   canvas: null, ctx: null, raf: null, w: 0, h: 0, dpr: 1,
-  screen: 'start', score: 0, best: store.get('cy_best', 0), lives: 3, combo: 1, level: 1,
+  screen: 'start', score: 0, best: store.get('cy_best', 0), lives: 3, level: 0,
   items: [], parts: [], player: { x: .5, tx: .5, tilt: 0 }, last: 0, spawn: 0, shake: 0, t: 0, _key: null,
 
   GOOD: [
@@ -930,6 +976,13 @@ const Game = {
     { g: '🍋', p: 8 }, { g: '🍉', p: 8 }, { g: '🍹', p: 14 }, { g: '🐚', p: 12 },
   ],
   BAD: [{ g: '🪼' }, { g: '🔥' }],
+
+  lv() { return LEVELS[Math.min(this.level, LEVELS.length - 1)]; },
+  prevGoal() { return this.level === 0 ? 0 : LEVELS[this.level - 1].goal; },
+  progress() {
+    const from = this.prevGoal(), to = this.lv().goal;
+    return Math.max(0, Math.min(1, (this.score - from) / (to - from)));
+  },
 
   mount() {
     this.canvas = document.getElementById('game-canvas');
@@ -972,9 +1025,23 @@ const Game = {
   },
 
   start() {
-    this.score = 0; this.lives = 3; this.combo = 1; this.level = 1;
+    this.score = 0; this.lives = 3; this.level = 0;
     this.items = []; this.parts = []; this.spawn = 0; this.shake = 0;
     this.screen = 'play';
+    renderGameUI();
+    showBanner('Уровень 1', LEVELS[0].name, 'Цель — ' + LEVELS[0].goal + ' очков');
+  },
+  levelUp() {
+    this.level++;
+    this.items = [];
+    this.lives = Math.min(3, this.lives + 1);   // за пройденный уровень возвращаем жизнь
+    const lv = this.lv();
+    showBanner('Уровень ' + (this.level + 1), lv.name, 'Цель — ' + lv.goal + ' очков · +1 ♥');
+    renderGameHUD();
+  },
+  win() {
+    this.screen = 'win';
+    if (this.score > this.best) { this.best = this.score; store.set('cy_best', this.best); }
     renderGameUI();
   },
   over() {
@@ -984,11 +1051,12 @@ const Game = {
   },
 
   spawnItem() {
-    const bad = Math.random() < Math.min(.34, .16 + this.level * 0.02);
+    const lv = this.lv();
+    const bad = Math.random() < lv.bad;
     const src = bad ? this.BAD[(Math.random() * this.BAD.length) | 0] : this.GOOD[(Math.random() * this.GOOD.length) | 0];
     this.items.push({
       x: .08 + Math.random() * .84, y: -.06,
-      v: (0.24 + Math.random() * 0.12) * (1 + this.level * 0.11),
+      v: (0.24 + Math.random() * 0.12) * lv.speed,
       rot: (Math.random() - .5) * 1.2, spin: (Math.random() - .5) * 2,
       bad, g: src.g, p: src.p || 0,
     });
@@ -1007,9 +1075,8 @@ const Game = {
     p.tilt = (p.tx - p.x) * 5;
 
     if (this.screen === 'play') {
-      this.level = 1 + Math.floor(this.score / 150);
       this.spawn -= dt;
-      if (this.spawn <= 0) { this.spawnItem(); this.spawn = Math.max(0.34, 0.95 - this.level * 0.06); }
+      if (this.spawn <= 0) { this.spawnItem(); this.spawn = this.lv().rate; }
 
       const catchY = 0.845;
       for (const it of this.items) {
@@ -1018,18 +1085,20 @@ const Game = {
         if (it.y >= catchY && it.y <= catchY + 0.08 && Math.abs(it.x - p.x) < 0.085) {
           it.dead = true;
           if (it.bad) {
-            this.lives--; this.combo = 1; this.shake = 1;
+            this.lives--; this.shake = 1;
             this.burst(it.x * this.w, catchY * this.h, '#ff453a', 16);
             if (this.lives <= 0) this.over();
           } else {
-            this.score += Math.round(it.p * this.combo);
-            this.combo = Math.min(5, this.combo + 0.25);
+            this.score += it.p;
             this.burst(it.x * this.w, catchY * this.h, '#ffb340', 12);
+            if (this.score >= this.lv().goal) {
+              if (this.level >= LEVELS.length - 1) this.win();
+              else this.levelUp();
+            }
           }
           renderGameHUD();
         } else if (it.y > 1.1) {
           it.dead = true;
-          if (!it.bad && this.combo > 1) { this.combo = 1; renderGameHUD(); }
         }
       }
       this.items = this.items.filter(i => !i.dead);
@@ -1047,24 +1116,33 @@ const Game = {
     c.save();
     if (this.shake > 0) c.translate((Math.random() - .5) * 9 * this.shake, (Math.random() - .5) * 9 * this.shake);
 
+    // небо, солнце, море и берег перекрашиваются от уровня к уровню
+    const lv = this.lv();
+    const sky = c.createLinearGradient(0, 0, 0, h * .55);
+    sky.addColorStop(0, lv.sky[0]); sky.addColorStop(1, lv.sky[1]);
+    c.fillStyle = sky; c.fillRect(0, 0, w, h);
+
+    const night = this.level === LEVELS.length - 1;
     const sun = c.createRadialGradient(w * .8, h * .12, 4, w * .8, h * .12, w * .34);
-    sun.addColorStop(0, 'rgba(255,247,214,.95)'); sun.addColorStop(1, 'rgba(255,247,214,0)');
+    sun.addColorStop(0, night ? 'rgba(230,238,255,.85)' : 'rgba(255,247,214,.95)');
+    sun.addColorStop(1, 'rgba(255,247,214,0)');
     c.fillStyle = sun; c.fillRect(0, 0, w, h * .6);
 
     const seaTop = h * .46;
-    const seaColors = ['rgba(43,168,214,.95)', 'rgba(29,146,200,.75)', 'rgba(16,120,178,.6)'];
     for (let i = 0; i < 3; i++) {
       c.beginPath();
       c.moveTo(0, seaTop + i * 9);
       for (let x = 0; x <= w; x += 12) c.lineTo(x, seaTop + i * 9 + Math.sin(x / 58 + this.t * (1.1 + i * .35) + i) * (5 - i));
       c.lineTo(w, h); c.lineTo(0, h); c.closePath();
-      c.fillStyle = seaColors[i]; c.fill();
+      c.globalAlpha = [.95, .75, .6][i];
+      c.fillStyle = lv.sea[i]; c.fill();
+      c.globalAlpha = 1;
     }
     c.beginPath();
     c.moveTo(0, h * .78);
     for (let x = 0; x <= w; x += 12) c.lineTo(x, h * .78 + Math.sin(x / 90 + this.t * .7) * 4);
     c.lineTo(w, h); c.lineTo(0, h); c.closePath();
-    c.fillStyle = '#f3dfae'; c.fill();
+    c.fillStyle = lv.sand; c.fill();
 
     c.textAlign = 'center'; c.textBaseline = 'middle';
     const fs = Math.round(Math.min(40, w * .095));
@@ -1116,49 +1194,87 @@ const Game = {
 function renderGameHUD() {
   const el = document.getElementById('game-hud');
   if (!el) return;
-  el.innerHTML = `
-    <div class="g-pill">${Game.score}</div>
-    <div class="g-pill combo">×${String(Game.combo).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '')}</div>
-    <div class="g-pill spacer"></div>
-    <div class="g-pill lives">${'♥'.repeat(Math.max(0, Game.lives))}${'♡'.repeat(Math.max(0, 3 - Game.lives))}</div>`;
+  const lv = Game.lv();
+  const hearts = [0, 1, 2].map(i => `<span class="${i < Game.lives ? '' : 'off'}">${i < Game.lives ? '♥' : '♡'}</span>`).join('');
+  el.innerHTML = `<div class="g-panel">
+    <div class="top">
+      <div class="g-level">
+        <div class="lv">Уровень ${Game.level + 1} из ${LEVELS.length}</div>
+        <div class="nm">${lv.name}</div>
+      </div>
+      <div class="g-hearts">${hearts}</div>
+      <div class="g-score">
+        <div class="n">${Game.score}</div>
+        <div class="c">из ${lv.goal}</div>
+      </div>
+    </div>
+    <div class="g-bar"><i style="width:${(Game.progress() * 100).toFixed(1)}%"></i></div>
+  </div>`;
 }
+
+let bannerTimer = null;
+function showBanner(lv, name, sub) {
+  const host = document.getElementById('game-banner');
+  if (!host) return;
+  host.innerHTML = `<div class="g-banner">
+    <div class="lv">${esc(lv)}</div>
+    <div class="nm">${esc(name)}</div>
+    <div class="sub">${esc(sub)}</div>
+  </div>`;
+  clearTimeout(bannerTimer);
+  bannerTimer = setTimeout(() => { if (host.isConnected) host.innerHTML = ''; }, 2200);
+}
+
 function renderGameUI() {
   renderGameHUD();
   const host = document.getElementById('game-overlay');
   if (!host) return;
   if (Game.screen === 'play') { host.innerHTML = ''; return; }
+
   if (Game.screen === 'start') {
     host.innerHTML = `<div class="g-overlay"><div class="g-card">
       <h2>Пляжный день на Кипре</h2>
-      <p>Ловите подносом всё, чем славится остров. И не поймайте медузу.</p>
+      <p>Пять уровней — от утра в Ларнаке до ночной гавани Кирении. Ловите подносом всё, чем славится остров, и не поймайте медузу.</p>
       <div class="g-legend">
         <span><b>🧀</b>+10</span><span><b>🐚</b>+12</span><span><b>🍹</b>+14</span><span><b>🪼</b>−♥</span>
       </div>
       <button class="btn" onclick="Game.start()">Играть</button>
       ${Game.best ? `<div class="best" style="margin-top:12px">Ваш рекорд: <b>${Game.best}</b></div>` : ''}
     </div></div>`;
-  } else {
-    const line = Game.score >= 400 ? 'Вы бы отлично провели там две недели.'
-      : Game.score >= 200 ? 'Неплохо для первого дня на пляже.'
-      : 'Медузы победили. На настоящем Кипре их почти не бывает.';
+    return;
+  }
+
+  if (Game.screen === 'win') {
     host.innerHTML = `<div class="g-overlay"><div class="g-card">
       <div class="score-big">${Game.score}</div>
-      <div class="best">Рекорд: ${Game.best}</div>
-      <p>${line}</p>
-      <button class="btn" onclick="Game.start()">Ещё раз</button>
-      <button class="btn secondary" onclick="setTab('apply')">Хочу так отдохнуть по-настоящему</button>
+      <div class="best">Все ${LEVELS.length} уровней пройдены · рекорд ${Game.best}</div>
+      <p>Полный день на острове — от утреннего кофе в Ларнаке до ночи в гавани Кирении.</p>
+      <button class="btn" onclick="setTab('apply')">Хочу так отдохнуть по-настоящему</button>
+      <button class="btn secondary" onclick="Game.start()">Пройти заново</button>
     </div></div>`;
+    return;
   }
+
+  const reached = Game.level + 1;
+  host.innerHTML = `<div class="g-overlay"><div class="g-card">
+    <div class="score-big">${Game.score}</div>
+    <div class="best">Уровень ${reached} из ${LEVELS.length} · «${esc(Game.lv().name)}» · рекорд ${Game.best}</div>
+    <p>${reached >= 4 ? 'Почти весь день продержались.' : reached >= 2 ? 'До заката ещё далеко — попробуйте снова.' : 'Медузы победили. На настоящем Кипре их почти не бывает.'}</p>
+    <button class="btn" onclick="Game.start()">Ещё раз</button>
+    <button class="btn secondary" onclick="setTab('apply')">Хочу так отдохнуть по-настоящему</button>
+  </div></div>`;
 }
+
 function renderGame() {
   return `<div class="game-wrap">
     <canvas id="game-canvas"></canvas>
     <div class="g-hud" id="game-hud"></div>
+    <div id="game-banner"></div>
     <div id="game-overlay"></div>
   </div>
   <div class="hint reveal" style="--d:120ms;padding-top:14px">
     Ведите пальцем или мышью — поднос следует за вами, на компьютере работают стрелки ← →.
-    Каждые 150 очков скорость растёт, серия подряд множит очки до ×5.
+    Каждый уровень быстрее предыдущего и меняет время суток; за пройденный уровень возвращается одна жизнь.
   </div>`;
 }
 
