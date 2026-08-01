@@ -125,21 +125,33 @@
   .avatar .initial { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 21px; font-weight: 600; }
   .avatar img.loaded + .initial { opacity: 0; transition: opacity .4s var(--ease-out); }
 
-  /* ---------- Продающий блок ---------- */
+  /* ---------- Продающий блок: минимализм, крупный жирный шрифт ---------- */
   .pitch {
-    background: linear-gradient(150deg, #ff9a3c, var(--accent) 55%, #e9650a);
-    color: #fff; padding: 22px 20px 20px; position: relative; overflow: hidden;
+    background: var(--row); color: var(--text);
+    padding: 30px 20px 24px; position: relative; overflow: hidden;
+    border-bottom: .5px solid var(--separator);
   }
-  @media (min-width: 460px) { .pitch { margin: 12px 12px 0; border-radius: 18px; } }
-  .pitch h2 { margin: 0 0 6px; font-size: var(--fs-h1); font-weight: 700; letter-spacing: -0.03em; line-height: 1.12; text-wrap: balance; }
-  .pitch p { margin: 0; font-size: var(--fs-foot); line-height: 1.5; color: rgba(255,255,255,.95); max-width: 34ch; }
-  .pitch .facts { display: flex; gap: 18px; margin-top: 16px; }
-  .pitch .facts div { line-height: 1.2; }
-  .pitch .facts b { display: block; font-size: calc(21px * var(--scale)); font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-  .pitch .facts span { font-size: var(--fs-caption); opacity: .9; }
-  .pitch .cta { margin-top: 18px; display: flex; gap: 10px; }
-  .pitch .cta .btn { background: #fff; color: var(--accent-dark); flex: 1; }
-  .pitch .cta .btn.ghost { background: rgba(255,255,255,.2); color: #fff; flex: none; padding: 13px 16px; }
+  @media (min-width: 460px) { .pitch { margin: 12px 12px 0; border-radius: 18px; border: .5px solid var(--separator); } }
+  .pitch .eyebrow {
+    font-size: calc(11px * var(--scale)); font-weight: 800; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  }
+  .pitch h2 {
+    margin: 0 0 10px; font-size: var(--fs-h1); font-weight: 800; letter-spacing: -0.04em;
+    line-height: 1.05; text-wrap: balance;
+  }
+  .pitch h2 em { font-style: normal; color: var(--accent); }
+  .pitch p { margin: 0; font-size: var(--fs-foot); line-height: 1.5; color: var(--muted); max-width: 34ch; }
+  .pitch .facts { display: flex; gap: 26px; margin-top: 22px; }
+  .pitch .facts div { line-height: 1.15; }
+  .pitch .facts b {
+    display: block; font-size: calc(26px * var(--scale)); font-weight: 800;
+    letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+  }
+  .pitch .facts span { font-size: calc(12px * var(--scale)); font-weight: 600; color: var(--muted); letter-spacing: .01em; }
+  .pitch .cta { margin-top: 22px; display: flex; gap: 10px; }
+  .pitch .cta .btn { flex: 1; }
+  .pitch .cta .btn.ghost { background: var(--accent-soft); color: var(--accent-dark); flex: none; padding: 14px 16px; }
 
   /* ---------- Часы ---------- */
   .clock {
@@ -337,6 +349,52 @@
   .fav-star.on svg { animation: starPop .5s var(--ease-spring); }
   @keyframes starPop { 0% { transform: scale(.6) rotate(-25deg); } 60% { transform: scale(1.25) rotate(6deg); } 100% { transform: scale(1); } }
 
+  /* ---------- Доступность ---------- */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .skip-link {
+    position: fixed; left: 50%; top: -60px; transform: translateX(-50%); z-index: 100;
+    background: var(--text); color: #fff; padding: 10px 18px; border-radius: 0 0 12px 12px;
+    font-weight: 700; font-size: var(--fs-foot); text-decoration: none;
+    transition: top .25s var(--ease-out);
+  }
+  .skip-link:focus { top: 0; }
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px; border-radius: 8px;
+  }
+  .row:focus-visible, .chip:focus-visible { outline-offset: -3px; }
+
+  /* Переключатель в духе iOS */
+  .switch-row { display: flex; align-items: center; gap: 14px; padding: 13px 16px; background: var(--row); position: relative; cursor: pointer; }
+  .switch-row + .switch-row::before { content: ''; position: absolute; top: 0; left: 16px; right: 0; height: .5px; background: var(--separator); }
+  .switch-row .body { flex: 1; }
+  .switch-row .t { font-size: var(--fs-body); font-weight: 620; letter-spacing: -0.015em; }
+  .switch-row .s { font-size: var(--fs-caption); color: var(--muted); margin-top: 1px; line-height: 1.4; }
+  .switch {
+    flex: none; width: 51px; height: 31px; border-radius: 999px; border: none; padding: 0;
+    background: #e4e4e9; position: relative; cursor: pointer;
+    transition: background .3s var(--ease-out);
+  }
+  .switch::after {
+    content: ''; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px;
+    border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    transition: transform .32s var(--ease-spring);
+  }
+  .switch[aria-checked="true"] { background: var(--accent); }
+  .switch[aria-checked="true"]::after { transform: translateX(20px); }
+
+  /* ---------- Контакты ---------- */
+  .contact-row { display: flex; align-items: center; gap: 13px; padding: 13px 16px; background: var(--row); position: relative; text-decoration: none; color: inherit; }
+  .contact-row + .contact-row::before { content: ''; position: absolute; top: 0; left: 16px; right: 0; height: .5px; background: var(--separator); }
+  .contact-row .ico { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .contact-row .ico.wa { background: #e7faed; color: #1fa855; }
+  .contact-row > span:last-child { flex: 1; min-width: 0; }
+  .contact-row .k { display: block; font-size: calc(12px * var(--scale)); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  .contact-row .v { display: block; font-size: var(--fs-body); font-weight: 620; letter-spacing: -0.015em; margin-top: 1px; }
+
   .empty-state { text-align: center; color: var(--muted); font-size: var(--fs-foot); padding: 90px 30px; line-height: 1.5; }
   .empty-state .big { display: grid; place-items: center; width: 80px; height: 80px; margin: 0 auto 16px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
 
@@ -464,6 +522,16 @@ const CONFIG = {
   whatsapp: '996500054367',
   whatsappDisplay: '+996 500 054 367',
   timezone: 'Asia/Nicosia',
+
+  /* Контакты для консультации. Адрес и почту впишите свои —
+     здесь стоят заготовки, а не реальные данные. */
+  contacts: {
+    phone: '+996 500 054 367',
+    phoneRaw: '+996500054367',
+    email: 'hello@example.com',
+    address: 'Бишкек — впишите адрес офиса',
+    hours: 'Пн–Сб, 10:00–19:00 (Бишкек)',
+  },
 };
 
 const W = (file, w) => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${w}`;
@@ -579,6 +647,9 @@ const icons = {
   starOff: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="m12 3.9 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 17.2l-5.3 2.9 1.1-5.9L3.5 10l5.9-.8z"/></svg>',
   bigStar: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="m12 3.9 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 17.2l-5.3 2.9 1.1-5.9L3.5 10l5.9-.8z"/></svg>',
   wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.94.55 3.75 1.5 5.3L2 22.5l5.5-1.65a9.8 9.8 0 0 0 4.54 1.12h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2zm5.72 13.9c-.24.68-1.4 1.3-1.93 1.34-.5.05-.96.23-3.23-.67-2.72-1.07-4.44-3.85-4.57-4.03-.13-.18-1.1-1.46-1.1-2.78 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34.18 0 .36 0 .52.01.17.01.39-.06.61.47.23.55.78 1.9.85 2.04.07.13.11.29.02.47-.09.18-.13.29-.26.45-.13.16-.28.35-.4.47-.13.13-.27.28-.12.54.15.27.67 1.1 1.44 1.79.99.88 1.82 1.15 2.09 1.28.26.13.42.11.57-.07.15-.18.66-.77.83-1.03.18-.27.35-.22.59-.13.24.09 1.53.72 1.79.85.26.13.44.2.5.31.07.11.07.63-.17 1.31z"/></svg>',
+  phone: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h3l1.5 4-2 1.4a12.5 12.5 0 0 0 6.1 6.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2z"/></svg>',
+  mail: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="m4 8 8 5 8-5"/></svg>',
+  clock: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
   copy: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5.5 15H5a1.5 1.5 0 0 1-1.5-1.5V5A1.5 1.5 0 0 1 5 3.5h8.5A1.5 1.5 0 0 1 15 5v.5"/></svg>',
 };
 
@@ -592,10 +663,94 @@ let state = {
   tab: 'home', cityId: null, cityFilter: 'all', homeMode: 'cities', showFavorites: false,
   favorites: new Set(store.get('cy_favs', [])), transition: '',
   scale: store.get('cy_scale', 1),
+  sound: store.get('cy_sound', true),
+  voice: store.get('cy_voice', false),
   form: Object.assign({ name: '', phone: '', city: '', when: '', people: '2', comment: '' }, store.get('cy_form', {})),
   sending: null,
 };
 document.documentElement.style.setProperty('--scale', state.scale);
+
+/* ==================== Звук ====================
+   Короткие тоны синтезируются на месте — никаких внешних файлов,
+   поэтому звук работает и офлайн. */
+const Sound = {
+  ctx: null,
+  on() { return state.sound; },
+  ensure() {
+    if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+    return this.ctx;
+  },
+  tone(freq, dur = 0.08, type = 'sine', gain = 0.05, delay = 0) {
+    if (!this.on()) return;
+    const c = this.ensure();
+    if (!c) return;
+    const t0 = c.currentTime + delay;
+    const osc = c.createOscillator(), g = c.createGain();
+    osc.type = type; osc.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(gain, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g); g.connect(c.destination);
+    osc.start(t0); osc.stop(t0 + dur + 0.02);
+  },
+  tap()     { this.tone(660, 0.055, 'sine', 0.035); },
+  select()  { this.tone(523.25, 0.07, 'triangle', 0.045); this.tone(783.99, 0.09, 'triangle', 0.03, 0.045); },
+  back()    { this.tone(392, 0.07, 'sine', 0.035); },
+  good()    { this.tone(880, 0.07, 'triangle', 0.045); },
+  bad()     { this.tone(180, 0.16, 'sawtooth', 0.045); },
+  level()   { [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => this.tone(f, 0.16, 'triangle', 0.05, i * 0.085)); },
+  success() { [659.25, 880, 1174.66].forEach((f, i) => this.tone(f, 0.2, 'sine', 0.05, i * 0.1)); },
+};
+
+/* ==================== Озвучивание для незрячих ====================
+   Экран проговаривается синтезатором речи браузера. Параллельно всё
+   размечено ARIA — обычные скринридеры (VoiceOver, TalkBack, NVDA)
+   читают приложение и без этого режима. */
+const Voice = {
+  supported: 'speechSynthesis' in window,
+  on() { return state.voice && this.supported; },
+  speak(text, { interrupt = false } = {}) {
+    if (!this.on() || !text) return;
+    try {
+      if (interrupt) speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(String(text).replace(/\s+/g, ' ').trim());
+      u.lang = 'ru-RU'; u.rate = 1.02; u.pitch = 1;
+      speechSynthesis.speak(u);
+    } catch (_) {}
+  },
+  stop() { if (this.supported) { try { speechSynthesis.cancel(); } catch (_) {} } },
+};
+
+/* Сообщение для скринридеров и для голосового режима одновременно */
+function announce(text) {
+  const live = document.getElementById('live-region');
+  if (live) live.textContent = text;
+  Voice.speak(text, { interrupt: true });
+}
+
+/* Что читается вслух при открытии каждого экрана */
+function screenSpeech() {
+  if (state.cityId) {
+    const c = cities.find(x => x.id === state.cityId);
+    return `${c.short}. ${c.tagline}. ${c.description} ${c.sell} Достопримечательностей: ${c.attractions.length}.`;
+  }
+  if (state.showFavorites) {
+    const n = [...state.favorites].length;
+    return n ? `Избранное. Сохранено мест: ${n}.` : 'Избранное. Пока пусто.';
+  }
+  const t = cyprusParts();
+  switch (state.tab) {
+    case 'home': return `Кипр. Шесть курортов, лучшие пляжи и вся практика в одном месте. Сейчас на острове ${t.h} часов ${t.m} минут. Раздел ${state.homeMode === 'cities' ? 'города' : 'пляжи'}.`;
+    case 'map': return 'Карта. Поиск по местам, схема, спутник и гибрид. Двадцать восемь точек с координатами.';
+    case 'game': return 'Игра «Пляжный день». Пять уровней: ловите подносом еду и напитки, избегайте медуз.';
+    case 'info': return 'Информация. Практические сведения о поездке, кухня, настройки и контакты для консультации.';
+    case 'apply': return `Заявка на поездку. Заполните имя и телефон, и менеджер свяжется с вами в WhatsApp по номеру ${CONFIG.whatsappDisplay}.`;
+    default: return '';
+  }
+}
 
 /* ==================== Появление текста ==================== */
 let tick = 0;
@@ -932,7 +1087,7 @@ function renderResults() {
 }
 
 function renderMap() {
-  return `<div class="map-wrap" id="map">
+  return `<div class="map-wrap" id="map" role="application" aria-label="Карта Кипра с метками мест">
     <div class="map-layer"></div>
     <div class="map-fallback">Тайлы карты не загрузились — нет доступа к серверу карт.<br>Метки, поиск и координаты работают в любом случае.</div>
     <div class="map-pins"></div>
@@ -1036,15 +1191,20 @@ const Game = {
     this.items = [];
     this.lives = Math.min(3, this.lives + 1);   // за пройденный уровень возвращаем жизнь
     const lv = this.lv();
+    Sound.level();
+    announce(`Уровень ${this.level + 1}. ${lv.name}. Цель — ${lv.goal} очков.`);
     showBanner('Уровень ' + (this.level + 1), lv.name, 'Цель — ' + lv.goal + ' очков · +1 ♥');
     renderGameHUD();
   },
   win() {
+    Sound.success();
     this.screen = 'win';
     if (this.score > this.best) { this.best = this.score; store.set('cy_best', this.best); }
     renderGameUI();
   },
   over() {
+    Sound.bad();
+    announce(`Игра окончена. Ваш счёт: ${this.score}.`);
     this.screen = 'over';
     if (this.score > this.best) { this.best = this.score; store.set('cy_best', this.best); }
     renderGameUI();
@@ -1086,10 +1246,12 @@ const Game = {
           it.dead = true;
           if (it.bad) {
             this.lives--; this.shake = 1;
+            Sound.bad();
             this.burst(it.x * this.w, catchY * this.h, '#ff453a', 16);
             if (this.lives <= 0) this.over();
           } else {
             this.score += it.p;
+            Sound.good();
             this.burst(it.x * this.w, catchY * this.h, '#ffb340', 12);
             if (this.score >= this.lv().goal) {
               if (this.level >= LEVELS.length - 1) this.win();
@@ -1267,7 +1429,7 @@ function renderGameUI() {
 
 function renderGame() {
   return `<div class="game-wrap">
-    <canvas id="game-canvas"></canvas>
+    <canvas id="game-canvas" role="img" aria-label="Игровое поле: пляж, море и падающие предметы"></canvas>
     <div class="g-hud" id="game-hud"></div>
     <div id="game-banner"></div>
     <div id="game-overlay"></div>
@@ -1420,12 +1582,49 @@ function render() {
   Game.unmount();
   const app = document.getElementById('app');
   const cls = 'screen' + (state.transition ? ' ' + state.transition : '');
-  app.innerHTML = renderHeader() + `<main class="${cls}">` + renderMain() + '</main>' + renderTabbar();
+  app.innerHTML = renderHeader() + `<main id="main-content" class="${cls}" tabindex="-1">` + renderMain() + '</main>' + renderTabbar();
   state.transition = '';
   window.scrollTo(0, 0);
   if (document.getElementById('clock-time')) startClock();
   if (document.getElementById('map')) requestAnimationFrame(() => { MapView.mount(); renderMapControls(); renderCallout(); });
   if (document.getElementById('game-canvas')) requestAnimationFrame(() => { Game.mount(); renderGameUI(); });
+  announce(screenSpeech());
+}
+
+/* Служебная разметка для скринридеров создаётся один раз */
+function mountA11y() {
+  if (document.getElementById('live-region')) return;
+  const skip = document.createElement('a');
+  skip.className = 'skip-link'; skip.href = '#main-content';
+  skip.textContent = 'Перейти к содержимому';
+  document.body.prepend(skip);
+
+  const live = document.createElement('div');
+  live.id = 'live-region';
+  live.className = 'sr-only';
+  live.setAttribute('role', 'status');
+  live.setAttribute('aria-live', 'polite');
+  document.body.appendChild(live);
+
+  /* Enter и пробел работают на всех кликабельных строках */
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const el = e.target.closest('[role="button"], [role="switch"]');
+    if (!el || el.tagName === 'BUTTON' || el.tagName === 'A') return;
+    e.preventDefault();
+    el.click();
+  });
+
+  /* Звук нажатия и озвучивание элемента под фокусом */
+  document.addEventListener('pointerdown', e => {
+    if (e.target.closest('button, a, .row, .chip, [role="button"], [role="switch"]')) Sound.tap();
+  }, { passive: true });
+
+  document.addEventListener('focusin', e => {
+    const el = e.target.closest('button, a, [role="button"], [role="switch"]');
+    if (!el || !Voice.on()) return;
+    Voice.speak(el.getAttribute('aria-label') || el.textContent, { interrupt: true });
+  });
 }
 
 function renderHeader() {
@@ -1444,11 +1643,11 @@ function renderHeader() {
   }
   const titles = { home: 'Кипр', map: 'Карта', game: 'Пляжный день', info: 'Информация', apply: 'Заявка' };
   const subs = {
-    home: 'Куда поехать и что там смотреть',
-    map: 'Схема, спутник и точные координаты',
-    game: 'Мини-игра про отдых на острове',
-    info: 'Всё, что нужно знать до вылета',
-    apply: 'Ответим в WhatsApp',
+    home: 'Шесть курортов, лучшие пляжи и вся практика в одном месте',
+    map: 'Схема, спутник и точные координаты 28 мест',
+    game: 'Пять уровней: от утра в Ларнаке до ночи в Кирении',
+    info: 'Виза, деньги, транспорт, кухня и настройки',
+    apply: 'Подберём поездку и ответим в WhatsApp',
   };
   const star = state.tab === 'home' ? `<button class="nav-action" onclick="openFavorites()">${icons.starOn}</button>` : '';
   return `<header class="nav">
@@ -1469,7 +1668,8 @@ function renderMain() {
 
 function renderHome() {
   const pitch = `<div class="pitch reveal" style="--d:40ms">
-    <h2>${words('Море +26 °C и билет на четыре часа', 60, 55)}</h2>
+    <div class="eyebrow reveal-soft" style="--d:60ms">Остров Афродиты</div>
+    <h2>${words('Море +26 °C и билет на четыре часа', 90, 55)}</h2>
     <p class="reveal-soft" ${d(200)}>340 солнечных дней в году, шесть курортов на выбор и купальный сезон с мая по ноябрь.</p>
     <div class="facts reveal-soft" ${d(200)}>
       <div><b>340</b><span>солнечных дней</span></div>
@@ -1491,16 +1691,19 @@ function renderHome() {
 function renderCities() {
   const filters = [['all','Все'],['south','Республика Кипр'],['north','Северный Кипр']];
   const chips = filters.map(([k,l]) =>
-    `<div class="chip ${state.cityFilter===k?'active':''} reveal-soft" ${d()} onclick="setFilter('${k}')">${l}</div>`).join('');
+    `<div class="chip ${state.cityFilter===k?'active':''} reveal-soft" ${d()} onclick="setFilter('${k}')"
+        role="button" tabindex="0" aria-pressed="${state.cityFilter===k}" aria-label="Фильтр: ${l}">${l}</div>`).join('');
   const list = cities.filter(c => state.cityFilter==='all' || c.region===state.cityFilter);
   const rows = list.map(c => `
-    <div class="row reveal" ${d()} onclick="openCity('${c.id}')">
+    <div class="row reveal" ${d()} onclick="openCity('${c.id}')" role="button" tabindex="0"
+         aria-label="${esc(c.short)}. ${esc(c.tagline)}. Открыть описание города">
       ${avatar(c, c.short)}
       <div class="body">
         <div class="title">${c.short}</div>
         <div class="sub clamp">${c.tagline}</div>
       </div>
-      <div class="geo" onclick="event.stopPropagation();showOnMap(${c.lat},${c.lon},12)">${icons.pin}</div>
+      <div class="geo" onclick="event.stopPropagation();showOnMap(${c.lat},${c.lon},12)" role="button" tabindex="0"
+           aria-label="Показать ${esc(c.short)} на карте">${icons.pin}</div>
       <div class="chev">${icons.chevron}</div>
     </div>`).join('');
   return `<div class="chip-row">${chips}</div>
@@ -1514,8 +1717,10 @@ function renderCityDetail() {
     const fav = state.favorites.has(a.id);
     return `<div class="row plain reveal" ${d()}>
       <div class="body"><div class="title">${a.name}</div><div class="sub">${a.description}</div></div>
-      <div class="geo" onclick="showOnMap(${a.lat},${a.lon},14)">${icons.pin}</div>
-      <div class="fav-star ${fav ? 'on' : ''}" onclick="toggleFav(event,'${a.id}')">${fav ? icons.starOn : icons.starOff}</div>
+      <div class="geo" onclick="showOnMap(${a.lat},${a.lon},14)" role="button" tabindex="0"
+           aria-label="Показать ${esc(a.name)} на карте">${icons.pin}</div>
+      <div class="fav-star ${fav ? 'on' : ''}" onclick="toggleFav(event,'${a.id}')" role="button" tabindex="0"
+           aria-pressed="${fav}" aria-label="${fav ? 'Убрать' : 'Добавить'} ${esc(a.name)} в избранное">${fav ? icons.starOn : icons.starOff}</div>
     </div>`;
   }).join('');
   return `
@@ -1549,7 +1754,8 @@ function renderBeaches() {
         <div class="title">${b.name}</div>
         <div class="sub clamp">${b.note}</div>
       </div>
-      <div class="geo" onclick="showOnMap(${b.lat},${b.lon},14)">${icons.pin}</div>
+      <div class="geo" onclick="showOnMap(${b.lat},${b.lon},14)" role="button" tabindex="0"
+           aria-label="Показать пляж ${esc(b.name)} на карте">${icons.pin}</div>
     </div>`).join('');
   return `<div class="group-title reveal-soft" ${d()}>Куда ехать за морем</div><div class="group">${rows}</div>`;
 }
@@ -1564,12 +1770,60 @@ function renderInfo() {
       <div class="body"><div class="info-label">${c.name}</div><div class="sub">${c.description}</div></div>
     </div>`).join('');
   const sizes = [[1,'Обычный'],[1.14,'Крупный'],[1.3,'Очень крупный']].map(([v,l]) =>
-    `<button class="${Math.abs(state.scale - v) < .01 ? 'on' : ''}" onclick="setScale(${v})">${l}</button>`).join('');
+    `<button class="${Math.abs(state.scale - v) < .01 ? 'on' : ''}" onclick="setScale(${v})"
+      aria-label="Размер текста: ${l}" aria-pressed="${Math.abs(state.scale - v) < .01}">${l}</button>`).join('');
+
+  const sw = (id, on, title, sub, disabled) => `
+    <div class="switch-row reveal" ${d()} onclick="${disabled ? '' : `toggle('${id}')`}">
+      <div class="body">
+        <div class="t">${title}</div>
+        <div class="s">${sub}</div>
+      </div>
+      <button class="switch" role="switch" aria-checked="${on}" aria-label="${esc(title)}"
+        ${disabled ? 'disabled' : `onclick="event.stopPropagation();toggle('${id}')"`}></button>
+    </div>`;
+
+  const c = CONFIG.contacts;
+  const contacts = `
+    <a class="contact-row reveal" ${d()} href="https://wa.me/${CONFIG.whatsapp}" target="_blank" rel="noopener"
+       aria-label="Написать в WhatsApp ${esc(c.phone)}">
+      <span class="ico wa">${icons.wa}</span>
+      <span><span class="k">WhatsApp</span><span class="v">${esc(c.phone)}</span></span>
+    </a>
+    <a class="contact-row reveal" ${d()} href="tel:${esc(c.phoneRaw)}" aria-label="Позвонить ${esc(c.phone)}">
+      <span class="ico">${icons.phone}</span>
+      <span><span class="k">Телефон</span><span class="v">${esc(c.phone)}</span></span>
+    </a>
+    <a class="contact-row reveal" ${d()} href="mailto:${esc(c.email)}" aria-label="Написать на почту">
+      <span class="ico">${icons.mail}</span>
+      <span><span class="k">Почта</span><span class="v">${esc(c.email)}</span></span>
+    </a>
+    <div class="contact-row reveal" ${d()}>
+      <span class="ico">${icons.pin}</span>
+      <span><span class="k">Адрес</span><span class="v">${esc(c.address)}</span></span>
+    </div>
+    <div class="contact-row reveal" ${d()}>
+      <span class="ico">${icons.clock}</span>
+      <span><span class="k">Часы работы</span><span class="v">${esc(c.hours)}</span></span>
+    </div>`;
+
   return clockHTML() +
-    `<div class="group-title reveal-soft" ${d()}>Размер текста</div>
-     <div class="segmented reveal-soft" ${d()} style="margin-top:0">${sizes}</div>
-     <div class="group-title reveal-soft" ${d()}>Практическая информация</div><div class="group">${info}</div>
-     <div class="group-title reveal-soft" ${d()}>Кухня</div><div class="group">${food}</div>`;
+    `<div class="group-title reveal-soft" ${d()}>Практическая информация</div><div class="group">${info}</div>
+     <div class="group-title reveal-soft" ${d()}>Кухня</div><div class="group">${food}</div>
+
+     <div class="group-title reveal-soft" ${d()}>Доступность и звук</div>
+     <div class="group">
+       ${sw('voice', state.voice, 'Озвучивание экрана', Voice.supported
+          ? 'Приложение читает вслух заголовки, описания и кнопки под пальцем'
+          : 'Браузер не поддерживает синтез речи', !Voice.supported)}
+       ${sw('sound', state.sound, 'Звуковые эффекты', 'Мягкие тоны при нажатиях, очках и переходе на новый уровень')}
+     </div>
+     <div class="group-title reveal-soft" ${d()}>Размер текста</div>
+     <div class="segmented reveal-soft" ${d()} style="margin-top:0" role="group" aria-label="Размер текста">${sizes}</div>
+
+     <div class="group-title reveal-soft" ${d()}>Контакты для консультации</div>
+     <div class="group">${contacts}</div>
+     <div class="group-footer reveal-soft" ${d()}>Консультация бесплатная: подберём курорт, отель и даты под ваш бюджет.</div>`;
 }
 
 function renderFavorites() {
@@ -1593,28 +1847,45 @@ function renderFavorites() {
 function renderTabbar() {
   const tabs = [['home','Главная'],['map','Карта'],['game','Игра'],['info','Инфо'],['apply','Заявка']];
   const buttons = tabs.map(([key,label]) =>
-    `<button class="${state.tab===key && !state.cityId && !state.showFavorites ?'active':''}" onclick="setTab('${key}')">
-      ${icons[key]}<span>${label}</span>
+    `<button class="${state.tab===key && !state.cityId && !state.showFavorites ?'active':''}" onclick="setTab('${key}')"
+       aria-label="Вкладка ${label}" aria-current="${state.tab===key && !state.cityId && !state.showFavorites}">
+      ${icons[key]}<span aria-hidden="true">${label}</span>
     </button>`).join('');
-  return `<nav class="tabbar">${buttons}</nav>`;
+  return `<nav class="tabbar" role="tablist" aria-label="Основная навигация">${buttons}</nav>`;
 }
 
 /* ==================== Действия ==================== */
 function setTab(tab) {
   if (tab === state.tab && !state.cityId && !state.showFavorites) return;
-  state.tab = tab; state.cityId = null; state.showFavorites = false; render();
+  state.tab = tab; state.cityId = null; state.showFavorites = false;
+  Sound.select(); render();
 }
 function setHomeMode(m) { if (m === state.homeMode) return; state.homeMode = m; render(); }
 function setFilter(f) { if (f === state.cityFilter) return; state.cityFilter = f; render(); }
+function toggle(key) {
+  const on = !state[key];
+  state[key] = on;
+  store.set('cy_' + key, on);
+  if (key === 'sound') { if (on) { Sound.ensure(); Sound.select(); } }
+  if (key === 'voice' && !on) Voice.stop();
+  render();
+  if (key === 'voice') {
+    announce(on
+      ? 'Озвучивание включено. Приложение будет читать вслух каждый экран и элементы под фокусом.'
+      : '');
+  } else {
+    announce(on ? 'Звуковые эффекты включены' : 'Звуковые эффекты выключены');
+  }
+}
 function setScale(v) {
   state.scale = v; store.set('cy_scale', v);
   document.documentElement.style.setProperty('--scale', v);
   render();
 }
-function openCity(id) { state.cityId = id; state.showFavorites = false; state.transition = 'push'; render(); }
-function closeCity() { state.cityId = null; state.transition = 'pop'; render(); }
+function openCity(id) { state.cityId = id; state.showFavorites = false; state.transition = 'push'; Sound.select(); render(); }
+function closeCity() { state.cityId = null; state.transition = 'pop'; Sound.back(); render(); }
 function openFavorites() { state.showFavorites = true; state.transition = 'push'; render(); }
-function closeFavorites() { state.showFavorites = false; state.transition = 'pop'; render(); }
+function closeFavorites() { state.showFavorites = false; state.transition = 'pop'; Sound.back(); render(); }
 function applyFor(city) { state.form.city = city; store.set('cy_form', state.form); setTab('apply'); }
 function showOnMap(lat, lon, z) {
   state.tab = 'map'; state.cityId = null; state.showFavorites = false; state.transition = 'push';
@@ -1626,6 +1897,8 @@ function toggleFav(e, id) {
   const on = !state.favorites.has(id);
   on ? state.favorites.add(id) : state.favorites.delete(id);
   store.set('cy_favs', [...state.favorites]);
+  on ? Sound.good() : Sound.back();
+  announce(on ? 'Добавлено в избранное' : 'Убрано из избранного');
   if (state.showFavorites) { render(); return; }
   const el = e.currentTarget;
   el.classList.toggle('on', on);
@@ -1637,6 +1910,7 @@ window.addEventListener('resize', () => {
   if (Game.canvas && document.body.contains(Game.canvas)) Game.resize();
 });
 
+mountA11y();
 render();
 </script>
 </body>
