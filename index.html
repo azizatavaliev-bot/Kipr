@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" class="no-js">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.className="js";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Образование на Кипре</title>
 <meta name="description" content="alfa — консалтинг по поступлению в университеты Кипра: подбор программы, документы, виза, заселение.">
@@ -314,7 +315,19 @@ section { padding: var(--gap-section) 0; }
 
 /* фото поверх подложки */
 .photo img,
-.hero__media img { position: absolute; inset: 0; z-index: 1; }
+.hero__media img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 600ms var(--ease);
+}
+
+.photo img.is-loaded,
+.hero__media img.is-loaded { opacity: 1; }
+
+.flag { opacity: 0; transition: opacity 400ms var(--ease); }
+.flag.is-loaded { opacity: 1; }
 
 /* появление фото: раскрытие снизу вверх */
 .photo.reveal { opacity: 1; transform: none; }
@@ -459,8 +472,9 @@ section { padding: var(--gap-section) 0; }
 
 .hero h1 { max-width: 15ch; }
 
-.word {
-  display: inline-block;
+.word { display: inline-block; }
+
+.js .word {
   opacity: 0;
   transform: translateY(32px);
   animation: rise var(--t-in) var(--ease) forwards;
@@ -472,9 +486,9 @@ section { padding: var(--gap-section) 0; }
 .hero__sub { max-width: 46ch; font-size: clamp(17px, 1.5vw, 20px); color: var(--text-muted); }
 .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; }
 
-.hero .flag-chip,
-.hero__sub,
-.hero__actions {
+.js .hero .flag-chip,
+.js .hero__sub,
+.js .hero__actions {
   opacity: 0;
   animation: rise var(--t-in) var(--ease) forwards;
   animation-delay: var(--delay, 0ms);
@@ -743,20 +757,21 @@ section { padding: var(--gap-section) 0; }
 
 /* ---------- появление при скролле ---------- */
 
-.reveal {
+.js .reveal {
   opacity: 0;
   transform: translateY(32px);
   transition: opacity var(--t-in) var(--ease), transform var(--t-in) var(--ease);
   transition-delay: var(--delay, 0ms);
 }
 
-.reveal.is-in { opacity: 1; transform: none; }
+.js .reveal.is-in, .reveal.is-in { opacity: 1; transform: none; }
 
 /* заголовки секций собираются по словам */
-h2.reveal { opacity: 1; transform: none; }
+.js h2.reveal, h2.reveal { opacity: 1; transform: none; }
 
-.word-s {
-  display: inline-block;
+.word-s { display: inline-block; }
+
+.js .word-s {
   opacity: 0;
   transform: translateY(24px);
 }
@@ -778,6 +793,12 @@ h2.reveal.is-in .word-s {
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .split { grid-template-columns: minmax(0, 1fr); }
   .fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  /* тяжёлое размытие на телефоне заметно тормозит прокрутку */
+  .hero__glow { filter: blur(70px); }
+  .hero__media { inset: 0; }
 }
 
 @media (max-width: 760px) {
@@ -1281,169 +1302,195 @@ h2.reveal.is-in .word-s {
   'use strict';
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isPhone = window.matchMedia('(max-width: 900px)').matches;
+
+  /* страховка: что бы ни случилось со скриптом, текст будет виден */
+  function showEverything() {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-in'); });
+  }
+
+  window.addEventListener('load', function () {
+    setTimeout(showEverything, 2500);
+  });
   var STEP = 90;   // сдвиг между соседями
   var WORD = 120;  // сдвиг между словами заголовка
 
-  /* заголовок героя — по словам */
-  var lastWordDelay = 0;
+  try {
+    /* заголовок героя — по словам */
+    var lastWordDelay = 0;
 
-  document.querySelectorAll('[data-split]').forEach(function (el) {
-    var words = el.textContent.trim().split(/\s+/);
-    el.textContent = '';
-
-    words.forEach(function (word, i) {
-      var span = document.createElement('span');
-      span.className = 'word';
-      span.textContent = word;
-      span.style.setProperty('--delay', i * WORD + 'ms');
-      el.appendChild(span);
-      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
-      lastWordDelay = i * WORD;
-    });
-  });
-
-  /* флаг, подзаголовок и кнопка — следом за заголовком */
-  var chip = document.querySelector('.hero .flag-chip');
-  if (chip) chip.style.setProperty('--delay', '0ms');
-
-  var sub = document.querySelector('.hero__sub');
-  if (sub) sub.style.setProperty('--delay', (lastWordDelay + 200) + 'ms');
-
-  var actions = document.querySelector('.hero__actions');
-  if (actions) actions.style.setProperty('--delay', (lastWordDelay + 600) + 'ms');
-
-  /* заголовки секций — по словам при появлении */
-  if (!reduced) {
-    document.querySelectorAll('h2.reveal').forEach(function (h) {
-      var words = h.textContent.trim().split(/\s+/);
-      h.textContent = '';
+    document.querySelectorAll('[data-split]').forEach(function (el) {
+      var words = el.textContent.trim().split(/\s+/);
+      el.textContent = '';
 
       words.forEach(function (word, i) {
         var span = document.createElement('span');
-        span.className = 'word-s';
+        span.className = 'word';
         span.textContent = word;
-        span.style.setProperty('--wd', i * 70 + 'ms');
-        h.appendChild(span);
-        if (i < words.length - 1) h.appendChild(document.createTextNode(' '));
+        span.style.setProperty('--delay', i * WORD + 'ms');
+        el.appendChild(span);
+        if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+        lastWordDelay = i * WORD;
       });
     });
-  }
 
-  /* появление при скролле: один раз, каскадом по 90 мс */
-  var items = document.querySelectorAll('.reveal');
+    /* флаг, подзаголовок и кнопка — следом за заголовком */
+    var chip = document.querySelector('.hero .flag-chip');
+    if (chip) chip.style.setProperty('--delay', '0ms');
 
-  if (reduced || !('IntersectionObserver' in window)) {
-    items.forEach(function (el) { el.classList.add('is-in'); });
-  } else {
-    var counts = {};
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in');
-        io.unobserve(entry.target);
+    var sub = document.querySelector('.hero__sub');
+    if (sub) sub.style.setProperty('--delay', (lastWordDelay + 200) + 'ms');
+
+    var actions = document.querySelector('.hero__actions');
+    if (actions) actions.style.setProperty('--delay', (lastWordDelay + 600) + 'ms');
+
+    /* заголовки секций — по словам при появлении */
+    if (!reduced) {
+      document.querySelectorAll('h2.reveal').forEach(function (h) {
+        var words = h.textContent.trim().split(/\s+/);
+        h.textContent = '';
+
+        words.forEach(function (word, i) {
+          var span = document.createElement('span');
+          span.className = 'word-s';
+          span.textContent = word;
+          span.style.setProperty('--wd', i * 70 + 'ms');
+          h.appendChild(span);
+          if (i < words.length - 1) h.appendChild(document.createTextNode(' '));
+        });
       });
-    }, { threshold: 0.15 });
+    }
 
-    items.forEach(function (el) {
-      var key = (el.closest('section') || document.body).id || 'root';
-      counts[key] = (counts[key] || 0) + 1;
-      el.style.setProperty('--delay', Math.min(counts[key] - 1, 6) * STEP + 'ms');
-      io.observe(el);
-    });
-  }
+    /* появление при скролле: один раз, каскадом по 90 мс */
+    var items = document.querySelectorAll('.reveal');
 
-  /* параллакс фона героя */
-  var media = document.getElementById('heroMedia');
-
-  if (media && !reduced) {
-    var ticking = false;
-
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-
-      requestAnimationFrame(function () {
-        media.style.transform = 'translate3d(0,' + (window.scrollY * 0.3).toFixed(1) + 'px,0)';
-        ticking = false;
-      });
-    }, { passive: true });
-  }
-
-  /* плавающие кнопки связи появляются после первого экрана */
-  var dock = document.getElementById('dock');
-
-  if (dock) {
-    if (reduced) {
-      dock.classList.add('is-on');
+    if (reduced || !('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-in'); });
     } else {
-      var dockTicking = false;
+      var counts = {};
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -6% 0px' });
+
+      items.forEach(function (el) {
+        var key = (el.closest('section') || document.body).id || 'root';
+        counts[key] = (counts[key] || 0) + 1;
+        el.style.setProperty('--delay', Math.min(counts[key] - 1, 6) * STEP + 'ms');
+        io.observe(el);
+      });
+    }
+
+    /* параллакс фона героя */
+    var media = document.getElementById('heroMedia');
+
+    if (media && !reduced && !isPhone) {
+      var ticking = false;
 
       window.addEventListener('scroll', function () {
-        if (dockTicking) return;
-        dockTicking = true;
+        if (ticking) return;
+        ticking = true;
 
         requestAnimationFrame(function () {
-          dock.classList.toggle('is-on', window.scrollY > window.innerHeight * 0.6);
-          dockTicking = false;
+          media.style.transform = 'translate3d(0,' + (window.scrollY * 0.3).toFixed(1) + 'px,0)';
+          ticking = false;
         });
       }, { passive: true });
     }
-  }
 
-  /* флаг: запасной источник, если CDN недоступен */
-  document.querySelectorAll('img[data-fallback]').forEach(function (img) {
-    var tried = false;
+    /* плавающие кнопки связи появляются после первого экрана */
+    var dock = document.getElementById('dock');
 
-    img.addEventListener('error', function () {
-      if (!tried) {
-        tried = true;
-        img.src = img.getAttribute('data-fallback');
+    if (dock) {
+      if (reduced) {
+        dock.classList.add('is-on');
+      } else {
+        var dockTicking = false;
+
+        window.addEventListener('scroll', function () {
+          if (dockTicking) return;
+          dockTicking = true;
+
+          requestAnimationFrame(function () {
+            dock.classList.toggle('is-on', window.scrollY > window.innerHeight * 0.6);
+            dockTicking = false;
+          });
+        }, { passive: true });
+      }
+    }
+
+    /* картинки проявляются только после успешной загрузки */
+    function watchImage(img) {
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.add('is-loaded');
         return;
       }
 
-      img.style.display = 'none';   // оба источника недоступны — остаётся только подпись
-    });
-  });
-
-  /* фото: если картинка не пришла — остаётся тёмная плашка с подсказкой */
-  document.querySelectorAll('.photo img, .hero__media img').forEach(function (img) {
-    img.addEventListener('error', function () {
-      img.style.display = 'none';
-      var host = img.closest('.photo');
-      if (!host || host.querySelector('.photo__hint')) return;
-      var hint = document.createElement('span');
-      hint.className = 'photo__hint';
-      hint.innerHTML = '<span class="slot">[ЗАПОЛНИТЬ: заменить на своё фото]</span>';
-      host.appendChild(hint);
-    });
-  });
-
-  /* аккордеон */
-  document.querySelectorAll('.qa__btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var item = btn.closest('.qa__item');
-      var open = item.classList.toggle('is-open');
-      btn.setAttribute('aria-expanded', String(open));
-    });
-  });
-
-  /* форма заявки */
-  var form = document.querySelector('.lead-form');
-  var formNote = document.querySelector('.form-note');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name = form.elements.name.value.trim();
-    var phone = form.elements.phone.value.trim();
-
-    if (!name || !phone) {
-      formNote.textContent = 'Оставьте имя и телефон — иначе не сможем перезвонить.';
-      return;
+      img.addEventListener('load', function () { img.classList.add('is-loaded'); });
     }
 
-    formNote.textContent = 'Заявка принята, ' + name + '. Свяжемся в течение дня.';
-    form.reset();
-  });
+    document.querySelectorAll('.photo img, .hero__media img, .flag').forEach(watchImage);
+
+    /* флаг: запасной источник, если CDN недоступен */
+    document.querySelectorAll('img[data-fallback]').forEach(function (img) {
+      var tried = false;
+
+      img.addEventListener('error', function () {
+        if (!tried) {
+          tried = true;
+          img.src = img.getAttribute('data-fallback');
+          return;
+        }
+
+        img.style.display = 'none';   // оба источника недоступны — остаётся только подпись
+      });
+    });
+
+    /* фото: если картинка не пришла — остаётся тёмная плашка с подсказкой */
+    document.querySelectorAll('.photo img, .hero__media img').forEach(function (img) {
+      img.addEventListener('error', function () {
+        img.style.display = 'none';
+        var host = img.closest('.photo');
+        if (!host || host.querySelector('.photo__hint')) return;
+        var hint = document.createElement('span');
+        hint.className = 'photo__hint';
+        hint.innerHTML = '<span class="slot">[ЗАПОЛНИТЬ: заменить на своё фото]</span>';
+        host.appendChild(hint);
+      });
+    });
+
+    /* аккордеон */
+    document.querySelectorAll('.qa__btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.qa__item');
+        var open = item.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    });
+
+    /* форма заявки */
+    var form = document.querySelector('.lead-form');
+    var formNote = document.querySelector('.form-note');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = form.elements.name.value.trim();
+      var phone = form.elements.phone.value.trim();
+
+      if (!name || !phone) {
+        formNote.textContent = 'Оставьте имя и телефон — иначе не сможем перезвонить.';
+        return;
+      }
+
+      formNote.textContent = 'Заявка принята, ' + name + '. Свяжемся в течение дня.';
+      form.reset();
+    });
+  } catch (err) {
+    showEverything();   // анимации не главное — контент важнее
+  }
 })();
 </script>
 </body>
