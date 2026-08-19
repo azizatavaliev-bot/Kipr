@@ -7,7 +7,7 @@
 <meta name="description" content="Консалтинг по поступлению в университеты Кипра: подбор программы, документы, виза, заселение.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0b0b0c;
@@ -48,16 +48,17 @@ a { color: inherit; }
 /* ---------- типографика ---------- */
 
 h1, h2, h3 {
-  font-family: "Playfair Display", "Times New Roman", Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -.02em;
+  font-family: Oswald, "Arial Narrow", Inter, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
   text-wrap: balance;
   margin: 0;
 }
 
-h1 { font-size: clamp(48px, 7.4vw, 108px); line-height: 1; }
-h2 { font-size: clamp(34px, 5.2vw, 68px); line-height: 1.06; }
-h3 { font-size: clamp(20px, 2.1vw, 26px); line-height: 1.2; }
+h1 { font-size: clamp(40px, 4.8vw, 72px); line-height: 1; }
+h2 { font-size: clamp(32px, 5.4vw, 72px); line-height: 1.02; }
+h3 { font-size: clamp(19px, 2vw, 25px); line-height: 1.15; font-weight: 600; text-transform: none; }
 
 p { margin: 0; }
 
@@ -221,13 +222,23 @@ section { padding: var(--gap-section) 0; }
   pointer-events: none;
 }
 
-.hero__inner { position: relative; display: grid; gap: clamp(20px, 2.6vh, 28px); justify-items: start; }
+.hero__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+}
 
-.hero h1 { max-width: 14ch; }
-.hero__sub { max-width: 56ch; font-size: clamp(17px, 1.5vw, 20px); color: var(--text-muted); }
+.hero__text { grid-column: 1; grid-row: 1; display: grid; gap: clamp(18px, 2.4vh, 26px); justify-items: start; }
+
+.hero h1 { max-width: 15ch; }
+.hero__sub { max-width: 42ch; font-size: clamp(17px, 1.5vw, 20px); color: var(--text-muted); }
 .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; }
 
 .metrics {
+  grid-column: 1 / -1;
+  grid-row: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 14px clamp(24px, 4vw, 56px);
@@ -249,14 +260,119 @@ section { padding: var(--gap-section) 0; }
 }
 
 .metrics b {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(28px, 3.4vw, 44px);
-  font-weight: 400;
+  font-family: Oswald, "Arial Narrow", sans-serif;
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 700;
   line-height: 1;
   color: var(--accent);
 }
 
 .metrics span { font-size: 14px; color: var(--text-muted); }
+
+
+/* ---------- флаг Кипра ---------- */
+
+.flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px 6px 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.flag svg { width: 30px; height: 20px; border-radius: 3px; }
+
+/* ---------- остров Кипра ---------- */
+
+.island {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  width: 100%;
+  max-width: 660px;
+}
+
+.island svg { width: 100%; height: auto; overflow: visible; }
+
+.island__shape {
+  fill: rgba(245, 105, 31, .16);
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-dasharray: 2200;
+  stroke-dashoffset: 2200;
+  filter: drop-shadow(0 0 26px rgba(245, 105, 31, .45));
+  opacity: 0;
+}
+
+.island.is-in .island__shape {
+  opacity: 1;
+  animation: draw 2.2s var(--ease) forwards, breathe 6s ease-in-out 2.2s infinite;
+}
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes breathe {
+  50% { filter: drop-shadow(0 0 40px rgba(245, 105, 31, .6)); }
+}
+
+.island__grid { stroke: rgba(255, 255, 255, .06); stroke-width: 1; fill: none; }
+
+.pin { opacity: 0; cursor: pointer; }
+.island.is-in .pin { animation: pin-in .6s var(--ease) forwards; animation-delay: var(--pin-delay, 1.2s); }
+
+@keyframes pin-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+.pin__dot { fill: var(--accent); transition: r .25s var(--ease); }
+.pin__ring { fill: none; stroke: var(--accent); stroke-width: 1.2; opacity: .5; transform-origin: center; }
+.pin:hover .pin__dot, .pin.is-active .pin__dot { r: 8; }
+.pin.is-active .pin__ring { animation: ping 1.4s ease-out infinite; }
+
+@keyframes ping {
+  from { r: 8; opacity: .6; }
+  to { r: 26; opacity: 0; }
+}
+
+.pin__label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  fill: var(--text-muted);
+  transition: fill .25s ease;
+}
+
+.pin:hover .pin__label, .pin.is-active .pin__label { fill: var(--text); }
+
+.island__note {
+  margin-top: 18px;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--text-muted);
+  transition: opacity .3s ease;
+}
+
+.island__note b { color: var(--text); font-weight: 600; }
+
+/* нажатие: волна от точки клика */
+
+.btn, .pin, .qa__btn { position: relative; overflow: hidden; }
+.pin, .qa__btn { overflow: visible; }
+
+.btn:active { transform: scale(.98); }
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .45);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: ripple .55s var(--ease) forwards;
+}
+
+@keyframes ripple { to { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
 
 /* ---------- 2. почему Кипр ---------- */
 
@@ -297,8 +413,9 @@ section { padding: var(--gap-section) 0; }
 .step:last-child::before { right: 0; }
 
 .step__num {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(30px, 3vw, 44px);
+  font-family: Oswald, "Arial Narrow", sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 3.2vw, 48px);
   line-height: 1;
   color: var(--accent);
 }
@@ -310,7 +427,7 @@ section { padding: var(--gap-section) 0; }
 
 .split {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
   gap: clamp(40px, 6vw, 90px);
   align-items: start;
 }
@@ -337,9 +454,9 @@ section { padding: var(--gap-section) 0; }
 .cost + .cost { padding-top: 22px; border-top: 1px solid var(--border); }
 
 .cost b {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(30px, 3.4vw, 46px);
-  font-weight: 400;
+  font-family: Oswald, "Arial Narrow", sans-serif;
+  font-size: clamp(32px, 3.6vw, 50px);
+  font-weight: 700;
   line-height: 1;
   color: var(--accent);
 }
@@ -368,7 +485,8 @@ section { padding: var(--gap-section) 0; }
   border: 0;
   background: none;
   color: inherit;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: Oswald, "Arial Narrow", sans-serif;
+  font-weight: 600;
   font-size: clamp(19px, 1.9vw, 26px);
   text-align: left;
   cursor: pointer;
@@ -476,6 +594,11 @@ section { padding: var(--gap-section) 0; }
 /* ---------- адаптив ---------- */
 
 @media (max-width: 1000px) {
+  .hero__inner { grid-template-columns: minmax(0, 1fr); }
+  .hero__text { grid-column: 1; grid-row: 1; }
+  .island { grid-column: 1; grid-row: 2; }
+  .metrics { grid-column: 1; grid-row: 3; }
+  .island { max-width: 560px; }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .step::before { right: -24px; }
   .split { grid-template-columns: minmax(0, 1fr); }
@@ -501,6 +624,8 @@ section { padding: var(--gap-section) 0; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .qa__panel { transition: none; }
+  .island__shape { stroke-dashoffset: 0; opacity: 1; animation: none; }
+  .pin { opacity: 1; animation: none; }
   .btn, .btn-text svg, .field-row { transition: none; }
 }
 </style>
@@ -510,7 +635,7 @@ section { padding: var(--gap-section) 0; }
 <header class="topbar">
   <a class="logo" href="#top">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10L12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
-    <span>[ЗАПОЛНИТЬ: название агентства]</span>
+    <span>alfa</span>
   </a>
 
   <nav class="menu" aria-label="Разделы">
@@ -530,18 +655,35 @@ section { padding: var(--gap-section) 0; }
     <div class="hero__glow" aria-hidden="true"></div>
 
     <div class="wrap hero__inner">
-      <p class="eyebrow reveal">Обучение на Кипре · для абитуриентов из Кыргызстана и СНГ</p>
+      <div class="hero__text">
+        <span class="flag reveal">
+          <svg viewBox="0 0 90 60" role="img" aria-label="Флаг Кипра">
+            <rect width="90" height="60" fill="#ffffff"/>
+            <path d="M28 20l6-2 9-1 8 1 6 2 6-1-1 3-6 2-7 3-4 3-6 1-7-2-5-3-3-3z" fill="#d57800"/>
+            <g fill="none" stroke="#4e5b31" stroke-width="1.4" stroke-linecap="round">
+              <path d="M45 44c-4-1-7-4-9-8"/>
+              <path d="M45 44c4-1 7-4 9-8"/>
+              <path d="M38 38c-2 0-3 1-4 2M40 41c-2 0-3 1-4 3M43 43c-2 0-3 1-4 3"/>
+              <path d="M52 38c2 0 3 1 4 2M50 41c2 0 3 1 4 3M47 43c2 0 3 1 4 3"/>
+            </g>
+          </svg>
+          <span>Кипр · страна ЕС</span>
+        </span>
 
-      <h1 class="reveal">Европейский диплом на английском</h1>
+        <p class="eyebrow reveal">Обучение на Кипре · для абитуриентов из Кыргызстана и СНГ</p>
 
-      <p class="hero__sub reveal">Без языкового барьера: ведём от первой консультации до заселения в общежитие — университет, документы, виза.</p>
+        <h1 class="reveal">Европейский диплом на английском</h1>
 
-      <div class="hero__actions reveal">
-        <a class="btn" href="#final">Получить консультацию</a>
-        <a class="btn-text" href="#how">
-          <span>Как проходит поступление</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+        <p class="hero__sub reveal">Без языкового барьера: ведём от первой консультации до заселения в общежитие — университет, документы, виза.</p>
+
+        <div class="hero__actions reveal">
+          <a class="btn" href="#final">Получить консультацию</a>
+          <a class="btn-text" href="#how">
+            <span>Как проходит поступление</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
       </div>
 
       <ul class="metrics reveal">
@@ -558,6 +700,44 @@ section { padding: var(--gap-section) 0; }
           <span>одобренных виз</span>
         </li>
       </ul>
+
+      <!-- Стилизованный силуэт острова: контур прорисовывается при загрузке,
+           города — интерактивные точки. -->
+      <div class="island" id="island">
+        <svg viewBox="0 0 640 300" role="img" aria-label="Карта Кипра с городами">
+          <g class="island__grid">
+            <path d="M0 150h640M320 0v300"/>
+          </g>
+
+          <path class="island__shape" d="M60 202C66 178 96 158 140 146 196 131 262 124 320 126 366 128 402 138 424 152L470 128C520 104 566 78 596 60 602 68 594 78 574 90 534 114 492 138 460 156 452 176 436 196 412 210 378 230 332 241 286 241 228 241 172 233 128 219 92 208 66 208 60 202Z"/>
+
+          <g class="pin" data-city="Никосия" data-note="Столица и крупнейший студенческий город. <b>[ЗАПОЛНИТЬ: вузы Никосии]</b>" style="--pin-delay:1.4s">
+            <circle class="pin__ring" cx="298" cy="176" r="8"/>
+            <circle class="pin__dot" cx="298" cy="176" r="5"/>
+            <text class="pin__label" x="298" y="158" text-anchor="middle">Никосия</text>
+          </g>
+
+          <g class="pin" data-city="Лимасол" data-note="Деловой центр и порт, много вакансий для подработки. <b>[ЗАПОЛНИТЬ: вузы Лимасола]</b>" style="--pin-delay:1.6s">
+            <circle class="pin__ring" cx="252" cy="222" r="8"/>
+            <circle class="pin__dot" cx="252" cy="222" r="5"/>
+            <text class="pin__label" x="252" y="246" text-anchor="middle">Лимасол</text>
+          </g>
+
+          <g class="pin" data-city="Ларнака" data-note="Главный аэропорт острова — прямые рейсы и трансфер в общежитие. <b>[ЗАПОЛНИТЬ: время в пути]</b>" style="--pin-delay:1.8s">
+            <circle class="pin__ring" cx="356" cy="202" r="8"/>
+            <circle class="pin__dot" cx="356" cy="202" r="5"/>
+            <text class="pin__label" x="356" y="226" text-anchor="middle">Ларнака</text>
+          </g>
+
+          <g class="pin" data-city="Пафос" data-note="Тихий город на западе, дешевле жильё. <b>[ЗАПОЛНИТЬ: стоимость жилья в Пафосе]</b>" style="--pin-delay:2s">
+            <circle class="pin__ring" cx="86" cy="196" r="8"/>
+            <circle class="pin__dot" cx="86" cy="196" r="5"/>
+            <text class="pin__label" x="86" y="220" text-anchor="middle">Пафос</text>
+          </g>
+        </svg>
+
+        <p class="island__note" id="islandNote">Нажмите на город, чтобы посмотреть, где учатся наши студенты.</p>
+      </div>
     </div>
   </section>
 
@@ -783,19 +963,19 @@ section { padding: var(--gap-section) 0; }
   <div class="footer">
     <a class="logo" href="#top">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10L12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
-      <span>[ЗАПОЛНИТЬ: название агентства]</span>
+      <span>alfa</span>
     </a>
 
     <ul class="socials">
-      <li><a href="#top" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a></li>
+      <li><a href="https://instagram.com/alfa_global" target="_blank" rel="noopener" aria-label="Instagram @alfa_global"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a></li>
       <li><a href="#top" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 5L3 11l5 2 2 6 3-4 5 4 3-14Z"/><path d="M8 13l9-6"/></svg></a></li>
       <li><a href="#top" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.3 7.9L3 21l1.2-4.6A9 9 0 1 1 21 12Z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5.6 0 1-.5 1-1l-1.4-.8-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1L10.8 9c-.5 0-1 .4-1 1Z"/></svg></a></li>
     </ul>
 
     <div class="footer__contacts">
-      <a href="tel:[ЗАПОЛНИТЬ]">[ЗАПОЛНИТЬ: телефон]</a>
-      <a href="mailto:[ЗАПОЛНИТЬ]">[ЗАПОЛНИТЬ: почта]</a>
-      <span>[ЗАПОЛНИТЬ: адрес офиса]</span>
+      <a href="tel:[ЗАПОЛНИТЬ]"><span class="slot">[ЗАПОЛНИТЬ: телефон]</span></a>
+      <a href="mailto:[ЗАПОЛНИТЬ]"><span class="slot">[ЗАПОЛНИТЬ: почта]</span></a>
+      <span>Бишкек, Конорчок, 5</span>
     </div>
   </div>
 </footer>
@@ -837,6 +1017,64 @@ section { padding: var(--gap-section) 0; }
       btn.setAttribute('aria-expanded', String(open));
     });
   });
+
+  /* остров: прорисовка контура и точки городов */
+  var island = document.getElementById('island');
+  var islandNote = document.getElementById('islandNote');
+  var defaultNote = islandNote.innerHTML;
+
+  if (reduced || !('IntersectionObserver' in window)) {
+    island.classList.add('is-in');
+  } else {
+    new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        island.classList.add('is-in');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.25 }).observe(island);
+  }
+
+  island.querySelectorAll('.pin').forEach(function (pin) {
+    pin.setAttribute('tabindex', '0');
+    pin.setAttribute('role', 'button');
+    pin.setAttribute('aria-label', 'Город ' + pin.getAttribute('data-city'));
+
+    function pick() {
+      var active = pin.classList.contains('is-active');
+      island.querySelectorAll('.pin').forEach(function (p) { p.classList.remove('is-active'); });
+
+      if (active) {
+        islandNote.innerHTML = defaultNote;
+        return;
+      }
+
+      pin.classList.add('is-active');
+      islandNote.innerHTML = '<b>' + pin.getAttribute('data-city') + '.</b> ' + pin.getAttribute('data-note');
+    }
+
+    pin.addEventListener('click', pick);
+    pin.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); }
+    });
+  });
+
+  /* волна по нажатию кнопки */
+  if (!reduced) {
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        var rect = btn.getBoundingClientRect();
+        var size = Math.max(rect.width, rect.height) * 2.2;
+        var wave = document.createElement('span');
+        wave.className = 'ripple';
+        wave.style.width = wave.style.height = size + 'px';
+        wave.style.left = (e.clientX - rect.left) + 'px';
+        wave.style.top = (e.clientY - rect.top) + 'px';
+        btn.appendChild(wave);
+        setTimeout(function () { wave.remove(); }, 600);
+      });
+    });
+  }
 
   /* форма заявки */
   var form = document.querySelector('.lead-form');
