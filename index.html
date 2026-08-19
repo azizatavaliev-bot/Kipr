@@ -3,111 +3,324 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Кипр — тревел-лендинг</title>
+<title>Kipr — веб-студия на Кипре</title>
+<meta name="description" content="Kipr — студия сайтов и брендинга на Кипре: лендинги, e-commerce, айдентика.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<main class="hero">
-  <div class="hero__bg" aria-hidden="true"></div>
 
-  <header class="topbar">
-    <a class="brand" href="#">
-      <svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l1.9 6.6 6.6 1.9-6.6 1.9-1.9 6.6-1.9-6.6L3.5 10l6.6-1.9z"/></svg>
-      <span>КИПР</span>
-    </a>
+<div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
 
-    <nav class="nav" aria-label="Основная навигация">
-      <a class="nav__link nav__link--active" href="#">Главная</a>
-      <a class="nav__link" href="#">Направления</a>
-      <a class="nav__link" href="#">Туры</a>
-      <a class="nav__link" href="#">Отзывы</a>
-    </nav>
+<header class="topbar">
+  <a class="brand" href="#hero" data-cursor="link">
+    <svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l1.9 6.6 6.6 1.9-6.6 1.9-1.9 6.6-1.9-6.6L3.5 10l6.6-1.9z"/></svg>
+    <span>KIPR</span>
+  </a>
 
-    <div class="actions">
-      <a class="chip" href="#">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7V6a6 6 0 1112 0v1h2.2l1 14H2.8l1-14H6zm2 0h8V6a4 4 0 10-8 0v1z"/></svg>
-        <span>Моя поездка</span>
-        <b class="chip__count">3</b>
-      </a>
-      <a class="chip chip--icon" href="#" aria-label="Профиль">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-5 0-9 2.7-9 6v2h18v-2c0-3.3-4-6-9-6z"/></svg>
-      </a>
+  <nav class="nav" aria-label="Разделы">
+    <a class="nav__link" href="#hero" data-cursor="link">Главная</a>
+    <a class="nav__link" href="#about" data-cursor="link">Кипр</a>
+    <a class="nav__link" href="#services" data-cursor="link">Услуги</a>
+    <a class="nav__link" href="#work" data-cursor="link">Кейсы</a>
+    <a class="nav__link" href="#brief" data-cursor="link">Бриф</a>
+  </nav>
+
+  <a class="chip" href="#brief" data-cursor="link">
+    <span>Обсудить проект</span>
+    <b class="chip__dot" aria-hidden="true"></b>
+  </a>
+</header>
+
+<nav class="rail" aria-label="Навигация по экранам">
+  <a href="#hero" data-cursor="link" aria-label="Экран 1"><i></i></a>
+  <a href="#about" data-cursor="link" aria-label="Экран 2"><i></i></a>
+  <a href="#services" data-cursor="link" aria-label="Экран 3"><i></i></a>
+  <a href="#work" data-cursor="link" aria-label="Экран 4"><i></i></a>
+  <a href="#brief" data-cursor="link" aria-label="Экран 5"><i></i></a>
+</nav>
+
+<main class="deck">
+
+  <!-- 1 — ГЛАВНАЯ -->
+  <section class="slide slide--hero" id="hero">
+    <p class="eyebrow reveal">Веб-студия · Лимасол, Кипр</p>
+
+    <h1 class="wordmark" aria-label="Kipr">
+      <span class="wordmark__ch">K</span><span class="wordmark__ch">i</span><span class="wordmark__ch">p</span><span class="wordmark__ch">r</span>
+    </h1>
+
+    <div class="scene" aria-hidden="true">
+      <svg class="scene__art" viewBox="0 0 760 640" role="presentation">
+        <defs>
+          <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#19a4bd"/><stop offset="100%" stop-color="#065f79"/>
+          </linearGradient>
+          <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fbe3c4"/><stop offset="100%" stop-color="#cf9668"/>
+          </linearGradient>
+          <linearGradient id="rock2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f2cda2"/><stop offset="100%" stop-color="#b87f55"/>
+          </linearGradient>
+          <clipPath id="lagoon"><circle cx="380" cy="400" r="218"/></clipPath>
+        </defs>
+
+        <ellipse cx="380" cy="612" rx="250" ry="26" fill="#8c3200" opacity=".22"/>
+        <circle class="sun" cx="380" cy="196" r="132" fill="#ffc266"/>
+        <circle class="lagoon" cx="380" cy="400" r="218" fill="url(#sea)"/>
+
+        <g clip-path="url(#lagoon)">
+          <path d="M170 402c16-52 36-92 58-122 20-27 37-19 48 10 13 34 22 72 27 112z" fill="url(#rock2)"/>
+          <path d="M262 404c18-84 43-146 73-188 28-39 52-27 69 17 20 53 33 117 40 171z" fill="url(#rock)"/>
+          <path d="M430 404c11-49 27-86 46-114 15-22 28-15 37 9 10 30 17 68 22 105z" fill="url(#rock2)"/>
+          <g class="waves" fill="none" stroke="#c7f0f7" stroke-width="6" stroke-linecap="round" opacity=".5">
+            <path d="M186 458c22-14 44-14 66 0s44 14 66 0"/>
+            <path d="M404 496c22-14 44-14 66 0s44 14 66 0"/>
+            <path d="M212 542c22-14 44-14 66 0s44 14 66 0"/>
+            <path d="M400 586c22-14 44-14 66 0s44 14 66 0"/>
+          </g>
+          <g class="boat">
+            <path d="M436 470h86l-15 26h-56z" fill="#ffffff"/>
+            <path d="M478 400l32 62h-32z" fill="#f4f9fa"/>
+            <path d="M474 400l-30 62h30z" fill="#ffd7a8"/>
+          </g>
+        </g>
+
+        <g class="palm">
+          <path d="M150 614c4-70 12-122 26-162" stroke="#7d4a2a" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <g fill="#1f7a5c">
+            <path d="M178 448c-42-24-82-22-104 6 34-6 66-2 96 16z"/>
+            <path d="M180 444c-14-44-42-70-78-72 26 22 44 48 56 82z"/>
+            <path d="M184 444c22-40 56-58 92-50-32 10-56 30-72 62z"/>
+            <path d="M184 452c40-8 74 4 92 34-30-18-60-24-90-14z"/>
+          </g>
+        </g>
+      </svg>
     </div>
-  </header>
 
-  <h1 class="wordmark">Кипр</h1>
+    <div class="hero__bottom">
+      <ul class="facts reveal">
+        <li><b>7</b><span>лет студии</span></li>
+        <li><b>60+</b><span>проектов</span></li>
+        <li><b>4</b><span>рынка: CY, EU, UK, AE</span></li>
+      </ul>
 
-  <div class="scene" aria-hidden="true">
-    <svg class="scene__art" viewBox="0 0 760 640" role="presentation">
-      <defs>
-        <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#19a4bd"/><stop offset="100%" stop-color="#065f79"/>
-        </linearGradient>
-        <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#fbe3c4"/><stop offset="100%" stop-color="#cf9668"/>
-        </linearGradient>
-        <linearGradient id="rock2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#f2cda2"/><stop offset="100%" stop-color="#b87f55"/>
-        </linearGradient>
-        <clipPath id="lagoon"><circle cx="380" cy="400" r="218"/></clipPath>
-      </defs>
+      <div class="card reveal">
+        <p class="card__text">
+          Делаем сайты, которые продают: от первого экрана до аналитики.
+          Работаем из Лимасола с командами по всей Европе.
+        </p>
+        <a class="cta" href="#brief" data-cursor="cta">
+          <span>Заполнить бриф</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5l7 7-7 7-1.4-1.4 4.6-4.6H3v-2h13.4l-4.6-4.6z"/></svg>
+        </a>
+      </div>
+    </div>
 
-      <ellipse cx="380" cy="612" rx="250" ry="26" fill="#8c3200" opacity=".22"/>
-      <circle class="sun" cx="380" cy="196" r="132" fill="#ffc266"/>
-      <circle cx="380" cy="400" r="218" fill="url(#sea)"/>
+    <a class="scroll-cue" href="#about" data-cursor="link">
+      <span>Листайте</span>
+      <i aria-hidden="true"></i>
+    </a>
+  </section>
 
-      <g clip-path="url(#lagoon)">
-        <path d="M170 402c16-52 36-92 58-122 20-27 37-19 48 10 13 34 22 72 27 112z" fill="url(#rock2)"/>
-        <path d="M262 404c18-84 43-146 73-188 28-39 52-27 69 17 20 53 33 117 40 171z" fill="url(#rock)"/>
-        <path d="M430 404c11-49 27-86 46-114 15-22 28-15 37 9 10 30 17 68 22 105z" fill="url(#rock2)"/>
-        <rect x="120" y="400" width="520" height="240" fill="url(#sea)" opacity="0"/>
-        <g class="waves" fill="none" stroke="#c7f0f7" stroke-width="6" stroke-linecap="round" opacity=".5">
-          <path d="M186 458c22-14 44-14 66 0s44 14 66 0"/>
-          <path d="M404 496c22-14 44-14 66 0s44 14 66 0"/>
-          <path d="M212 542c22-14 44-14 66 0s44 14 66 0"/>
-          <path d="M400 586c22-14 44-14 66 0s44 14 66 0"/>
-        </g>
-        <g class="boat">
-          <path d="M436 470h86l-15 26h-56z" fill="#ffffff"/>
-          <path d="M478 400l32 62h-32z" fill="#f4f9fa"/>
-          <path d="M474 400l-30 62h30z" fill="#ffd7a8"/>
-        </g>
-      </g>
+  <!-- 2 — КИПР -->
+  <section class="slide slide--about" id="about">
+    <div class="about__grid">
+      <div class="about__intro">
+        <p class="eyebrow reveal">Экран 02 — почему Кипр</p>
+        <h2 class="h2 reveal">Остров, где рабочий день<br>заканчивается на пляже</h2>
+        <p class="lede reveal">
+          Средиземноморский часовой пояс, английский как рабочий язык
+          и европейская юрисдикция. Мы собираем команды здесь — и это
+          заметно по срокам: клиент в Лондоне и дизайнер в Лимасоле
+          работают в одном дне.
+        </p>
+      </div>
 
-      <g class="palm">
-        <path d="M150 614c4-70 12-122 26-162" stroke="#7d4a2a" stroke-width="14" fill="none" stroke-linecap="round"/>
-        <g fill="#1f7a5c">
-          <path d="M178 448c-42-24-82-22-104 6 34-6 66-2 96 16z"/>
-          <path d="M180 444c-14-44-42-70-78-72 26 22 44 48 56 82z"/>
-          <path d="M184 444c22-40 56-58 92-50-32 10-56 30-72 62z"/>
-          <path d="M184 452c40-8 74 4 92 34-30-18-60-24-90-14z"/>
-        </g>
-      </g>
-    </svg>
-  </div>
+      <ul class="stats">
+        <li class="stat reveal">
+          <b class="stat__num" data-count="320" data-suffix="+">0</b>
+          <span class="stat__label">солнечных дней в году</span>
+          <p class="stat__note">Съёмки и встречи можно планировать без запасной даты.</p>
+        </li>
+        <li class="stat reveal">
+          <b class="stat__num" data-count="12.5" data-decimals="1" data-suffix="%">0</b>
+          <span class="stat__label">налог на прибыль</span>
+          <p class="stat__note">Одна из самых низких ставок в Евросоюзе.</p>
+        </li>
+        <li class="stat reveal">
+          <b class="stat__num" data-count="4" data-suffix=" ч">0</b>
+          <span class="stat__label">до большинства столиц ЕС</span>
+          <p class="stat__note">Прямые рейсы из Ларнаки и Пафоса круглый год.</p>
+        </li>
+        <li class="stat reveal">
+          <b class="stat__num" data-count="2004">0</b>
+          <span class="stat__label">год вступления в ЕС</span>
+          <p class="stat__note">Контракты, GDPR и платежи — по европейским правилам.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-  <footer class="bottom">
-    <ul class="facts">
-      <li><b>320+</b><span>солнечных дней</span></li>
-      <li><b>60+</b><span>пляжей и бухт</span></li>
-      <li><b>24°</b><span>вода летом</span></li>
+  <!-- 3 — УСЛУГИ -->
+  <section class="slide slide--services" id="services">
+    <div class="section-head">
+      <p class="eyebrow reveal">Экран 03 — услуги</p>
+      <h2 class="h2 reveal">Что мы делаем</h2>
+    </div>
+
+    <ul class="services">
+      <li class="service reveal" data-cursor="plus">
+        <span class="service__idx">01</span>
+        <h3 class="service__name">Лендинги и промо</h3>
+        <p class="service__desc">Первый экран, сценарий прокрутки, тексты и анимации. Запуск за 3–4 недели.</p>
+        <span class="service__tags">Figma · Webflow · Next.js</span>
+      </li>
+      <li class="service reveal" data-cursor="plus">
+        <span class="service__idx">02</span>
+        <h3 class="service__name">Корпоративные сайты</h3>
+        <p class="service__desc">Структура на 20–200 страниц, мультиязычность, редакторская CMS.</p>
+        <span class="service__tags">Sanity · Strapi · i18n</span>
+      </li>
+      <li class="service reveal" data-cursor="plus">
+        <span class="service__idx">03</span>
+        <h3 class="service__name">E-commerce</h3>
+        <p class="service__desc">Каталог, корзина, оплата в EUR и GBP, интеграция со складом и CRM.</p>
+        <span class="service__tags">Shopify · Stripe · Revolut</span>
+      </li>
+      <li class="service reveal" data-cursor="plus">
+        <span class="service__idx">04</span>
+        <h3 class="service__name">Брендинг и айдентика</h3>
+        <p class="service__desc">Логотип, типографика, палитра, гайдлайн и шаблоны для соцсетей.</p>
+        <span class="service__tags">Логотип · Гайдлайн · Упаковка</span>
+      </li>
+      <li class="service reveal" data-cursor="plus">
+        <span class="service__idx">05</span>
+        <h3 class="service__name">Поддержка и рост</h3>
+        <p class="service__desc">Аналитика, A/B-тесты первого экрана, скорость загрузки, SEO-гигиена.</p>
+        <span class="service__tags">GA4 · Core Web Vitals · A/B</span>
+      </li>
     </ul>
+  </section>
 
-    <section class="card">
-      <p class="card__text">
-        Мы собираем маршруты вместе с местными гидами: бухты Айя-Напы, горы Троодос
-        и закаты на Петра-ту-Ромиу — без спешки и туристических ловушек.
-      </p>
-      <a class="cta" href="#">
-        <span>Смотреть туры</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5l7 7-7 7-1.4-1.4 4.6-4.6H3v-2h13.4l-4.6-4.6z"/></svg>
-      </a>
-    </section>
-  </footer>
+  <!-- 4 — КЕЙСЫ -->
+  <section class="slide slide--work" id="work">
+    <div class="section-head section-head--row">
+      <div>
+        <p class="eyebrow reveal">Экран 04 — кейсы</p>
+        <h2 class="h2 reveal">Последние работы</h2>
+      </div>
+      <p class="section-head__note reveal">Три проекта 2025–2026 годов. Полное портфолио — по запросу.</p>
+    </div>
+
+    <ul class="cases">
+      <li class="case reveal" data-cursor="view">
+        <div class="mock" aria-hidden="true">
+          <div class="mock__screen mock__screen--lumina">
+            <span class="mock__nav"></span>
+            <span class="mock__title">Lumina</span>
+            <span class="mock__cta"></span>
+          </div>
+          <div class="mock__base"></div>
+        </div>
+        <div class="case__meta">
+          <h3 class="case__name">Lumina Skincare</h3>
+          <p class="case__desc">E-commerce и айдентика для косметики с витамином C.</p>
+          <span class="case__tags">Shopify · Брендинг · 2026</span>
+        </div>
+      </li>
+
+      <li class="case reveal" data-cursor="view">
+        <div class="mock" aria-hidden="true">
+          <div class="mock__screen mock__screen--meze">
+            <span class="mock__nav"></span>
+            <span class="mock__title">Meze</span>
+            <span class="mock__cta"></span>
+          </div>
+          <div class="mock__base"></div>
+        </div>
+        <div class="case__meta">
+          <h3 class="case__name">Meze Bar Limassol</h3>
+          <p class="case__desc">Сайт ресторана с бронированием столов и меню на трёх языках.</p>
+          <span class="case__tags">Next.js · i18n · 2025</span>
+        </div>
+      </li>
+
+      <li class="case reveal" data-cursor="view">
+        <div class="mock" aria-hidden="true">
+          <div class="mock__screen mock__screen--salt">
+            <span class="mock__nav"></span>
+            <span class="mock__title">Salt</span>
+            <span class="mock__cta"></span>
+          </div>
+          <div class="mock__base"></div>
+        </div>
+        <div class="case__meta">
+          <h3 class="case__name">Salt Marina</h3>
+          <p class="case__desc">Аренда яхт: календарь, депозиты и оплата в два клика.</p>
+          <span class="case__tags">Stripe · Календарь · 2025</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 5 — БРИФ -->
+  <section class="slide slide--brief" id="brief">
+    <div class="brief__grid">
+      <div class="brief__left">
+        <p class="eyebrow reveal">Экран 05 — бриф</p>
+        <h2 class="h2 reveal">Расскажите о проекте</h2>
+        <p class="lede reveal">
+          Ответим в течение рабочего дня по кипрскому времени (UTC+3)
+          и пришлём смету с вилкой сроков.
+        </p>
+        <ul class="contacts reveal">
+          <li><span>Почта</span><a href="mailto:hello@kipr.studio" data-cursor="link">hello@kipr.studio</a></li>
+          <li><span>Телефон</span><a href="tel:+35799000000" data-cursor="link">+357 99 00 00 00</a></li>
+          <li><span>Студия</span><a href="#brief" data-cursor="link">Лимасол, Спиру Киприану 45</a></li>
+        </ul>
+      </div>
+
+      <form class="brief__form reveal" novalidate>
+        <label class="field">
+          <span class="field__label">Как вас зовут</span>
+          <input class="field__input" name="name" type="text" placeholder="Анна Пападопулу" required>
+        </label>
+        <label class="field">
+          <span class="field__label">Почта или телефон</span>
+          <input class="field__input" name="contact" type="text" placeholder="anna@company.cy" required>
+        </label>
+        <fieldset class="field field--choices">
+          <legend class="field__label">Что нужно</legend>
+          <div class="choices">
+            <label class="choice"><input type="checkbox" name="scope" value="Лендинг"><span>Лендинг</span></label>
+            <label class="choice"><input type="checkbox" name="scope" value="Сайт"><span>Сайт</span></label>
+            <label class="choice"><input type="checkbox" name="scope" value="E-commerce"><span>E-commerce</span></label>
+            <label class="choice"><input type="checkbox" name="scope" value="Брендинг"><span>Брендинг</span></label>
+          </div>
+        </fieldset>
+        <label class="field">
+          <span class="field__label">Пара слов о задаче</span>
+          <textarea class="field__input field__input--area" name="about" rows="3" placeholder="Что за продукт, к какой дате нужен запуск"></textarea>
+        </label>
+        <button class="cta cta--dark" type="submit" data-cursor="cta">
+          <span>Отправить бриф</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5l7 7-7 7-1.4-1.4 4.6-4.6H3v-2h13.4l-4.6-4.6z"/></svg>
+        </button>
+        <p class="form__status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <footer class="footer">
+      <span>© 2026 Kipr Studio</span>
+      <span>Лимасол · UTC+3</span>
+    </footer>
+  </section>
 
 </main>
+
+<script src="script.js"></script>
 </body>
 </html>
