@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Образование на Кипре</title>
+<meta name="description" content="Консалтинг по поступлению в университеты Кипра: подбор программы, документы, виза, заселение.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0b0c;
+  --surface: #141416;
+  --accent: #f5691f;
+  --accent-hover: #ff8a3d;
+  --text: #ffffff;
+  --text-muted: #8e8e93;
+  --border: rgba(255, 255, 255, .08);
+
+  --r-sm: 16px;
+  --r-lg: 24px;
+  --pill: 100px;
+  --pad: clamp(20px, 5vw, 64px);
+  --gap-section: clamp(72px, 12vh, 140px);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+svg { display: block; }
+a { color: inherit; }
+
+:focus-visible { outline: 2px solid var(--accent-hover); outline-offset: 3px; border-radius: 8px; }
+
+/* ---------- типографика ---------- */
+
+h1, h2, h3 {
+  font-family: "Playfair Display", "Times New Roman", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 { font-size: clamp(48px, 7.4vw, 108px); line-height: 1; }
+h2 { font-size: clamp(34px, 5.2vw, 68px); line-height: 1.06; }
+h3 { font-size: clamp(20px, 2.1vw, 26px); line-height: 1.2; }
+
+p { margin: 0; }
+
+.eyebrow {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.muted { color: var(--text-muted); }
+
+.fill { color: var(--accent); }
+
+/* плейсхолдеры для клиентских данных */
+.slot {
+  display: inline-block;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--accent);
+  border-bottom: 1px dashed rgba(245, 105, 31, .5);
+}
+
+.ph {
+  color: var(--accent);
+  font-style: normal;
+  border-bottom: 1px dashed rgba(245, 105, 31, .5);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- каркас ---------- */
+
+.wrap { width: min(1240px, 100%); margin: 0 auto; padding: 0 var(--pad); }
+
+section { padding: var(--gap-section) 0; }
+
+.section-head { display: grid; gap: 16px; max-width: 46ch; margin-bottom: clamp(40px, 6vw, 72px); }
+
+.divider { height: 1px; background: var(--border); }
+
+/* ---------- шапка ---------- */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 18px var(--pad);
+  background: linear-gradient(180deg, rgba(11, 11, 12, .92), rgba(11, 11, 12, 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+
+.logo svg { width: 20px; height: 20px; color: var(--accent); }
+
+.menu {
+  display: flex;
+  gap: 2px;
+  padding: 5px;
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  background: rgba(255, 255, 255, .04);
+}
+
+.menu a {
+  padding: 8px 16px;
+  border-radius: var(--pill);
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .25s ease, background .25s ease;
+}
+
+.menu a:hover { color: var(--text); background: rgba(255, 255, 255, .06); }
+
+.topbar .btn { justify-self: end; }
+
+/* ---------- кнопки ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: var(--pill);
+  background: var(--accent);
+  color: #fff;
+  font: 600 15px/1 Inter, system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .25s ease, box-shadow .35s ease, transform .25s var(--ease);
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 0 0 1px rgba(245, 105, 31, .35), 0 12px 40px rgba(245, 105, 31, .45);
+  transform: translateY(-1px);
+}
+
+.btn--sm { height: 42px; padding: 0 20px; font-size: 14px; }
+
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  font-size: 15px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color .25s ease;
+}
+
+.btn-text svg { width: 16px; height: 16px; transition: transform .25s var(--ease); }
+.btn-text:hover { color: var(--text); }
+.btn-text:hover svg { transform: translateX(4px); }
+
+/* ---------- 1. геро ---------- */
+
+.hero {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 100svh;
+  padding-top: 132px;
+  overflow: hidden;
+}
+
+.hero__glow {
+  position: absolute;
+  top: -22vh;
+  left: 50%;
+  width: min(900px, 120vw);
+  height: min(900px, 120vw);
+  transform: translateX(-50%);
+  background: radial-gradient(circle, var(--accent) 0%, rgba(245, 105, 31, 0) 62%);
+  filter: blur(120px);
+  opacity: .35;
+  pointer-events: none;
+}
+
+.hero__inner { position: relative; display: grid; gap: clamp(20px, 2.6vh, 28px); justify-items: start; }
+
+.hero h1 { max-width: 14ch; }
+.hero__sub { max-width: 56ch; font-size: clamp(17px, 1.5vw, 20px); color: var(--text-muted); }
+.hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; }
+
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px clamp(24px, 4vw, 56px);
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.metrics li { position: relative; display: grid; gap: 4px; }
+
+.metrics li + li::before {
+  content: "";
+  position: absolute;
+  left: clamp(-28px, -2vw, -12px);
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--border);
+}
+
+.metrics b {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.metrics span { font-size: 14px; color: var(--text-muted); }
+
+/* ---------- 2. почему Кипр ---------- */
+
+.why { background: var(--surface); }
+
+.reasons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px) clamp(28px, 6vw, 96px);
+}
+
+.reason { display: grid; gap: 12px; align-content: start; }
+
+.reason__icon { width: 34px; height: 34px; color: var(--accent); }
+.reason p { max-width: 40ch; color: var(--text-muted); font-size: 16px; }
+
+/* ---------- 3. как это работает ---------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 24px;
+  counter-reset: step;
+}
+
+.step { position: relative; display: grid; gap: 10px; align-content: start; padding-top: 40px; }
+
+.step::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 0;
+  right: -24px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), rgba(245, 105, 31, 0));
+}
+
+.step:last-child::before { right: 0; }
+
+.step__num {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1;
+  color: var(--accent);
+}
+
+.step h3 { font-size: clamp(18px, 1.6vw, 22px); }
+.step p { font-size: 15px; color: var(--text-muted); }
+
+/* ---------- 4. направления и стоимость ---------- */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: clamp(40px, 6vw, 90px);
+  align-items: start;
+}
+
+.fields { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+
+.field-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left .35s var(--ease), background .35s ease;
+}
+
+.field-row:hover { padding-left: 14px; background: rgba(255, 255, 255, .03); }
+.field-row h3 { font-size: clamp(20px, 2vw, 28px); }
+.field-row span { font-size: 14px; color: var(--text-muted); text-align: right; }
+
+.costs { display: grid; gap: 22px; padding: clamp(24px, 3vw, 36px); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); }
+
+.cost { display: grid; gap: 6px; }
+.cost + .cost { padding-top: 22px; border-top: 1px solid var(--border); }
+
+.cost b {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.cost span { font-size: 14px; color: var(--text-muted); }
+
+.includes { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.includes li { display: grid; grid-template-columns: 20px auto; gap: 10px; align-items: start; color: var(--text-muted); }
+.includes svg { width: 18px; height: 18px; margin-top: 3px; color: var(--accent); }
+
+/* ---------- 5. FAQ и финальный CTA ---------- */
+
+.faq { background: var(--surface); }
+
+.qa { border-top: 1px solid var(--border); }
+
+.qa__item { border-bottom: 1px solid var(--border); }
+
+.qa__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 22px 4px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(19px, 1.9vw, 26px);
+  text-align: left;
+  cursor: pointer;
+  transition: color .25s ease;
+}
+
+.qa__btn:hover { color: var(--accent-hover); }
+
+.qa__sign { position: relative; flex: 0 0 auto; width: 18px; height: 18px; }
+.qa__sign::before,
+.qa__sign::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: var(--accent);
+  transition: transform .35s var(--ease);
+}
+.qa__sign::after { transform: rotate(90deg); }
+.qa__item.is-open .qa__sign::after { transform: rotate(0deg); }
+
+.qa__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .4s var(--ease);
+}
+
+.qa__item.is-open .qa__panel { grid-template-rows: 1fr; }
+
+.qa__inner { overflow: hidden; }
+.qa__inner p { max-width: 62ch; padding: 0 4px 22px; color: var(--text-muted); font-size: 16px; }
+
+.final { display: grid; justify-items: center; gap: 22px; text-align: center; padding-top: clamp(60px, 9vw, 110px); }
+.final h2 { max-width: 18ch; }
+.final .muted { max-width: 52ch; }
+
+.lead-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 10px;
+  width: min(760px, 100%);
+  margin-top: 6px;
+}
+
+.lead-form input {
+  height: 52px;
+  padding: 0 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  background: rgba(255, 255, 255, .04);
+  color: var(--text);
+  font: 400 15px/1 Inter, system-ui, sans-serif;
+  transition: border-color .25s ease, background .25s ease;
+}
+
+.lead-form input::placeholder { color: var(--text-muted); }
+.lead-form input:hover { background: rgba(255, 255, 255, .07); }
+.lead-form input:focus { outline: none; border-color: var(--accent); background: rgba(255, 255, 255, .07); }
+
+.form-note { min-height: 20px; font-size: 13px; color: var(--text-muted); }
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.socials { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: color .25s ease, border-color .25s ease;
+}
+
+.socials a:hover { color: var(--accent); border-color: rgba(245, 105, 31, .5); }
+.socials svg { width: 18px; height: 18px; }
+
+.footer__contacts { display: grid; gap: 4px; text-align: right; }
+.footer__contacts a { text-decoration: none; }
+.footer__contacts a:hover { color: var(--text); }
+
+/* ---------- появление ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transition-delay: var(--delay, 0ms);
+}
+
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* ---------- адаптив ---------- */
+
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .step::before { right: -24px; }
+  .split { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .menu { display: none; }
+  .topbar { grid-template-columns: minmax(0, 1fr) auto; padding: 14px var(--pad); }
+  .topbar .logo span { max-width: 42vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .hero { padding-top: 108px; }
+  .reasons { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .step { padding-top: 30px; }
+  .step::before { right: 0; }
+  .lead-form { grid-template-columns: minmax(0, 1fr); }
+  .lead-form .btn { width: 100%; }
+  .footer { flex-direction: column; align-items: flex-start; }
+  .footer__contacts { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .qa__panel { transition: none; }
+  .btn, .btn-text svg, .field-row { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="logo" href="#top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10L12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+    <span>[ЗАПОЛНИТЬ: название агентства]</span>
+  </a>
+
+  <nav class="menu" aria-label="Разделы">
+    <a href="#why">Почему Кипр</a>
+    <a href="#how">Как это работает</a>
+    <a href="#fields">Направления</a>
+    <a href="#faq">Вопросы</a>
+  </nav>
+
+  <a class="btn btn--sm" href="#final">Бесплатная консультация</a>
+</header>
+
+<main id="top">
+
+  <!-- 1 — ГЕРО -->
+  <section class="hero">
+    <div class="hero__glow" aria-hidden="true"></div>
+
+    <div class="wrap hero__inner">
+      <p class="eyebrow reveal">Обучение на Кипре · для абитуриентов из Кыргызстана и СНГ</p>
+
+      <h1 class="reveal">Европейский диплом на английском</h1>
+
+      <p class="hero__sub reveal">Без языкового барьера: ведём от первой консультации до заселения в общежитие — университет, документы, виза.</p>
+
+      <div class="hero__actions reveal">
+        <a class="btn" href="#final">Получить консультацию</a>
+        <a class="btn-text" href="#how">
+          <span>Как проходит поступление</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <ul class="metrics reveal">
+        <li>
+          <b><span class="slot">[ЗАПОЛНИТЬ: число]</span></b>
+          <span>студентов поступило с нами</span>
+        </li>
+        <li>
+          <b><span class="slot">[ЗАПОЛНИТЬ: число]</span></b>
+          <span>университетов-партнёров</span>
+        </li>
+        <li>
+          <b><span class="slot">[ЗАПОЛНИТЬ: %]</span></b>
+          <span>одобренных виз</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2 — ПОЧЕМУ КИПР -->
+  <section class="why" id="why">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow reveal">Почему Кипр</p>
+        <h2 class="reveal">Европа, где учиться проще и дешевле</h2>
+      </div>
+
+      <div class="reasons">
+        <article class="reason reveal">
+          <svg class="reason__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h11M8 3v2M11 5c0 4.4-3.1 8-7 9"/><path d="M5 9c0 2.8 3.1 5.4 7 6"/><path d="M13 21l4.5-11L22 21M14.8 17h5.4"/></svg>
+          <h3>Программы на английском</h3>
+          <p>Обучение и экзамены — на английском, русскоязычные студенты не сдают греческий. Требования к языку уточняем под конкретную программу.</p>
+        </article>
+
+        <article class="reason reveal">
+          <svg class="reason__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M9 14.5L7.5 22l4.5-2.6 4.5 2.6L15 14.5"/></svg>
+          <h3>Диплом европейского образца</h3>
+          <p>Кипр — страна ЕС, дипломы признаются в Европе. Возможен перевод или магистратура в другой европейской стране.</p>
+        </article>
+
+        <article class="reason reveal">
+          <svg class="reason__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h14a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H5a2 2 0 0 1-2-2V7Z"/><path d="M3 7a2 2 0 0 1 2-2h10"/><circle cx="16.5" cy="13.5" r="1.2"/></svg>
+          <h3>Стоимость ниже Западной Европы</h3>
+          <p>Обучение и жизнь обходятся дешевле, чем в Германии, Британии или Нидерландах. Актуальные суммы — в разделе о стоимости.</p>
+        </article>
+
+        <article class="reason reveal">
+          <svg class="reason__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l7 2.8v5.2c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6.3l7-2.8Z"/><path d="M12 8.6v3.2M12 14.8h.01"/></svg>
+          <h3>Тёплый климат и безопасность</h3>
+          <p>Мягкая зима, море рядом и низкий уровень преступности. Во время учёбы доступна легальная подработка — условия зависят от статуса визы.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 — КАК ЭТО РАБОТАЕТ -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow reveal">Как это работает</p>
+        <h2 class="reveal">Пять шагов от заявки до общежития</h2>
+      </div>
+
+      <ol class="steps" style="margin:0;padding:0;list-style:none">
+        <li class="step reveal">
+          <span class="step__num">01</span>
+          <h3>Консультация</h3>
+          <p>Разбираем аттестат, бюджет и цели. Отвечаем родителям на вопросы о безопасности и расходах.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step__num">02</span>
+          <h3>Подбор университета</h3>
+          <p>Предлагаем программы и вузы под ваш профиль. <span class="ph">[ЗАПОЛНИТЬ: названия университетов-партнёров]</span></p>
+        </li>
+        <li class="step reveal">
+          <span class="step__num">03</span>
+          <h3>Документы и заявка</h3>
+          <p>Собираем пакет, переводим и заверяем, подаём заявку и получаем письмо о зачислении.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step__num">04</span>
+          <h3>Виза</h3>
+          <p>Готовим визовый пакет и сопровождаем подачу. Сроки — <span class="ph">[ЗАПОЛНИТЬ: сроки рассмотрения]</span></p>
+        </li>
+        <li class="step reveal">
+          <span class="step__num">05</span>
+          <h3>Вылет и заселение</h3>
+          <p>Помогаем с билетами, встречей в аэропорту, общежитием и первыми документами на месте.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 4 — НАПРАВЛЕНИЯ И СТОИМОСТЬ -->
+  <section id="fields">
+    <div class="wrap split">
+      <div>
+        <div class="section-head">
+          <p class="eyebrow reveal">Направления</p>
+          <h2 class="reveal">Что можно изучать</h2>
+        </div>
+
+        <ul class="fields">
+          <li class="field-row reveal"><h3>Бизнес и менеджмент</h3><span>[ЗАПОЛНИТЬ: программы и вузы]</span></li>
+          <li class="field-row reveal"><h3>IT и компьютерные науки</h3><span>[ЗАПОЛНИТЬ: программы и вузы]</span></li>
+          <li class="field-row reveal"><h3>Медицина и здоровье</h3><span>[ЗАПОЛНИТЬ: программы и вузы]</span></li>
+          <li class="field-row reveal"><h3>Инженерия</h3><span>[ЗАПОЛНИТЬ: программы и вузы]</span></li>
+          <li class="field-row reveal"><h3>Гостеприимство и туризм</h3><span>[ЗАПОЛНИТЬ: программы и вузы]</span></li>
+          <li class="field-row reveal"><h3>Дизайн и медиа</h3><span>[ЗАПОЛНИТЬ: программы и вузы]</span></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="section-head">
+          <p class="eyebrow reveal">Стоимость</p>
+          <h2 class="reveal">Прозрачная раскладка</h2>
+        </div>
+
+        <div class="costs reveal">
+          <div class="cost">
+            <b><span class="slot">[ЗАПОЛНИТЬ: сумма]</span></b>
+            <span>обучение за год, бакалавриат</span>
+          </div>
+          <div class="cost">
+            <b><span class="slot">[ЗАПОЛНИТЬ: сумма]</span></b>
+            <span>проживание и питание в месяц</span>
+          </div>
+          <div class="cost">
+            <b><span class="slot">[ЗАПОЛНИТЬ: сумма]</span></b>
+            <span>стоимость нашей услуги</span>
+          </div>
+
+          <div class="cost">
+            <span>Что входит в услугу</span>
+            <ul class="includes">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>Подбор университета и программы</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>Подготовка и подача документов</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>Визовое сопровождение</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>Заселение и поддержка на месте</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>[ЗАПОЛНИТЬ: что ещё входит]</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 — FAQ И ФИНАЛЬНЫЙ CTA -->
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow reveal">Вопросы</p>
+        <h2 class="reveal">Что спрашивают чаще всего</h2>
+      </div>
+
+      <div class="qa reveal">
+        <div class="qa__item">
+          <button class="qa__btn" type="button" aria-expanded="false">
+            <span>Нужен ли IELTS?</span>
+            <span class="qa__sign" aria-hidden="true"></span>
+          </button>
+          <div class="qa__panel"><div class="qa__inner"><p>Часть университетов принимает внутренний языковой тест вместо международного сертификата. Точные требования зависят от вуза и программы: [ЗАПОЛНИТЬ: требования по языку у ваших вузов-партнёров].</p></div></div>
+        </div>
+
+        <div class="qa__item">
+          <button class="qa__btn" type="button" aria-expanded="false">
+            <span>Сколько стоит всё вместе?</span>
+            <span class="qa__sign" aria-hidden="true"></span>
+          </button>
+          <div class="qa__panel"><div class="qa__inner"><p>Бюджет складывается из обучения, проживания, визовых сборов и нашей услуги: [ЗАПОЛНИТЬ: итоговая вилка бюджета на первый год]. На консультации считаем под конкретный университет.</p></div></div>
+        </div>
+
+        <div class="qa__item">
+          <button class="qa__btn" type="button" aria-expanded="false">
+            <span>Можно ли работать во время учёбы?</span>
+            <span class="qa__sign" aria-hidden="true"></span>
+          </button>
+          <div class="qa__panel"><div class="qa__inner"><p>Подработка возможна при соблюдении условий студенческого статуса. Разрешённые часы и отрасли: [ЗАПОЛНИТЬ: актуальные правила подработки].</p></div></div>
+        </div>
+
+        <div class="qa__item">
+          <button class="qa__btn" type="button" aria-expanded="false">
+            <span>Что если откажут в визе?</span>
+            <span class="qa__sign" aria-hidden="true"></span>
+          </button>
+          <div class="qa__panel"><div class="qa__inner"><p>Разбираем причину отказа и готовим повторную подачу. Условия возврата или повторного сопровождения: [ЗАПОЛНИТЬ: ваши гарантии при отказе].</p></div></div>
+        </div>
+
+        <div class="qa__item">
+          <button class="qa__btn" type="button" aria-expanded="false">
+            <span>Какие сроки подачи?</span>
+            <span class="qa__sign" aria-hidden="true"></span>
+          </button>
+          <div class="qa__panel"><div class="qa__inner"><p>Набор идёт волнами в течение года. Ближайшие дедлайны: [ЗАПОЛНИТЬ: даты приёма документов и начала семестров]. Готовиться лучше за [ЗАПОЛНИТЬ: срок] до старта.</p></div></div>
+        </div>
+
+        <div class="qa__item">
+          <button class="qa__btn" type="button" aria-expanded="false">
+            <span>Нужно ли ехать родителям?</span>
+            <span class="qa__sign" aria-hidden="true"></span>
+          </button>
+          <div class="qa__panel"><div class="qa__inner"><p>Присутствие родителей не требуется: документы подаём дистанционно, студента встречают на месте. Для несовершеннолетних нужны дополнительные согласия: [ЗАПОЛНИТЬ: список документов для 17-летних].</p></div></div>
+        </div>
+      </div>
+
+      <div class="final" id="final">
+        <p class="eyebrow reveal">Первый шаг</p>
+        <h2 class="reveal">Разберём ваш случай за 20 минут</h2>
+        <p class="muted reveal">Скажем, на какие программы реально пройти с вашим аттестатом и бюджетом — без обязательств.</p>
+
+        <form class="lead-form reveal" novalidate>
+          <input type="text" name="name" placeholder="Имя" autocomplete="name" required>
+          <input type="tel" name="phone" placeholder="Телефон или WhatsApp" autocomplete="tel" required>
+          <button class="btn" type="submit">Записаться</button>
+        </form>
+
+        <p class="form-note reveal" role="status" aria-live="polite">Ответим в течение дня.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="footer">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10L12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+      <span>[ЗАПОЛНИТЬ: название агентства]</span>
+    </a>
+
+    <ul class="socials">
+      <li><a href="#top" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a></li>
+      <li><a href="#top" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 5L3 11l5 2 2 6 3-4 5 4 3-14Z"/><path d="M8 13l9-6"/></svg></a></li>
+      <li><a href="#top" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.3 7.9L3 21l1.2-4.6A9 9 0 1 1 21 12Z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5.6 0 1-.5 1-1l-1.4-.8-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1L10.8 9c-.5 0-1 .4-1 1Z"/></svg></a></li>
+    </ul>
+
+    <div class="footer__contacts">
+      <a href="tel:[ЗАПОЛНИТЬ]">[ЗАПОЛНИТЬ: телефон]</a>
+      <a href="mailto:[ЗАПОЛНИТЬ]">[ЗАПОЛНИТЬ: почта]</a>
+      <span>[ЗАПОЛНИТЬ: адрес офиса]</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* появление блоков: fade-up со сдвигом 80 мс внутри секции */
+  var items = document.querySelectorAll('.reveal');
+
+  if (reduced || !('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('is-in'); });
+  } else {
+    var seen = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+
+    items.forEach(function (el) {
+      var key = (el.closest('section') || document.body).id || 'root';
+      seen[key] = (seen[key] || 0) + 1;
+      el.style.setProperty('--delay', Math.min(seen[key] - 1, 6) * 80 + 'ms');
+      io.observe(el);
+    });
+  }
+
+  /* аккордеон */
+  document.querySelectorAll('.qa__btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.qa__item');
+      var open = item.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+
+  /* форма заявки */
+  var form = document.querySelector('.lead-form');
+  var note = document.querySelector('.form-note');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = form.elements.name.value.trim();
+    var phone = form.elements.phone.value.trim();
+
+    if (!name || !phone) {
+      note.textContent = 'Оставьте имя и телефон — иначе не сможем перезвонить.';
+      return;
+    }
+
+    note.textContent = 'Заявка принята, ' + name + '. Позвоним в течение дня.';
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>
