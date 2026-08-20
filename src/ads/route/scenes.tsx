@@ -1,235 +1,210 @@
 import React from "react";
-import {
-  AbsoluteFill,
-  useCurrentFrame,
-  useVideoConfig,
-  spring,
-} from "remotion";
-import { GlowBackground } from "../../components/GlowBackground";
-import { BlurReveal } from "../../components/BlurReveal";
+import { AbsoluteFill, useVideoConfig } from "remotion";
 import { CameraPush } from "../../KiprPromo/cinematic/CameraPush";
-import { Particles } from "../../KiprPromo/cinematic/Particles";
-import { Waves } from "../../KiprPromo/Waves";
-import { SlamText, MaskRise } from "../components/SlamText";
-import { RouteTimeline } from "../components/RouteTimeline";
-import { IconCyprus, IconGermany, IconDiploma, IconUsa, IconOnline } from "../components/AdIcons";
-import { GlassCard } from "../../components/GlassCard";
+import { CinematicLayer } from "../../KiprPromo/cinematic/CinematicLayer";
 import { theme } from "../adTheme";
+import {
+  light,
+  dark,
+  Rise,
+  TrackIn,
+  PhotoBackdrop,
+  HairlineGrow,
+} from "../components/minimal";
 import { SCENES } from "../timeline";
 
-/** Хук: «2 года — Кипр. 2 года — Германия.» */
+/** Шаг маршрута: номер + текст, без карточек. */
+export const StepRow: React.FC<{
+  n: string;
+  title: string;
+  sub: string;
+  startFrame: number;
+}> = ({ n, title, sub, startFrame }) => (
+  <Rise startFrame={startFrame}>
+    <div style={{ display: "flex", alignItems: "flex-start", gap: 34 }}>
+      <div
+        style={{
+          fontSize: 40,
+          fontWeight: 600,
+          color: dark.dim,
+          fontVariantNumeric: "tabular-nums",
+          paddingTop: 14,
+        }}
+      >
+        {n}
+      </div>
+      <div>
+        <div style={{ fontSize: 74, fontWeight: 700, color: dark.text, lineHeight: 1.1 }}>
+          {title}
+        </div>
+        <div style={{ fontSize: 38, fontWeight: 400, color: dark.dim, marginTop: 8 }}>
+          {sub}
+        </div>
+      </div>
+    </div>
+  </Rise>
+);
+
+/** Хук на белом: чистая типографика. */
 export const SceneHookRoute: React.FC = () => {
   const { fps } = useVideoConfig();
 
-  const Row: React.FC<{
-    n: string;
-    label: string;
-    start: number;
-    accent?: boolean;
-  }> = ({ n, label, start, accent }) => (
-    <SlamText startFrame={start}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 30 }}>
-        <span
-          style={{
-            fontSize: 230,
-            fontWeight: 800,
-            lineHeight: 1,
-            color: accent ? theme.sun : theme.aqua,
-            textShadow: `0 0 110px ${accent ? theme.sun : theme.aqua}55`,
-            fontVariantNumeric: "tabular-nums",
-          }}
-        >
-          {n}
-        </span>
-        <span style={{ fontSize: 66, fontWeight: 600, color: theme.text }}>
-          {label}
-        </span>
-      </div>
-    </SlamText>
-  );
-
   return (
-    <AbsoluteFill style={{ fontFamily: theme.fontFamily, background: theme.bg }}>
-      <CameraPush durationInFrames={SCENES[0]} from={1.06} to={1}>
-        <GlowBackground bg={theme.bg} color={theme.aqua} centerY="42%" />
-        <Particles opacity={0.8} />
-        <Waves opacity={0.4} />
+    <AbsoluteFill
+      style={{
+        fontFamily: theme.fontFamily,
+        background: light.bg,
+      }}
+    >
+      <CameraPush durationInFrames={SCENES[0]} from={1.03} to={1}>
         <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", gap: 40 }}
+          style={{ alignItems: "center", justifyContent: "center", gap: 34 }}
         >
-          <Row n="2" label="года — Кипр" start={Math.round(0.2 * fps)} />
-          <Row n="2" label="года — Германия" start={Math.round(0.75 * fps)} accent />
-          <MaskRise startFrame={Math.round(1.5 * fps)} style={{ marginTop: 30 }}>
+          <Rise startFrame={Math.round(0.25 * fps)}>
             <div
               style={{
-                fontSize: 56,
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                color: theme.textDim,
+                fontSize: 120,
+                fontWeight: 700,
+                color: light.text,
+                lineHeight: 1.12,
+                textAlign: "center",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              2 года — Кипр.
+            </div>
+          </Rise>
+          <Rise startFrame={Math.round(0.75 * fps)}>
+            <div
+              style={{
+                fontSize: 120,
+                fontWeight: 700,
+                color: light.text,
+                lineHeight: 1.12,
+                textAlign: "center",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              2 года —{" "}
+              <span style={{ color: light.accent }}>Германия.</span>
+            </div>
+          </Rise>
+          <div style={{ marginTop: 26 }}>
+            <HairlineGrow startFrame={Math.round(1.35 * fps)} />
+          </div>
+          <TrackIn startFrame={Math.round(1.5 * fps)}>
+            <div
+              style={{
+                fontSize: 46,
+                fontWeight: 400,
+                color: light.dim,
                 textTransform: "uppercase",
               }}
             >
               диплом — европейский
             </div>
-          </MaskRise>
+          </TrackIn>
         </AbsoluteFill>
       </CameraPush>
     </AbsoluteFill>
   );
 };
 
-/** Маршрут по остановкам. */
+/** Маршрут на фоне побережья. */
 export const SceneRouteMap: React.FC = () => {
   const { fps } = useVideoConfig();
 
   return (
-    <AbsoluteFill style={{ fontFamily: theme.fontFamily, background: theme.bg }}>
-      <CameraPush durationInFrames={SCENES[1]} from={1} to={1.06} driftX={-12}>
-        <GlowBackground bg={theme.bg} color={theme.aqua} centerY="30%" />
-        <Particles opacity={0.7} />
-        <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", gap: 60 }}
-        >
-          <BlurReveal startFrame={Math.round(0.15 * fps)}>
-            <div
-              style={{
-                fontSize: 40,
-                fontWeight: 600,
-                letterSpacing: "0.3em",
-                color: theme.aqua,
-                textTransform: "uppercase",
-              }}
-            >
-              твой маршрут
-            </div>
-          </BlurReveal>
-          <RouteTimeline
-            startFrame={Math.round(0.5 * fps)}
-            stepSeconds={0.85}
-            stops={[
-              { Icon: IconCyprus, title: "Кипр — 2 года", sub: "старт без стресса, у моря" },
-              { Icon: IconGermany, title: "Германия — 2 года", sub: "продолжение в Европе" },
-              { Icon: IconDiploma, title: "Диплом ЕС", sub: "признаётся по всей Европе", accent: true },
-            ]}
-          />
-        </AbsoluteFill>
-      </CameraPush>
+    <AbsoluteFill style={{ fontFamily: theme.fontFamily }}>
+      <PhotoBackdrop
+        src="photos/coast.jpg"
+        durationInFrames={SCENES[1]}
+        zoomFrom={1.12}
+        zoomTo={1}
+      />
+      <AbsoluteFill
+        style={{
+          justifyContent: "flex-end",
+          padding: "0 110px 200px",
+          gap: 64,
+        }}
+      >
+        <TrackIn startFrame={Math.round(0.2 * fps)}>
+          <div
+            style={{
+              fontSize: 36,
+              fontWeight: 600,
+              color: dark.text,
+              textTransform: "uppercase",
+              opacity: 0.85,
+            }}
+          >
+            твой маршрут
+          </div>
+        </TrackIn>
+        <StepRow
+          n="01"
+          title="Кипр — 2 года"
+          sub="старт у моря, без стресса"
+          startFrame={Math.round(0.7 * fps)}
+        />
+        <StepRow
+          n="02"
+          title="Германия — 2 года"
+          sub="продолжение в Европе"
+          startFrame={Math.round(1.5 * fps)}
+        />
+        <StepRow
+          n="03"
+          title="Диплом ЕС"
+          sub="признаётся по всей Европе"
+          startFrame={Math.round(2.3 * fps)}
+        />
+      </AbsoluteFill>
+      <CinematicLayer grainOpacity={0.04} />
     </AbsoluteFill>
   );
 };
 
-/** Магистратура: Кипр + США или онлайн. */
+/** Магистратура на фоне заката. */
 export const SceneMasters: React.FC = () => {
-  const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const Chip: React.FC<{
-    Icon: React.FC<{ size?: number }>;
-    title: string;
-    sub: string;
-    start: number;
-  }> = ({ Icon, title, sub, start }) => {
-    const s = spring({
-      frame: frame - start,
-      fps,
-      config: { damping: 15, mass: 0.8, stiffness: 120 },
-    });
-    return (
-      <div
+  return (
+    <AbsoluteFill style={{ fontFamily: theme.fontFamily }}>
+      <PhotoBackdrop
+        src="photos/sunset.jpg"
+        durationInFrames={SCENES[2]}
+        zoomFrom={1}
+        zoomTo={1.12}
+        panX={-30}
+      />
+      <AbsoluteFill
         style={{
-          opacity: s,
-          transform: `translateY(${(1 - s) * 90}px) scale(${0.94 + s * 0.06})`,
+          justifyContent: "flex-end",
+          padding: "0 110px 220px",
+          gap: 54,
         }}
       >
-        <GlassCard
-          tint="rgba(12,26,36,0.62)"
-          style={{
-            width: 760,
-            display: "flex",
-            alignItems: "center",
-            gap: 34,
-            padding: "36px 42px",
-          }}
-        >
-          <div
-            style={{
-              width: 104,
-              height: 104,
-              borderRadius: 28,
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "rgba(46,198,230,0.08)",
-              border: "1px solid rgba(46,198,230,0.22)",
-            }}
-          >
-            <Icon size={66} />
+        <Rise startFrame={Math.round(0.25 * fps)}>
+          <div style={{ fontSize: 108, fontWeight: 700, color: dark.text }}>
+            Магистратура?
           </div>
-          <div>
-            <div style={{ fontSize: 54, fontWeight: 800, color: theme.text }}>
-              {title}
-            </div>
-            <div style={{ fontSize: 35, color: theme.textDim, marginTop: 8 }}>
-              {sub}
-            </div>
-          </div>
-        </GlassCard>
-      </div>
-    );
-  };
-
-  const orOnline = spring({
-    frame: frame - Math.round(2.1 * fps),
-    fps,
-    config: { damping: 13, mass: 0.7 },
-  });
-
-  return (
-    <AbsoluteFill style={{ fontFamily: theme.fontFamily, background: theme.bg }}>
-      <CameraPush durationInFrames={SCENES[2]} from={1} to={1.06} driftX={10}>
-        <GlowBackground bg={theme.bg} color={theme.aqua} centerY="34%" />
-        <Particles opacity={0.7} />
-        <AbsoluteFill
-          style={{ alignItems: "center", justifyContent: "center", gap: 44 }}
-        >
-          <SlamText startFrame={Math.round(0.2 * fps)}>
-            <div style={{ fontSize: 96, fontWeight: 800, color: theme.text }}>
-              Магистратура?
-            </div>
-          </SlamText>
-          <Chip
-            Icon={IconCyprus}
-            title="Год — Кипр"
-            sub="учёба у моря"
-            start={Math.round(0.8 * fps)}
-          />
-          <Chip
-            Icon={IconUsa}
-            title="Год — США"
-            sub="опыт за океаном"
-            start={Math.round(1.3 * fps)}
-          />
-          <div
-            style={{
-              opacity: orOnline,
-              transform: `scale(${orOnline})`,
-              display: "flex",
-              alignItems: "center",
-              gap: 22,
-              padding: "22px 46px",
-              borderRadius: 70,
-              border: `1px solid ${theme.sun}55`,
-              background: "rgba(255,179,71,0.08)",
-            }}
-          >
-            <IconOnline size={52} />
-            <span style={{ fontSize: 44, fontWeight: 600, color: theme.sun }}>
-              или полностью онлайн
-            </span>
-          </div>
-        </AbsoluteFill>
-      </CameraPush>
+        </Rise>
+        <StepRow
+          n="01"
+          title="Год — Кипр"
+          sub="учёба у моря"
+          startFrame={Math.round(0.9 * fps)}
+        />
+        <StepRow
+          n="02"
+          title="Год — США"
+          sub="или полностью онлайн"
+          startFrame={Math.round(1.6 * fps)}
+        />
+      </AbsoluteFill>
+      <CinematicLayer grainOpacity={0.04} />
     </AbsoluteFill>
   );
 };
