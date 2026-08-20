@@ -1,18 +1,18 @@
 import React from "react";
-import { AbsoluteFill } from "remotion";
+import { AbsoluteFill, Audio, staticFile } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
-import { fade } from "@remotion/transitions/fade";
+import { zoomBlur } from "./cinematic/zoomBlur";
+import { CinematicLayer } from "./cinematic/CinematicLayer";
 import { SceneIntro } from "./SceneIntro";
 import { SceneLines } from "./SceneLines";
 import { SceneCards } from "./SceneCards";
 import { SceneCta } from "./SceneCta";
 import { theme } from "./theme";
+import { SCENES, TRANSITION, PROMO_DURATION } from "./timeline";
 
-const TRANSITION = 15;
-export const SCENES = [105, 135, 130, 105];
-// Переходы съедают по TRANSITION кадров между сценами.
-export const PROMO_DURATION =
-  SCENES.reduce((a, b) => a + b, 0) - TRANSITION * (SCENES.length - 1);
+export { PROMO_DURATION };
+
+const timing = linearTiming({ durationInFrames: TRANSITION });
 
 export const KiprPromo: React.FC = () => {
   return (
@@ -21,28 +21,21 @@ export const KiprPromo: React.FC = () => {
         <TransitionSeries.Sequence durationInFrames={SCENES[0]}>
           <SceneIntro />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANSITION })}
-        />
+        <TransitionSeries.Transition presentation={zoomBlur()} timing={timing} />
         <TransitionSeries.Sequence durationInFrames={SCENES[1]}>
           <SceneLines />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANSITION })}
-        />
+        <TransitionSeries.Transition presentation={zoomBlur()} timing={timing} />
         <TransitionSeries.Sequence durationInFrames={SCENES[2]}>
           <SceneCards />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANSITION })}
-        />
+        <TransitionSeries.Transition presentation={zoomBlur()} timing={timing} />
         <TransitionSeries.Sequence durationInFrames={SCENES[3]}>
           <SceneCta />
         </TransitionSeries.Sequence>
       </TransitionSeries>
+      <CinematicLayer />
+      <Audio src={staticFile("audio/soundtrack.wav")} volume={0.9} />
     </AbsoluteFill>
   );
 };
