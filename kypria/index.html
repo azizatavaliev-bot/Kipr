@@ -334,6 +334,12 @@ form{display:grid;gap:12px;position:relative;z-index:1}
 .consent{font-size:12px;color:var(--muted-2);display:flex;gap:10px;align-items:flex-start}
 .consent input{margin-top:3px;accent-color:var(--gold);width:20px;height:20px;flex:none}
 
+.ig-nav{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--line-2);
+  color:var(--muted);background:rgba(255,255,255,.02);transition:color .2s,border-color .2s}
+.ig-nav:hover{color:var(--gold);border-color:rgba(217,189,116,.45)}
+.ig-nav svg{width:19px;height:19px}
+@media(max-width:900px){.ig-nav{display:none}}
+
 .send-alt{display:none;flex-direction:column;gap:10px;margin-top:4px}
 .send-alt.on{display:flex}
 .send-alt p{font-size:13px;color:var(--muted)}
@@ -352,11 +358,11 @@ form{display:grid;gap:12px;position:relative;z-index:1}
     flex:1;display:flex;align-items:center;justify-content:center;height:52px;border-radius:14px;
     background:linear-gradient(135deg,#f3e2a9,#d9bd74 45%,#b8954a);color:#1b1506;font-weight:600;font-size:15px
   }
-  .dock-bar__wa{
+  .dock-bar__wa,.dock-bar__ig{
     flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;
     border:1px solid var(--line-2);color:var(--text);background:rgba(255,255,255,.04)
   }
-  .dock-bar__wa svg{width:24px;height:24px}
+  .dock-bar__wa svg,.dock-bar__ig svg{width:24px;height:24px}
   body{padding-bottom:78px}
   .field input,.field select,.field textarea{padding:15px 16px}
   #lead .btn{width:100%;justify-content:center;padding:18px}
@@ -432,6 +438,7 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
         <a href="#legal">Право</a>
         <a href="#contact">Контакты</a>
       </div>
+      <a class="ig-nav" href="https://instagram.com/alfa_global.kg" target="_blank" rel="noopener noreferrer" aria-label="Instagram @alfa_global.kg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a>
       <a href="#contact" class="btn btn-ghost nav-cta">Оставить заявку</a>
       <button class="burger" id="burger" aria-label="Меню">☰</button>
     </nav>
@@ -760,6 +767,7 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
           <div class="send-alt__row">
             <a id="sendWa" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
             <a id="sendTg" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a class="btn btn-ghost" href="https://instagram.com/alfa_global.kg" target="_blank" rel="noopener noreferrer">Instagram</a>
           </div>
         </div>
       </form>
@@ -769,6 +777,7 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
 
 <div class="dock-bar">
   <a class="dock-bar__ghost" href="#contact">Оставить заявку</a>
+  <a class="dock-bar__ig" href="https://instagram.com/alfa_global.kg" target="_blank" rel="noopener noreferrer" aria-label="Instagram @alfa_global.kg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a>
   <a class="dock-bar__wa" href="https://wa.me/996500054367" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.7A8.7 8.7 0 0 1 7.9 19.6L3 21l1.4-4.8A8.7 8.7 0 1 1 21 11.7Z"/><path d="M9 9.2c0 3.2 2.6 5.8 5.8 5.8.6 0 1.1-.5 1.1-1.1l-1.5-.9-1 .8a5.6 5.6 0 0 1-2.4-2.4l.8-1-.9-1.5c-.6 0-1.1.5-1.1 1.1Z"/></svg>
   </a>
@@ -783,7 +792,7 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
       </div>
       <div><h4>Услуги</h4><a href="#creators">Что мы берём на себя</a><a href="#sound">Как проходит поступление</a><a href="#pricing">Пакеты</a><a href="#provider">Как мы работаем</a></div>
       <div><h4>Компания</h4><a href="#cyprus">Кипр</a><a href="#legal">Право</a><a href="#contact">Контакты</a><a href="#">Карьера</a></div>
-      <div><h4>Контакты</h4><a href="mailto:[ЗАПОЛНИТЬ: почта]">[ЗАПОЛНИТЬ: почта]</a><a href="#">+996 500 054 367</a><a href="#">Бишкек · Лимасол</a></div>
+      <div><h4>Контакты</h4><a href="mailto:[ЗАПОЛНИТЬ: почта]">[ЗАПОЛНИТЬ: почта]</a><a href="tel:+996500054367">+996 500 054 367</a><a href="https://instagram.com/alfa_global.kg" target="_blank" rel="noopener noreferrer">@alfa_global.kg</a><a href="#">Бишкек · Лимасол</a></div>
     </div>
     <div class="copy"><span>© 2026 KYPRIA. Все права защищены.</span><span>Политика конфиденциальности · Оферта · Cookies</span></div>
   </div>
