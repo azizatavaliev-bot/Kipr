@@ -152,6 +152,10 @@ nav{display:flex;align-items:center;justify-content:space-between;height:72px}
   radial-gradient(ellipse at 50% 8%,rgba(240,220,160,.3),transparent 46%),
   linear-gradient(180deg,#1b2640 0%,#0b3a5d 42%,#0d6f8f 60%,#0e8aa0 70%,#0b0b0c 71%,#0b0b0c 100%)}
 .app .shot{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover}
+.shot.s1,.shot.s2,.shot.s3,.shot.s4{opacity:0;animation:slideshow 20s linear infinite}
+.shot.s2{animation-delay:5s}.shot.s3{animation-delay:10s}.shot.s4{animation-delay:15s}
+@keyframes slideshow{0%{opacity:0}2%{opacity:1}23%{opacity:1}27%{opacity:0}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.shot.s1{opacity:1}.shot.s1,.shot.s2,.shot.s3,.shot.s4{animation:none}}
 .app .scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 38%,transparent 60%,rgba(0,0,0,.66))}
 .app .play{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;color:#fff;font-size:15px;padding-left:3px}
 .app .cap{position:absolute;z-index:3;left:14px;right:14px;bottom:12px;font-family:var(--font-display);font-weight:300;font-size:14px;line-height:1.2;color:#fff;text-shadow:0 3px 16px rgba(0,0,0,.6)}
@@ -230,6 +234,14 @@ nav{display:flex;align-items:center;justify-content:space-between;height:72px}
 .place h3{font-size:21px;margin-bottom:8px}
 .place p{font-size:14px;color:var(--muted)}
 .place .pin{position:absolute;top:20px;left:20px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:7px 12px;border-radius:999px;background:rgba(10,10,11,.55);backdrop-filter:blur(6px);border:1px solid var(--line-2)}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gal-item{position:relative;margin:0;border-radius:var(--radius-s);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(160deg,#1b2733,#0d1620)}
+.gal-item.wide{grid-column:span 2;aspect-ratio:16/9}
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.gal-item:hover img{transform:scale(1.05)}
+.gal-item figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 14px;font-size:13px;color:#fff;
+  background:linear-gradient(180deg,transparent,rgba(8,8,9,.85))}
+@media(max-width:860px){.gallery{grid-template-columns:repeat(2,1fr)}.gal-item.wide{grid-column:span 2}}
 .place.wide{grid-column:span 2}
 .place.tall{grid-row:span 2;min-height:660px}
 .bg-limassol{background:radial-gradient(ellipse at 70% 20%,rgba(240,220,160,.45),transparent 40%),linear-gradient(180deg,#1c2a4a,#0e5b86 55%,#0a2035)}
@@ -424,11 +436,14 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
               </div>
               <div class="view">
                 <div class="sea"></div>
-                <!-- [ЗАПОЛНИТЬ: своё фото] побережье Кипра -->
-                <img class="shot" src="https://unsplash.com/photos/kef7C1n8JAc/download?w=1400" alt="Побережье Кипра" referrerpolicy="no-referrer" onerror="this.style.display='none'">
+                <!-- свои фото: kypria/img/hero-1.jpg … hero-4.jpg — сменяются сами -->
+                <img class="shot s1" src="img/hero-1.jpg" data-alt2="https://unsplash.com/photos/kef7C1n8JAc/download?w=1400" alt="Побережье Айя-Напы" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+                <img class="shot s2" src="img/hero-2.jpg" data-alt2="https://unsplash.com/photos/oUi2tvBLInY/download?w=1400" alt="Морские пещеры" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+                <img class="shot s3" src="img/hero-3.jpg" data-alt2="https://unsplash.com/photos/7HuMbBYlqeU/download?w=1400" alt="Античный Курион" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+                <img class="shot s4" src="img/hero-4.jpg" data-alt2="https://unsplash.com/photos/SSusbf40O_0/download?w=1400" alt="Лимассол" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
                 <div class="scrim"></div>
                 <div class="play">▶</div>
-                <div class="cap">Море в 20 минутах от кампуса<small>Петра-ту-Ромиу, Пафос</small></div>
+                <div class="cap">Море в 20 минутах от кампуса<small>Кипр · Айя-Напа, Курион, Лимассол</small></div>
               </div>
               <div class="timeline">
                 <span class="seg a"></span><span class="play-head"></span><span class="seg b"></span><span class="seg c"></span><span class="seg d"></span>
@@ -494,6 +509,7 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
       </div>
     </div>
 
+
     <div class="sec-num rv" style="margin:44px 0 14px">ЧТО НУЖНО ДЛЯ ПОДАЧИ</div>
     <div class="cy-facts">
       <div class="fact rv"><b>1</b><span>Загранпаспорт</span></div>
@@ -554,6 +570,30 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
       <div class="place rv"><div class="bg bg-larnaca"></div><!-- своё фото: kypria/img/larnaca.jpg --><img class="bg" src="img/larnaca.jpg" data-alt2="https://unsplash.com/photos/bZqCMyP-AIs/download?w=1200" alt="Набережная Ларнаки" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}"><span class="pin">Ларнака</span><h3>Соляное озеро</h3><p>Фламинго зимой, церковь св. Лазаря, набережная Финикудес и главный аэропорт острова — отсюда вы прилетите.</p></div>
       <div class="place wide rv"><div class="bg bg-nicosia"></div><!-- своё фото: kypria/img/nicosia.jpg --><img class="bg" src="img/nicosia.jpg" data-alt2="https://unsplash.com/photos/EJ54uZ9tA5M/download?w=1200" alt="Никосия" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}"><span class="pin">Никосия</span><h3>Никосия — последняя разделённая столица Европы</h3><p>Венецианские стены, улица Ледра с «зелёной линией», музеи и караван-сараи. Здесь же — большинство государственных университетов.</p></div>
       <div class="place rv"><div class="bg bg-larnaca"></div><!-- своё фото: kypria/img/hala-sultan.jpg --><img class="bg" src="img/hala-sultan.jpg" data-alt2="" alt="Мечеть Хала Султан Текке" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}"><span class="pin">Ларнака · святыня</span><h3>Мечеть Хала Султан Текке</h3><p>Одна из главных мусульманских святынь Средиземноморья — на берегу Соляного озера, в двадцати минутах от аэропорта. Вход свободный.</p></div>
+    </div>
+
+    <div class="sec-num rv" style="margin:64px 0 16px">ОСТРОВ ВБЛИЗИ</div>
+    <div class="gallery">
+      <figure class="gal-item rv wide">
+        <img src="img/kourion.jpg" data-alt2="https://unsplash.com/photos/7HuMbBYlqeU/download?w=1200" alt="Античный Курион" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+        <figcaption>Курион — амфитеатр над морем</figcaption>
+      </figure>
+      <figure class="gal-item rv">
+        <img src="img/cape-greco.jpg" data-alt2="https://unsplash.com/photos/kef7C1n8JAc/download?w=1200" alt="Морские пещеры мыса Греко" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+        <figcaption>Морские пещеры, мыс Греко</figcaption>
+      </figure>
+      <figure class="gal-item rv">
+        <img src="img/love-bridge.jpg" data-alt2="" alt="Мост влюблённых" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+        <figcaption>Мост влюблённых, Айя-Напа</figcaption>
+      </figure>
+      <figure class="gal-item rv">
+        <img src="img/korakas.jpg" data-alt2="" alt="Арка Коракас" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+        <figcaption>Скальная арка Коракас</figcaption>
+      </figure>
+      <figure class="gal-item rv wide">
+        <img src="img/blue-lagoon.jpg" data-alt2="" alt="Голубая лагуна" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+        <figcaption>Голубая лагуна, Акамас</figcaption>
+      </figure>
     </div>
     <div class="cy-facts">
       <div class="fact rv"><b>360</b><span>солнечных дней в году — море открыто с апреля по ноябрь</span></div>
