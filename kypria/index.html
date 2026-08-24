@@ -809,6 +809,15 @@ window.__photoFailed = function (img) {
     return;
   }
 
+  var place = img.closest('.place');
+
+  if (place) {
+    place.remove();
+    var grid = document.querySelector('.cy-grid');
+    if (grid && !grid.querySelector('.place')) grid.remove();
+    return;
+  }
+
   img.remove();
 };
 
