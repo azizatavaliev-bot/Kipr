@@ -234,6 +234,15 @@ nav{display:flex;align-items:center;justify-content:space-between;height:72px}
 .place h3{font-size:21px;margin-bottom:8px}
 .place p{font-size:14px;color:var(--muted)}
 .place .pin{position:absolute;top:20px;left:20px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:7px 12px;border-radius:999px;background:rgba(10,10,11,.55);backdrop-filter:blur(6px);border:1px solid var(--line-2)}
+.spot{position:relative;height:min(66vh,560px);border-radius:var(--radius);overflow:hidden;cursor:crosshair;
+  background:linear-gradient(180deg,#101820,#070b10)}
+.spot__layer{position:absolute;inset:0}
+.spot__base{background:radial-gradient(ellipse at 60% 20%,rgba(240,220,160,.18),transparent 55%),linear-gradient(180deg,#16202b,#0a1119)}
+.spot__reveal{background:radial-gradient(ellipse at 45% 35%,rgba(150,240,255,.35),transparent 55%),linear-gradient(180deg,#0f5f80,#17a3c2 55%,#e8dcc0)}
+.spot__layer img{width:100%;height:100%;object-fit:cover;display:block}
+.spot__cap{position:absolute;left:22px;bottom:20px;z-index:2;font-size:13px;color:rgba(255,255,255,.85);
+  text-shadow:0 2px 12px rgba(0,0,0,.6);pointer-events:none}
+@media(max-width:700px){.spot{height:46vh;cursor:default}}
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .gal-item{position:relative;margin:0;border-radius:var(--radius-s);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(160deg,#1b2733,#0d1620)}
 .gal-item.wide{grid-column:span 2;aspect-ratio:16/9}
@@ -595,6 +604,21 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
         <figcaption>Побережье Айя-Напы с высоты</figcaption>
       </figure>
     </div>
+
+    <div class="sec-num rv" style="margin:64px 0 16px">ДЕНЬ И НОЧЬ · ВЕДИТЕ КУРСОРОМ</div>
+    <div class="spot rv" id="spot">
+      <!-- свои фото: kypria/img/reveal-base.jpg и reveal-top.jpg -->
+      <div class="spot__layer spot__base">
+        <img src="img/reveal-base.jpg" data-alt2="https://unsplash.com/photos/kef7C1n8JAc/download?w=1600" alt="" loading="lazy" referrerpolicy="no-referrer"
+             onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+      </div>
+      <div class="spot__layer spot__reveal" id="spotReveal">
+        <img src="img/reveal-top.jpg" data-alt2="https://unsplash.com/photos/oUi2tvBLInY/download?w=1600" alt="" loading="lazy" referrerpolicy="no-referrer"
+             onerror="if(!this.dataset.f&&this.dataset.alt2){this.dataset.f=1;this.src=this.dataset.alt2}else{this.remove()}">
+      </div>
+      <canvas id="spotMask" style="display:none"></canvas>
+      <div class="spot__cap">Наведите курсор — под ним открывается второй кадр острова</div>
+    </div>
     <div class="cy-facts">
       <div class="fact rv"><b>360</b><span>солнечных дней в году — море открыто с апреля по ноябрь</span></div>
       <div class="fact rv"><b>Диплом</b><span>признаётся по всему миру, продолжение учёбы в Германии, Канаде и США</span></div>
@@ -760,6 +784,88 @@ document.getElementById('lead').addEventListener('submit',e=>{
   if(bad)return;
   document.getElementById('ok').style.display='block';f.querySelector('button[type=submit]').style.display='none';
 });
+
+/* Прожектор: второй кадр открывается мягким кругом под курсором.
+   Маска рисуется радиальным градиентом на скрытом canvas. */
+(function () {
+  var spot = document.getElementById('spot');
+  var reveal = document.getElementById('spotReveal');
+  var canvas = document.getElementById('spotMask');
+  if (!spot || !reveal || !canvas) return;
+
+  var ctx = canvas.getContext('2d');
+  var R = 260;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  var target = { x: -999, y: -999 };
+  var smooth = { x: -999, y: -999 };
+  var t = 0;
+
+  function size() {
+    var r = spot.getBoundingClientRect();
+    canvas.width = r.width;
+    canvas.height = r.height;
+    if (!fine) { target.x = r.width / 2; target.y = r.height / 2; smooth.x = target.x; smooth.y = target.y; }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    var g = ctx.createRadialGradient(smooth.x, smooth.y, 0, smooth.x, smooth.y, R);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.4, 'rgba(255,255,255,1)');
+    g.addColorStop(0.6, 'rgba(255,255,255,0.75)');
+    g.addColorStop(0.75, 'rgba(255,255,255,0.4)');
+    g.addColorStop(0.88, 'rgba(255,255,255,0.12)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(smooth.x, smooth.y, R, 0, Math.PI * 2);
+    ctx.fill();
+
+    var mask = 'url(' + canvas.toDataURL() + ')';
+    reveal.style.maskImage = mask;
+    reveal.style.webkitMaskImage = mask;
+    reveal.style.maskSize = '100% 100%';
+    reveal.style.webkitMaskSize = '100% 100%';
+  }
+
+  function tick() {
+    if (!fine && !reduced) {
+      /* на телефоне пятно ходит само, иначе эффекта не увидеть */
+      t += 0.008;
+      target.x = canvas.width * (0.5 + 0.32 * Math.sin(t));
+      target.y = canvas.height * (0.5 + 0.22 * Math.sin(t * 1.7));
+    }
+
+    smooth.x += (target.x - smooth.x) * 0.1;
+    smooth.y += (target.y - smooth.y) * 0.1;
+    draw();
+    requestAnimationFrame(tick);
+  }
+
+  spot.addEventListener('mousemove', function (e) {
+    var r = spot.getBoundingClientRect();
+    target.x = e.clientX - r.left;
+    target.y = e.clientY - r.top;
+  });
+
+  spot.addEventListener('touchmove', function (e) {
+    var touch = e.touches[0];
+    if (!touch) return;
+    var r = spot.getBoundingClientRect();
+    target.x = touch.clientX - r.left;
+    target.y = touch.clientY - r.top;
+  }, { passive: true });
+
+  window.addEventListener('resize', size);
+  size();
+
+  if (reduced) { smooth.x = canvas.width / 2; smooth.y = canvas.height / 2; draw(); }
+  else requestAnimationFrame(tick);
+})();
 </script>
 
 
