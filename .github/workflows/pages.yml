@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [claude/cyprus-slide-ghoqxg]
+    branches: [main, claude/cyprus-slide-ghoqxg]
   workflow_dispatch:
 
 permissions:
