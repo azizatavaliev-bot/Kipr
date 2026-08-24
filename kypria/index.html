@@ -326,13 +326,42 @@ form{display:grid;gap:12px;position:relative;z-index:1}
 .field label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .field input,.field select,.field textarea{
   width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line-2);color:var(--text);padding:16px 18px;border-radius:12px;
-  font-family:var(--font-body);font-size:15px;outline:none;transition:border-color .2s;
+  font-family:var(--font-body);font-size:16px;outline:none;transition:border-color .2s;
 }
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
 .field select option{background:#121214}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .consent{font-size:12px;color:var(--muted-2);display:flex;gap:10px;align-items:flex-start}
-.consent input{margin-top:3px;accent-color:var(--gold)}
+.consent input{margin-top:3px;accent-color:var(--gold);width:20px;height:20px;flex:none}
+
+.send-alt{display:none;flex-direction:column;gap:10px;margin-top:4px}
+.send-alt.on{display:flex}
+.send-alt p{font-size:13px;color:var(--muted)}
+.send-alt__row{display:flex;gap:10px}
+.send-alt__row .btn{flex:1;justify-content:center;padding:14px 18px}
+
+/* липкая панель: на телефоне заявка всегда в одно касание */
+.dock-bar{display:none}
+@media(max-width:760px){
+  .dock-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;gap:10px;align-items:center;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(10,10,11,.86);backdrop-filter:blur(14px);border-top:1px solid var(--line)
+  }
+  .dock-bar__ghost{
+    flex:1;display:flex;align-items:center;justify-content:center;height:52px;border-radius:14px;
+    background:linear-gradient(135deg,#f3e2a9,#d9bd74 45%,#b8954a);color:#1b1506;font-weight:600;font-size:15px
+  }
+  .dock-bar__wa{
+    flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;
+    border:1px solid var(--line-2);color:var(--text);background:rgba(255,255,255,.04)
+  }
+  .dock-bar__wa svg{width:24px;height:24px}
+  body{padding-bottom:78px}
+  .field input,.field select,.field textarea{padding:15px 16px}
+  #lead .btn{width:100%;justify-content:center;padding:18px}
+}
+.ok.on{display:block}
 .ok{display:none;padding:22px;border:1px solid rgba(73,209,143,.35);border-radius:14px;color:var(--green);background:rgba(73,209,143,.06)}
 
 footer{padding:50px 0 30px;border-top:1px solid var(--line)}
@@ -716,20 +745,34 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
       </div>
       <form id="lead" novalidate>
         <div class="row2">
-          <div class="field"><label>Имя</label><input type="text" name="name" placeholder="Как к вам обращаться" required></div>
-          <div class="field"><label>Telegram / WhatsApp</label><input type="text" name="contact" placeholder="@nickname или +357…" required></div>
+          <div class="field"><label>Имя</label><input type="text" name="name" placeholder="Как к вам обращаться" autocomplete="name" autocapitalize="words" required></div>
+          <div class="field"><label>Телефон или ник</label><input type="text" name="contact" placeholder="+996 700 12 34 56 или @nick" autocomplete="tel" autocapitalize="off" autocorrect="off" required></div>
         </div>
-        <div class="field"><label>Направление</label><input type="text" name="topic" placeholder="Например: IT, медицина, бизнес, дизайн"></div>
+        <div class="field"><label>Направление</label><input type="text" name="topic" placeholder="IT, медицина, бизнес, дизайн" autocapitalize="off"></div>
         <div class="field"><label>Кто обращается</label>
           <select name="segment"><option>Абитуриент</option><option>Родитель</option><option>Студент — перевод или магистратура</option></select>
         </div>
         <label class="consent"><input type="checkbox" required> Согласен(а) с обработкой данных по GDPR и политикой конфиденциальности KYPRIA.</label>
-        <button type="submit" class="btn btn-gold" style="justify-content:center"><span class="ic">✦</span>Записаться на консультацию</button>
-        <div class="ok" id="ok">✓ Заявка принята. Свяжемся в течение рабочего дня и пришлём подборку программ.</div>
+        <button type="submit" class="btn btn-gold" style="justify-content:center"><span class="ic">✦</span>Отправить заявку в WhatsApp</button>
+        <div class="ok" id="ok">✓ Заявка собрана — осталось нажать «Отправить» в мессенджере.</div>
+        <div class="send-alt" id="sendAlt">
+          <p>Если окно не открылось, отправьте вручную:</p>
+          <div class="send-alt__row">
+            <a id="sendWa" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a id="sendTg" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">Telegram</a>
+          </div>
+        </div>
       </form>
     </div>
   </div>
 </section>
+
+<div class="dock-bar">
+  <a class="dock-bar__ghost" href="#contact">Оставить заявку</a>
+  <a class="dock-bar__wa" href="https://wa.me/996500054367" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.7A8.7 8.7 0 0 1 7.9 19.6L3 21l1.4-4.8A8.7 8.7 0 1 1 21 11.7Z"/><path d="M9 9.2c0 3.2 2.6 5.8 5.8 5.8.6 0 1.1-.5 1.1-1.1l-1.5-.9-1 .8a5.6 5.6 0 0 1-2.4-2.4l.8-1-.9-1.5c-.6 0-1.1.5-1.1 1.1Z"/></svg>
+  </a>
+</div>
 
 <footer>
   <div class="wrap">
@@ -740,9 +783,9 @@ footer{padding:50px 0 30px;border-top:1px solid var(--line)}
       </div>
       <div><h4>Услуги</h4><a href="#creators">Что мы берём на себя</a><a href="#sound">Как проходит поступление</a><a href="#pricing">Пакеты</a><a href="#provider">Как мы работаем</a></div>
       <div><h4>Компания</h4><a href="#cyprus">Кипр</a><a href="#legal">Право</a><a href="#contact">Контакты</a><a href="#">Карьера</a></div>
-      <div><h4>Контакты</h4><a href="mailto:hello@kypria.ai">hello@kypria.ai</a><a href="#">+357 25 000 000</a><a href="#">Limassol, Agiou Athanasiou 46</a></div>
+      <div><h4>Контакты</h4><a href="mailto:[ЗАПОЛНИТЬ: почта]">[ЗАПОЛНИТЬ: почта]</a><a href="#">+996 500 054 367</a><a href="#">Бишкек · Лимасол</a></div>
     </div>
-    <div class="copy"><span>© 2026 Kypria AI Ltd. Все права защищены.</span><span>Политика конфиденциальности · Оферта · Cookies</span></div>
+    <div class="copy"><span>© 2026 KYPRIA. Все права защищены.</span><span>Политика конфиденциальности · Оферта · Cookies</span></div>
   </div>
 </footer>
 
@@ -776,13 +819,38 @@ const burger=document.getElementById('burger'),menu=document.getElementById('men
 burger.addEventListener('click',()=>menu.classList.toggle('open'));
 menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
 // form
-document.getElementById('lead').addEventListener('submit',e=>{
-  e.preventDefault();const f=e.target;
-  const req=[...f.querySelectorAll('input[required]')];
-  let bad=false;
-  req.forEach(i=>{const empty=i.type==='checkbox'?!i.checked:!i.value.trim();if(empty){bad=true;if(i.type!=='checkbox')i.style.borderColor='#ff6b6b'}else if(i.type!=='checkbox')i.style.borderColor=''});
-  if(bad)return;
-  document.getElementById('ok').style.display='block';f.querySelector('button[type=submit]').style.display='none';
+document.getElementById('lead').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const form = e.target;
+  const name = form.name.value.trim();
+  const contact = form.contact.value.trim();
+
+  if (!name || !contact) {
+    document.getElementById('ok').textContent = 'Заполните имя и контакт — иначе мы не сможем ответить.';
+    document.getElementById('ok').classList.add('on');
+    return;
+  }
+
+  /* Заявка уходит сообщением в мессенджер: без сервера, и человек сразу видит,
+     что она доставлена — в своей же переписке. */
+  const text =
+    'Заявка с сайта KYPRIA\n' +
+    'Имя: ' + name + '\n' +
+    'Контакт: ' + contact + '\n' +
+    'Направление: ' + (form.topic.value.trim() || 'не указано') + '\n' +
+    'Кто обращается: ' + form.segment.value;
+
+  const encoded = encodeURIComponent(text);
+  const wa = 'https://wa.me/996500054367?text=' + encoded;
+  const tg = 'https://t.me/+996500054367?text=' + encoded;
+
+  document.getElementById('sendWa').href = wa;
+  document.getElementById('sendTg').href = tg;
+  document.getElementById('sendAlt').classList.add('on');
+  document.getElementById('ok').classList.add('on');
+
+  window.open(wa, '_blank', 'noopener');
 });
 
 /* Фото: если кадра нет ни своего, ни запасного — ячейка убирается,
