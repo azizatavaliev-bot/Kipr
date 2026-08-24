@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KYPRIA — образование на Кипре</title>
+<meta name="description" content="KYPRIA — образование на Кипре: подбор университета, документы, виза, заселение. Европейский диплом, обучение на английском.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Unbounded:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0b;
+  --bg-2:#111113;
+  --bg-3:#17171a;
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --text:#eceae4;
+  --head:#e6e4de;
+  --muted:#a5a29a;
+  --muted-2:#77746d;
+  --gold:#d9bd74;
+  --gold-2:#f0dca0;
+  --gold-3:#a8883f;
+  --green:#49d18f;
+  --radius:22px;
+  --radius-s:14px;
+  --font-display:'Unbounded','Manrope',system-ui,sans-serif;
+  --font-body:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--font-body);
+  font-size:15px;font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 75%);
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{width:min(1240px,calc(100% - 48px));margin:0 auto;position:relative;z-index:1}
+section{padding:110px 0;position:relative}
+h1,h2,h3{font-family:var(--font-display);font-weight:300;color:var(--head);letter-spacing:-.015em;line-height:1.12;text-wrap:balance}
+h1{font-size:clamp(30px,3.9vw,54px)}
+h2{font-size:clamp(27px,3.3vw,42px)}
+h3{font-size:19px;font-weight:400}
+.muted{color:var(--muted)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;background:rgba(255,255,255,.02);
+}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.sec-head{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;margin-bottom:56px}
+.sec-head p{max-width:520px;color:var(--muted);font-size:16px}
+.sec-num{font-family:var(--font-body);font-size:11px;color:var(--muted-2);letter-spacing:.22em;margin-bottom:18px}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:12px;padding:18px 28px;border-radius:14px;font-weight:600;font-size:15px;
+  transition:transform .25s ease,box-shadow .25s ease,background .25s ease;cursor:pointer;border:0;font-family:var(--font-body);
+}
+.btn-gold{
+  color:#1b1506;
+  background:linear-gradient(135deg,#f3e2a9 0%,#d9bd74 45%,#b8954a 100%);
+  box-shadow:0 10px 40px -10px rgba(217,189,116,.55),inset 0 1px 0 rgba(255,255,255,.6);
+  position:relative;overflow:hidden;
+}
+.btn-gold::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);
+  transform:translateX(-120%);transition:transform .7s ease;
+}
+.btn-gold:hover::after{transform:translateX(120%)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 50px -10px rgba(217,189,116,.7)}
+.btn-gold .ic{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.15);display:grid;place-items:center;font-size:14px}
+.btn-ghost{color:var(--text);border:1px solid var(--line-2);background:rgba(255,255,255,.02)}
+.btn-ghost:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
+
+/* nav */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:rgba(10,10,11,.65);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:var(--font-body);font-weight:500;font-size:13px;letter-spacing:.3em;display:flex;align-items:center;gap:12px;color:var(--head)}
+.logo b{display:inline-block;flex:none;width:8px;height:8px;background:var(--gold);border-radius:2px;transform:rotate(45deg)}
+.menu{display:flex;gap:34px;font-size:12px;text-transform:uppercase;color:var(--muted);letter-spacing:.1em}
+.menu a{transition:color .2s}.menu a:hover{color:var(--head)}
+.nav-cta{font-size:12px;text-transform:uppercase;letter-spacing:.08em;padding:12px 20px;border-radius:10px;font-weight:500}
+.burger{display:none;width:40px;height:40px;border:1px solid var(--line-2);border-radius:10px;background:none;color:#fff;font-size:18px}
+
+/* hero */
+.hero{padding:60px 0 80px;min-height:calc(100vh - 72px);display:flex;align-items:center;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;right:-10%;top:-20%;width:70vw;height:120%;
+  background:radial-gradient(closest-side,rgba(217,189,116,.06),transparent 70%);filter:blur(48px);pointer-events:none;
+}
+.hero .glow{
+  position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .6s ease;
+  background:radial-gradient(360px circle at var(--mx,60%) var(--my,42%),
+    rgba(240,220,160,.16) 0%,rgba(217,189,116,.11) 32%,transparent 66%);
+}
+.hero .glow.on{opacity:1}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+.hero h1 span{color:var(--muted)}
+.hero-lead{display:flex;gap:18px;align-items:flex-start;margin:26px 0 32px;max-width:520px}
+.hero-lead .dot{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--muted);font-size:16px;background:rgba(255,255,255,.02)}
+.hero-lead p{color:var(--muted);font-size:15px}
+.hero-lead p b{color:var(--head);font-weight:600}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.hero-trust{margin-top:40px;display:flex;gap:30px;flex-wrap:wrap}
+.hero-trust div b{display:block;font-family:var(--font-display);font-size:24px;font-weight:300;color:var(--head)}
+.hero-trust div span{font-size:11px;color:var(--muted-2);letter-spacing:.08em;text-transform:uppercase}
+
+/* hero visual — stage */
+.stage{position:relative;height:560px;display:flex;align-items:center;justify-content:center}
+.stage .disc{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotateX(74deg);width:540px;height:540px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.05),rgba(255,255,255,.02) 55%,transparent 70%);
+  border:1px solid rgba(255,255,255,.06);pointer-events:none;
+}
+
+/* MacBook */
+.laptop{position:relative;width:min(480px,100%);animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.laptop .lid{
+  position:relative;border-radius:16px 16px 8px 8px;padding:11px 11px 12px;
+  background:linear-gradient(160deg,#3a3b40,#1b1c20 60%,#111214);
+  box-shadow:0 40px 90px -25px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.14);
+}
+.laptop .cam{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#0a0b0d;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.laptop .screen{position:relative;aspect-ratio:16/10;border-radius:7px;overflow:hidden;background:#0b0d12;border:1px solid rgba(0,0,0,.6)}
+.laptop .base{
+  position:relative;height:15px;margin:-1px -7% 0;border-radius:0 0 12px 12px;
+  background:linear-gradient(180deg,#26272b,#141519 70%,#0d0e11);
+  box-shadow:0 24px 40px -18px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.laptop .base::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:9px;border-radius:0 0 9px 9px;background:linear-gradient(180deg,#0b0c0e,#17181c)}
+
+/* studio app inside screen */
+.app{position:absolute;inset:0;display:flex;flex-direction:column;background:#0b0d12}
+.app .top{display:flex;align-items:center;gap:8px;height:26px;padding:0 11px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
+.app .dots{display:flex;gap:5px}
+.app .dots i{width:8px;height:8px;border-radius:50%}
+.app .dots i:nth-child(1){background:#ff5f57}.app .dots i:nth-child(2){background:#febc2e}.app .dots i:nth-child(3){background:#28c840}
+.app .top b{font-family:var(--font-body);font-weight:500;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.app .top .rec{margin-left:auto;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#fff;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.1)}
+.app .top .rec::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:#ff4d4d;margin-right:6px;box-shadow:0 0 8px #ff4d4d;vertical-align:middle}
+.app .view{position:relative;flex:1;overflow:hidden}
+.app .sea{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(ellipse at 50% 8%,rgba(240,220,160,.3),transparent 46%),
+  linear-gradient(180deg,#1b2640 0%,#0b3a5d 42%,#0d6f8f 60%,#0e8aa0 70%,#0b0b0c 71%,#0b0b0c 100%)}
+.app .shot{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover}
+.app .scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 38%,transparent 60%,rgba(0,0,0,.66))}
+.app .play{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;color:#fff;font-size:15px;padding-left:3px}
+.app .cap{position:absolute;z-index:3;left:14px;right:14px;bottom:12px;font-family:var(--font-display);font-weight:300;font-size:14px;line-height:1.2;color:#fff;text-shadow:0 3px 16px rgba(0,0,0,.6)}
+.app .cap small{display:block;font-family:var(--font-body);font-size:9px;letter-spacing:.04em;color:rgba(255,255,255,.72);margin-top:5px;font-weight:500}
+.app .timeline{display:flex;align-items:center;gap:5px;height:32px;padding:0 11px;background:rgba(0,0,0,.55);border-top:1px solid rgba(255,255,255,.06)}
+.app .timeline .seg{height:13px;border-radius:3px;background:rgba(255,255,255,.14)}
+.app .timeline .seg.a{flex:2;background:linear-gradient(90deg,rgba(217,189,116,.5),rgba(217,189,116,.2))}
+.app .timeline .seg.b{flex:1}.app .timeline .seg.c{flex:1.4}.app .timeline .seg.d{flex:.8}
+.app .timeline .play-head{width:2px;height:20px;background:var(--gold);border-radius:2px;box-shadow:0 0 8px var(--gold);animation:head 6s linear infinite}
+@keyframes head{from{margin-left:0}to{margin-left:78%}}
+
+.card-float{
+  position:absolute;padding:16px 18px;border-radius:18px;background:rgba(22,22,25,.75);backdrop-filter:blur(14px);
+  border:1px solid var(--line-2);box-shadow:0 30px 60px -20px rgba(0,0,0,.8);min-width:170px;
+}
+.card-float b{font-family:var(--font-display);font-size:26px;font-weight:300;color:var(--head);display:block;line-height:1}
+.card-float span{font-size:11px;color:var(--muted);display:block;margin-top:6px}
+.cf-1{left:-46px;top:56px;animation:float2 8s ease-in-out infinite}
+.cf-2{right:-30px;top:70px;animation:float2 9s ease-in-out infinite reverse}
+.cf-3{right:-24px;bottom:80px;animation:float2 7.5s ease-in-out infinite}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.cf-2 .tri{width:44px;height:44px;margin-bottom:10px;background:linear-gradient(135deg,rgba(73,209,143,.25),rgba(73,209,143,.05));border:1px solid rgba(73,209,143,.35);border-radius:10px;display:grid;place-items:center;color:var(--green)}
+.wave{display:flex;gap:3px;align-items:flex-end;height:28px;margin-top:10px}
+.wave i{width:3px;background:var(--gold);border-radius:2px;animation:wave 1.2s ease-in-out infinite}
+@keyframes wave{0%,100%{height:20%}50%{height:100%}}
+.wave i:nth-child(2){animation-delay:.1s}.wave i:nth-child(3){animation-delay:.2s}.wave i:nth-child(4){animation-delay:.3s}.wave i:nth-child(5){animation-delay:.4s}.wave i:nth-child(6){animation-delay:.5s}.wave i:nth-child(7){animation-delay:.6s}.wave i:nth-child(8){animation-delay:.7s}.wave i:nth-child(9){animation-delay:.8s}.wave i:nth-child(10){animation-delay:.9s}.wave i:nth-child(11){animation-delay:1s}.wave i:nth-child(12){animation-delay:1.1s}
+
+/* marquee */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0;overflow:hidden;background:var(--bg-2)}
+.marquee-track{display:flex;gap:64px;white-space:nowrap;animation:mq 50s linear infinite;font-family:var(--font-body);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-2);width:max-content}
+.marquee-track span i{color:var(--gold);font-style:normal;margin-right:64px}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* creators */
+.creators{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.creator{
+  border:1px solid var(--line);background:linear-gradient(180deg,var(--bg-3),var(--bg-2));border-radius:var(--radius);padding:26px;min-height:300px;
+  display:flex;flex-direction:column;justify-content:space-between;transition:transform .3s,border-color .3s;position:relative;overflow:hidden;
+}
+.creator:hover{transform:translateY(-6px);border-color:rgba(217,189,116,.4)}
+.creator::before{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(217,189,116,.18),transparent 70%)}
+.creator .av{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#2a2a30,#141417);border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--font-display);color:var(--gold);font-size:18px}
+.creator h3{margin:22px 0 8px}
+.creator p{font-size:14px;color:var(--muted)}
+.creator .role{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);margin-top:20px}
+
+/* sound */
+.sound{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sound-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.eq{
+  height:320px;border-radius:var(--radius);border:1px solid var(--line-2);background:radial-gradient(ellipse at 50% 100%,rgba(217,189,116,.12),transparent 60%),var(--bg-3);
+  display:flex;align-items:flex-end;justify-content:center;gap:6px;padding:30px;position:relative;overflow:hidden;
+}
+.sound-grid>*{min-width:0}
+.eq i{flex:0 1 10px;min-width:3px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,var(--gold-2),var(--gold-3));animation:eq 1.6s ease-in-out infinite;opacity:.9}
+@keyframes eq{0%,100%{height:12%}50%{height:var(--h)}}
+.eq .lbl{position:absolute;left:22px;top:20px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.eq .lbl b{display:block;font-family:var(--font-display);font-size:20px;font-weight:300;color:var(--head);letter-spacing:0;margin-top:6px;text-transform:none}
+.eq .chip{position:absolute;right:22px;top:20px;padding:8px 12px;border-radius:999px;border:1px solid rgba(73,209,143,.35);color:var(--green);font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(73,209,143,.06)}
+.feat{display:grid;gap:14px;margin-top:34px}
+.feat div{display:flex;gap:16px;padding:18px 20px;border:1px solid var(--line);border-radius:var(--radius-s);background:rgba(255,255,255,.015)}
+.feat div b{display:block;font-weight:600;margin-bottom:4px}
+.feat div span{font-size:14px;color:var(--muted)}
+.feat div em{flex:none;font-style:normal;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(217,189,116,.1);color:var(--gold);font-size:15px}
+
+/* cyprus */
+.cy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.place{
+  position:relative;border-radius:var(--radius);overflow:hidden;min-height:320px;border:1px solid var(--line);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:26px;isolation:isolate;transition:transform .35s;
+}
+.place:hover{transform:translateY(-6px)}
+.place .bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1);filter:saturate(1.02)}
+.place:hover .bg{transform:scale(1.05)}
+.place::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,10,11,.05),rgba(10,10,11,.4) 45%,rgba(8,8,9,.96))}
+.place h3{font-size:21px;margin-bottom:8px}
+.place p{font-size:14px;color:var(--muted)}
+.place .pin{position:absolute;top:20px;left:20px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:7px 12px;border-radius:999px;background:rgba(10,10,11,.55);backdrop-filter:blur(6px);border:1px solid var(--line-2)}
+.place.wide{grid-column:span 2}
+.place.tall{grid-row:span 2;min-height:660px}
+.bg-limassol{background:radial-gradient(ellipse at 70% 20%,rgba(240,220,160,.45),transparent 40%),linear-gradient(180deg,#1c2a4a,#0e5b86 55%,#0a2035)}
+.bg-paphos{background:radial-gradient(ellipse at 30% 30%,rgba(255,200,140,.35),transparent 45%),linear-gradient(180deg,#3a2a40,#0f4d6e 60%,#0b2233)}
+.bg-napa{background:radial-gradient(ellipse at 50% 40%,rgba(150,240,255,.3),transparent 45%),linear-gradient(180deg,#0d4d6e,#17a3c2 50%,#e8dcc0 100%)}
+.bg-troodos{background:radial-gradient(ellipse at 50% 20%,rgba(240,220,160,.25),transparent 45%),linear-gradient(180deg,#1e2a22,#2f4a36 50%,#111612)}
+.bg-larnaca{background:radial-gradient(ellipse at 40% 30%,rgba(255,170,180,.35),transparent 45%),linear-gradient(180deg,#3a2330,#8f6f7f 55%,#1a141a)}
+.bg-nicosia{background:radial-gradient(ellipse at 60% 20%,rgba(240,220,160,.3),transparent 45%),linear-gradient(180deg,#2b241a,#6b5836 55%,#15120c)}
+.cy-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.fact{border:1px solid var(--line);border-radius:var(--radius-s);padding:22px;background:var(--bg-2)}
+.fact b{display:block;font-family:var(--font-display);font-size:30px;font-weight:300;color:var(--head)}
+.fact span{font-size:13px;color:var(--muted)}
+
+/* provider */
+.prov{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.prov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prov-card{padding:30px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-3);position:relative;overflow:hidden}
+.prov-card::before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
+.prov-card .n{font-family:var(--font-display);font-size:12px;color:var(--muted-2);letter-spacing:.2em;margin-bottom:34px}
+.prov-card h3{margin-bottom:10px}
+.prov-card p{color:var(--muted);font-size:14px}
+.prov-card ul{list-style:none;margin-top:18px;display:grid;gap:8px;font-size:13px;color:var(--muted)}
+.prov-card ul li::before{content:"—";color:var(--gold);margin-right:10px}
+
+/* pricing */
+.seg{display:flex;gap:8px;padding:6px;border:1px solid var(--line-2);border-radius:999px;width:max-content;margin:0 auto 44px;background:var(--bg-2)}
+.seg button{border:0;background:none;color:var(--muted);padding:10px 20px;border-radius:999px;font-family:var(--font-body);font-weight:600;font-size:13px;cursor:pointer;transition:.25s}
+.seg button.on{background:var(--text);color:#111}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.plan{
+  border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px;background:linear-gradient(180deg,var(--bg-3),var(--bg-2));
+  display:flex;flex-direction:column;position:relative;transition:transform .3s,border-color .3s;
+}
+.plan:hover{transform:translateY(-6px);border-color:var(--line-2)}
+.plan.hot{border-color:rgba(217,189,116,.55);background:linear-gradient(180deg,rgba(217,189,116,.08),var(--bg-2) 60%)}
+.plan.hot::before{content:"Выбор студий";position:absolute;top:-13px;left:30px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,#f3e2a9,#b8954a);color:#1b1506;font-weight:700}
+.plan .who{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+.plan h3{font-size:26px;margin:10px 0 6px}
+.plan .desc{font-size:14px;color:var(--muted);min-height:44px}
+.plan .price{font-family:var(--font-display);font-size:44px;font-weight:300;margin:26px 0 4px;line-height:1}
+.plan .price small{font-family:var(--font-body);font-size:14px;color:var(--muted);font-weight:500}
+.plan .per{font-size:12px;color:var(--muted-2);margin-bottom:26px}
+.plan ul{list-style:none;display:grid;gap:12px;font-size:14px;margin-bottom:30px;flex:1}
+.plan ul li{display:flex;gap:12px;align-items:flex-start}
+.plan ul li::before{content:"✓";flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;background:rgba(217,189,116,.12);color:var(--gold)}
+.plan ul li.no{color:var(--muted-2)}.plan ul li.no::before{content:"–";background:rgba(255,255,255,.04);color:var(--muted-2)}
+.plan .btn{justify-content:center;width:100%}
+.price-note{text-align:center;margin-top:28px;font-size:13px;color:var(--muted-2)}
+
+/* legal */
+.legal{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.legal-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.acc details{border-top:1px solid var(--line);padding:22px 0}
+.acc details:last-child{border-bottom:1px solid var(--line)}
+.acc summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:16px;gap:16px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary span{width:30px;height:30px;border:1px solid var(--line-2);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:16px;transition:.3s;flex:none}
+.acc details[open] summary span{transform:rotate(45deg)}
+.acc details p{margin-top:14px;color:var(--muted);font-size:14px;max-width:560px}
+.legal-badges{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+.badge{padding:20px;border:1px solid var(--line);border-radius:var(--radius-s);background:var(--bg-3);font-size:13px;color:var(--muted)}
+.badge b{display:block;font-family:var(--font-display);font-size:14px;font-weight:400;color:var(--gold);margin-bottom:6px}
+
+/* cta / form */
+.cta-box{
+  border-radius:30px;border:1px solid rgba(217,189,116,.3);padding:70px;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 80% 0%,rgba(217,189,116,.2),transparent 50%),linear-gradient(180deg,#161618,#0d0d0f);
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.cta-box::after{content:"";position:absolute;left:-100px;bottom:-200px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(217,189,116,.15);pointer-events:none}
+form{display:grid;gap:12px;position:relative;z-index:1}
+.field{display:grid;gap:6px}
+.field label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{
+  width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line-2);color:var(--text);padding:16px 18px;border-radius:12px;
+  font-family:var(--font-body);font-size:15px;outline:none;transition:border-color .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.field select option{background:#121214}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.consent{font-size:12px;color:var(--muted-2);display:flex;gap:10px;align-items:flex-start}
+.consent input{margin-top:3px;accent-color:var(--gold)}
+.ok{display:none;padding:22px;border:1px solid rgba(73,209,143,.35);border-radius:14px;color:var(--green);background:rgba(73,209,143,.06)}
+
+footer{padding:50px 0 30px;border-top:1px solid var(--line)}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;font-size:14px;color:var(--muted)}
+.foot h4{font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:.16em;color:var(--head);margin-bottom:16px;text-transform:uppercase}
+.foot a{display:block;margin-bottom:10px;transition:color .2s}.foot a:hover{color:var(--head)}
+.foot a.logo{display:flex;margin-bottom:16px}
+.copy{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted-2);flex-wrap:wrap;gap:10px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* hero load sequence */
+.hero .anim{opacity:0;transform:translateY(18px);animation:heroUp .9s cubic-bezier(.2,.7,.2,1) forwards}
+.hero .a1{animation-delay:.05s}.hero .a2{animation-delay:.15s}.hero .a3{animation-delay:.28s}.hero .a4{animation-delay:.4s}.hero .a5{animation-delay:.52s}
+@keyframes heroUp{to{opacity:1;transform:none}}
+@media(min-width:1025px){
+  .stage{opacity:0;transform:translateY(40px) scale(.965);animation:stageIn 1.1s cubic-bezier(.2,.7,.2,1) .32s forwards}
+  @keyframes stageIn{to{opacity:1;transform:none}}
+}
+.phone-wrap{position:absolute;inset:0;will-change:transform;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .rv{opacity:1;transform:none}
+  .hero .anim,.stage{opacity:1;transform:none;animation:none}
+}
+
+@media(max-width:1024px){
+  .hero-grid,.sound-grid,.legal-grid,.cta-box{grid-template-columns:1fr}
+  .creators,.cy-grid,.prov-grid,.plans,.cy-facts{grid-template-columns:1fr 1fr}
+  .place.wide{grid-column:span 2}.place.tall{grid-row:auto;min-height:320px}
+  .stage{height:520px;margin-top:40px}
+  .sec-head{grid-template-columns:1fr;gap:16px}
+  .cta-box{padding:40px}
+  .foot{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  .menu,.nav-cta{display:none}.burger{display:block}
+  .menu.open{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 24px}
+  .menu.open a{padding:16px 0;border-top:1px solid var(--line);font-size:16px;color:var(--text)}
+  section{padding:70px 0}
+  .creators,.cy-grid,.prov-grid,.plans,.cy-facts,.row2,.legal-badges{grid-template-columns:1fr}
+  .place.wide{grid-column:auto}
+  .stage{height:480px;transform:scale(.85);transform-origin:top center}
+  .card-float{min-width:140px;padding:12px 14px}.card-float b{font-size:20px}
+  .cf-1{left:-20px}.cf-2{right:-20px}
+  .cta-box{padding:28px;border-radius:20px}
+  .foot{grid-template-columns:1fr}
+  .hero{min-height:auto;padding:60px 0}
+}
+</style>
+
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#" class="logo"><b></b>KYPRIA</a>
+      <div class="menu" id="menu">
+        <a href="#creators">Услуги</a>
+        <a href="#sound">Поступление</a>
+        <a href="#cyprus">Кипр</a>
+        <a href="#provider">Как мы работаем</a>
+        <a href="#pricing">Пакеты</a>
+        <a href="#legal">Право</a>
+        <a href="#contact">Контакты</a>
+      </div>
+      <a href="#contact" class="btn btn-ghost nav-cta">Оставить заявку</a>
+      <button class="burger" id="burger" aria-label="Меню">☰</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO / OFFER -->
+<section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow anim a1"><i></i>Образование на Кипре · Лимасол · ЕС</span>
+      <h1 class="anim a2" style="margin-top:26px">Учёба в Европе <span>начинается здесь</span> — Кипр, английский язык, диплом ЕС</h1>
+      <div class="hero-lead anim a3">
+        <div class="dot">↗</div>
+        <p>Подбираем университет и программу, готовим документы, ведём до визы и заселения в общежитие. <b>Первая консультация — бесплатно:</b> честно скажем, куда реально пройти с вашим аттестатом.</p>
+      </div>
+      <div class="hero-actions anim a4">
+        <a href="#contact" class="btn btn-gold"><span class="ic">✦</span>Оставить заявку</a>
+        <a href="#cyprus" class="btn btn-ghost">Почему Кипр</a>
+      </div>
+      <div class="hero-trust anim a5">
+        <div><b>EN</b><span>обучение и экзамены на английском</span></div>
+        <div><b>ЕС</b><span>диплом европейского образца</span></div>
+        <div><b>UTC+3</b><span>наш офис на острове, часовой пояс ваш</span></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="disc"></div>
+      <div class="laptop">
+        <div class="lid">
+          <div class="cam"></div>
+          <div class="screen">
+            <div class="app">
+              <div class="top">
+                <div class="dots"><i></i><i></i><i></i></div>
+                <b>KYPRIA · Кипр</b>
+                <span class="rec">Приём открыт</span>
+              </div>
+              <div class="view">
+                <div class="sea"></div>
+                <!-- [ЗАПОЛНИТЬ: своё фото] побережье Кипра -->
+                <img class="shot" src="https://unsplash.com/photos/kef7C1n8JAc/download?w=1400" alt="Побережье Кипра" referrerpolicy="no-referrer" onerror="this.style.display='none'">
+                <div class="scrim"></div>
+                <div class="play">▶</div>
+                <div class="cap">Море в 20 минутах от кампуса<small>Петра-ту-Ромиу, Пафос</small></div>
+              </div>
+              <div class="timeline">
+                <span class="seg a"></span><span class="play-head"></span><span class="seg b"></span><span class="seg c"></span><span class="seg d"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="base"></div>
+      </div>
+      <div class="card-float cf-1"><span style="margin:0 0 6px">поступление<br>без языкового барьера</span><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="card-float cf-2"><div class="tri">▲</div><b>Виза</b><span>готовим пакет<br>и ведём подачу</span></div>
+      <div class="card-float cf-3"><b>Общежитие</b><span>заселение и встреча<br>в аэропорту</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span><i>✦</i>ПОДБОР ВУЗА</span><span><i>✦</i>ДОКУМЕНТЫ</span><span><i>✦</i>ВИЗА</span><span><i>✦</i>ОБЩЕЖИТИЕ</span><span><i>✦</i>ВСТРЕЧА В АЭРОПОРТУ</span><span><i>✦</i>ПОДРАБОТКА</span><span><i>✦</i>ПОДДЕРЖКА НА МЕСТЕ</span>
+    <span><i>✦</i>ПОДБОР ВУЗА</span><span><i>✦</i>ДОКУМЕНТЫ</span><span><i>✦</i>ВИЗА</span><span><i>✦</i>ОБЩЕЖИТИЕ</span><span><i>✦</i>ВСТРЕЧА В АЭРОПОРТУ</span><span><i>✦</i>ПОДРАБОТКА</span><span><i>✦</i>ПОДДЕРЖКА НА МЕСТЕ</span>
+  </div>
+</div>
+
+<!-- CREATORS -->
+<section id="creators">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="sec-num">001</div><h2>Что мы берём на себя</h2></div>
+      <p>Четыре зоны ответственности: от выбора программы до момента, когда вы заселились в общежитие и вышли на первую пару.</p>
+    </div>
+    <div class="creators">
+      <div class="creator rv"><div><div class="av">01</div><h3>Подбор университета</h3><p>Смотрим аттестат, бюджет и цель — предлагаем программы, куда реально проходите.</p></div><div class="role">Университеты · [ЗАПОЛНИТЬ: список]</div></div>
+      <div class="creator rv"><div><div class="av">02</div><h3>Документы и заявка</h3><p>Собираем пакет, переводим и заверяем, подаём заявку, ведём переписку с приёмной комиссией.</p></div><div class="role">Сроки подачи · [ЗАПОЛНИТЬ]</div></div>
+      <div class="creator rv"><div><div class="av">03</div><h3>Виза</h3><p>Готовим визовый пакет, записываем на подачу и сопровождаем до решения консульства.</p></div><div class="role">Срок рассмотрения · [ЗАПОЛНИТЬ]</div></div>
+      <div class="creator rv"><div><div class="av">04</div><h3>Заселение и поддержка</h3><p>Билеты, встреча в аэропорту, общежитие, первые документы и банковская карта на месте.</p></div><div class="role">Куратор на острове</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOUND -->
+<section class="sound" id="sound">
+  <div class="wrap sound-grid">
+    <div class="rv">
+      <div class="eq" style="display:block;padding:26px;height:auto">
+        <div class="lbl">Ближайший набор<b>[ЗАПОЛНИТЬ: даты приёма документов]</b></div>
+        <div class="chip">● приём открыт</div>
+        <ol style="list-style:none;margin:26px 0 0;padding:0;display:grid;gap:18px">
+          <li style="display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start"><b style="font-family:var(--font-display);font-weight:300;font-size:26px;color:var(--gold)">01</b><div><b style="display:block;color:var(--head)">Консультация</b><span class="muted" style="font-size:14px">Разбираем аттестат, бюджет и цель. Отвечаем родителям на вопросы о расходах и безопасности.</span></div></li>
+          <li style="display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start"><b style="font-family:var(--font-display);font-weight:300;font-size:26px;color:var(--gold)">02</b><div><b style="display:block;color:var(--head)">Выбор программы</b><span class="muted" style="font-size:14px">Предлагаем университеты и специальности, показываем стоимость и требования.</span></div></li>
+          <li style="display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start"><b style="font-family:var(--font-display);font-weight:300;font-size:26px;color:var(--gold)">03</b><div><b style="display:block;color:var(--head)">Документы и заявка</b><span class="muted" style="font-size:14px">Пакет, переводы, заверение, подача. Получаем письмо о зачислении.</span></div></li>
+          <li style="display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start"><b style="font-family:var(--font-display);font-weight:300;font-size:26px;color:var(--gold)">04</b><div><b style="display:block;color:var(--head)">Виза</b><span class="muted" style="font-size:14px">Визовый пакет, запись на подачу, сопровождение до решения консульства.</span></div></li>
+          <li style="display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start"><b style="font-family:var(--font-display);font-weight:300;font-size:26px;color:var(--gold)">05</b><div><b style="display:block;color:var(--head)">Вылет и заселение</b><span class="muted" style="font-size:14px">Билеты, встреча в аэропорту, общежитие, первые документы на месте.</span></div></li>
+        </ol>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="sec-num">002</div>
+      <h2>Как проходит поступление</h2>
+      <p class="muted" style="margin-top:16px;font-size:17px">Пять шагов и один куратор, который ведёт вас на каждом. Никаких «пришлите документы и ждите».</p>
+      <div class="feat">
+        <div><em>◉</em><div><b>Обучение на английском</b><span>Греческий сдавать не нужно. Требования к языку у каждой программы свои: [ЗАПОЛНИТЬ: требования].</span></div></div>
+        <div><em>∿</em><div><b>Подработка во время учёбы</b><span>Студенческий статус позволяет работать при соблюдении условий: [ЗАПОЛНИТЬ: правила].</span></div></div>
+        <div><em>♫</em><div><b>Общежитие или квартира</b><span>Подбираем жильё рядом с кампусом, помогаем с договором и депозитом.</span></div></div>
+        <div><em>⟡</em><div><b>Дальше — вся Европа</b><span>Диплом Кипра признаётся в ЕС: перевод или магистратура в другой стране.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CYPRUS -->
+<section id="cyprus">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="sec-num">003</div><h2>Кипр — не только учёба</h2></div>
+      <p>Остров размером с Кыргызстанскую область: горы, море и античность — в часе езды от любого кампуса. Это то, что вы увидите между парами.</p>
+    </div>
+    <div class="cy-grid">
+      <div class="place wide rv"><div class="bg bg-limassol"></div><!-- [ЗАПОЛНИТЬ: своё фото] Лимасол --><img class="bg" src="https://unsplash.com/photos/SSusbf40O_0/download?w=1200" alt="Лимасол" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="pin">Лимассол · HQ</span><h3>Лимассол</h3><p>Деловая столица острова и главный студенческий город: набережная Молос, марина, старый порт. Рядом — античный Курион с амфитеатром над морем.</p></div>
+      <div class="place tall rv"><div class="bg bg-paphos"></div><!-- [ЗАПОЛНИТЬ: своё фото] Археологический парк Пафоса --><img class="bg" src="https://unsplash.com/photos/7HuMbBYlqeU/download?w=1200" alt="Археологический парк Пафоса" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="pin">Пафос · ЮНЕСКО</span><h3>Пафос</h3><p>Мозаики археологического парка, Гробницы царей, Петра-ту-Ромиу — скала, где родилась Афродита. Полуостров Акамас и Голубая лагуна.</p></div>
+      <div class="place rv"><div class="bg bg-napa"></div><!-- [ЗАПОЛНИТЬ: своё фото] Побережье Айя-Напы --><img class="bg" src="https://unsplash.com/photos/oUi2tvBLInY/download?w=1200" alt="Побережье Айя-Напы" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="pin">Айя-Напа</span><h3>Нисси-бич и Мыс Греко</h3><p>Самая бирюзовая вода острова, морские пещеры и закаты у Фиг-Три-бей.</p></div>
+      <div class="place rv"><div class="bg bg-troodos"></div><!-- [ЗАПОЛНИТЬ: своё фото] горы Троодос — сейчас только градиент --><span class="pin">Троодос</span><h3>Горы и Киккос</h3><p>Монастырь Киккос, росписные церкви ЮНЕСКО, деревни Омодос и Лефкара, винодельни и Коммандария.</p></div>
+      <div class="place rv"><div class="bg bg-larnaca"></div><!-- [ЗАПОЛНИТЬ: своё фото] Набережная Ларнаки --><img class="bg" src="https://unsplash.com/photos/bZqCMyP-AIs/download?w=1200" alt="Набережная Ларнаки" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="pin">Ларнака</span><h3>Соляное озеро</h3><p>Фламинго зимой, церковь св. Лазаря, набережная Финикудес и главный аэропорт острова — отсюда вы прилетите.</p></div>
+      <div class="place wide rv"><div class="bg bg-nicosia"></div><!-- [ЗАПОЛНИТЬ: своё фото] Никосия --><img class="bg" src="https://unsplash.com/photos/EJ54uZ9tA5M/download?w=1200" alt="Никосия" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="pin">Никосия</span><h3>Никосия — последняя разделённая столица Европы</h3><p>Венецианские стены, улица Ледра с «зелёной линией», музеи и караван-сараи. Здесь же — большинство государственных университетов.</p></div>
+    </div>
+    <div class="cy-facts">
+      <div class="fact rv"><b>300+</b><span>солнечных дней в году — море открыто с апреля по ноябрь</span></div>
+      <div class="fact rv"><b>ЕС</b><span>член Евросоюза с 2004 г., евро, GDPR, английское право</span></div>
+      <div class="fact rv"><b>EN</b><span>программы бакалавриата и магистратуры на английском</span></div>
+      <div class="fact rv"><b>3 ч</b><span>лёт до Стамбула, Афин, Дубая — прямые рейсы из Ларнаки</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVIDER -->
+<section class="prov" id="provider">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="sec-num">004</div><h2>Как мы работаем</h2></div>
+      <p>Мы не обещаем «гарантированное поступление» — так не бывает. Мы отвечаем за процесс: сроки, документы и сопровождение прописаны в договоре.</p>
+    </div>
+    <div class="prov-grid">
+      <div class="prov-card rv"><div class="n">ДОГОВОР</div><h3>Кипрская компания</h3><p>Работаем по договору с компанией, зарегистрированной на Кипре: платежи в евро, закрывающие документы.</p><ul><li>Этапы и сроки прописаны заранее</li><li>Условия при отказе в визе: [ЗАПОЛНИТЬ]</li><li>Стоимость фиксируется до старта</li></ul></div>
+      <div class="prov-card rv"><div class="n">ВУЗЫ</div><h3>Прямая работа с приёмными комиссиями</h3><p>Ведём переписку сами и знаем требования каждой программы, а не пересылаем документы вслепую.</p><ul><li>Университеты-партнёры: [ЗАПОЛНИТЬ]</li><li>Направления: [ЗАПОЛНИТЬ]</li><li>Сроки подачи: [ЗАПОЛНИТЬ]</li></ul></div>
+      <div class="prov-card rv"><div class="n">ЛЮДИ</div><h3>Куратор на острове</h3><p>Менеджер на русском и английском на связи в мессенджерах, куратор встречает на месте.</p><ul><li>Ответ в течение рабочего дня</li><li>Встреча в аэропорту и заселение</li><li>Помощь с документами после приезда</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="sec-num">005</div><h2>Пакеты сопровождения</h2></div>
+      <p>Три уровня — от разовой консультации до полного сопровождения «под ключ». Оплата в евро, документы от кипрской компании.</p>
+    </div>
+    
+    <div class="plans">
+      <div class="plan rv">
+        <div class="who">Шаг первый</div><h3>Консультация</h3><p class="desc">Разбор аттестата, бюджета и целей. Список программ, куда реально пройти.</p>
+        <div class="price"><span style="font-size:.5em">[ЗАПОЛНИТЬ: цена]</span></div><div class="per">разово</div>
+        <ul><li>Разбор документов и бюджета</li><li>Подборка программ и вузов</li><li>Смета расходов на первый год</li><li class="no">Подача документов</li><li class="no">Визовое сопровождение</li></ul>
+        <a href="#contact" class="btn btn-ghost">Записаться</a>
+      </div>
+      <div class="plan hot rv">
+        <div class="who">Основной</div><h3>Поступление</h3><p class="desc">Ведём от подбора программы до письма о зачислении и визы.</p>
+        <div class="price"><span style="font-size:.5em">[ЗАПОЛНИТЬ: цена]</span></div><div class="per">за весь цикл поступления</div>
+        <ul><li>Всё из консультации</li><li>Документы, переводы, заверение</li><li>Подача и переписка с вузом</li><li>Визовый пакет и сопровождение</li><li class="no">Заселение и поддержка на месте</li></ul>
+        <a href="#contact" class="btn btn-gold"><span class="ic">✦</span>Оставить заявку</a>
+      </div>
+      <div class="plan rv">
+        <div class="who">Под ключ</div><h3>Всё включено</h3><p class="desc">Поступление плюс перелёт, заселение и первые недели на острове.</p>
+        <div class="price"><span style="font-size:.5em">[ЗАПОЛНИТЬ: цена]</span></div><div class="per">за весь путь до первой пары</div>
+        <ul><li>Всё из «Поступления»</li><li>Билеты и встреча в аэропорту</li><li>Общежитие или квартира</li><li>Банковская карта и документы на месте</li><li>Куратор первые [ЗАПОЛНИТЬ] месяца</li></ul>
+        <a href="#contact" class="btn btn-ghost">Обсудить условия</a>
+      </div>
+    </div>
+    <p class="price-note">Стоимость обучения и проживания оплачивается напрямую университету и арендодателю — в пакет она не входит. Актуальные суммы: [ЗАПОЛНИТЬ: стоимость обучения в год] и [ЗАПОЛНИТЬ: стоимость проживания в месяц].</p>
+  </div>
+</section>
+
+<!-- LEGAL -->
+<section class="legal" id="legal">
+  <div class="wrap legal-grid">
+    <div class="rv">
+      <div class="sec-num">006</div>
+      <h2>Юридический сайд</h2>
+      <p class="muted" style="margin:16px 0 0;font-size:17px">Работаем по праву Республики Кипр и ЕС. Договор, сроки и условия возврата прописаны заранее — чтобы у родителей не осталось вопросов.</p>
+      <div class="legal-badges">
+        <div class="badge"><b>GDPR</b>Обработка данных по регламенту ЕС 2016/679, DPA по запросу.</div>
+        <div class="badge"><b>Договор</b>Письменный договор с кипрской компанией до начала работы и оплаты.</div>
+        <div class="badge"><b>Ваши документы</b>Оригиналы остаются у вас, мы работаем с копиями и заверенными переводами.</div>
+        <div class="badge"><b>Суд и арбитраж</b>Споры — в судах Лимассола или в арбитраже CEDRAC по выбору клиента.</div>
+      </div>
+    </div>
+    <div class="acc rv">
+      <details open><summary>Вы гарантируете поступление?<span>+</span></summary><p>Нет, и никто честно не может: решение принимает приёмная комиссия. Мы отвечаем за то, что зависит от нас — подбор программы по вашему профилю, корректные документы и поданную в срок заявку. Условия возврата, если поступить не удалось: [ЗАПОЛНИТЬ].</p></details>
+      <details><summary>Что если откажут в визе?<span>+</span></summary><p>Разбираем причину отказа и готовим повторную подачу. Условия возврата и повторного сопровождения: [ЗАПОЛНИТЬ].</p></details>
+      <details><summary>Какие документы вы выдаёте?<span>+</span></summary><p>Договор-оферта, инвойс от кипрской Ltd с VAT, акт/отчёт по запросу. Для резидентов ЕС — reverse charge, для остальных — НДС 0 % на экспорт услуг.</p></details>
+      <details><summary>Где решаются споры?<span>+</span></summary><p>Применимое право — Республика Кипр. Подсудность — суды Лимассола; альтернативно — арбитраж CEDRAC (Кипрский центр арбитража и медиации). Досудебная претензия рассматривается за 10 рабочих дней.</p></details>
+      <details><summary>Нужно ли ехать родителям?<span>+</span></summary><p>Нет: документы подаём дистанционно, студента встречает куратор на месте. Для абитуриентов младше 18 лет нужны дополнительные согласия — список: [ЗАПОЛНИТЬ].</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="cta-box rv">
+      <div>
+        <span class="eyebrow"><i></i>Первая консультация — бесплатно</span>
+        <h2 style="margin-top:22px">Не откладывайте учёбу на год — разберём ваш случай на этой неделе</h2>
+        <p class="muted" style="margin-top:18px;font-size:16px;max-width:460px">Оставьте заявку — вернёмся с подборкой программ под ваш аттестат и бюджет. Без обязательств: сначала честная оценка шансов, потом разговор о деньгах.</p>
+        <div class="hero-trust" style="margin-top:34px">
+          <div><b>1 день</b><span>ответ на заявку</span></div>
+          <div><b>€0</b><span>за консультацию</span></div>
+          <div><b>0</b><span>обязательств</span></div>
+        </div>
+      </div>
+      <form id="lead" novalidate>
+        <div class="row2">
+          <div class="field"><label>Имя</label><input type="text" name="name" placeholder="Как к вам обращаться" required></div>
+          <div class="field"><label>Telegram / WhatsApp</label><input type="text" name="contact" placeholder="@nickname или +357…" required></div>
+        </div>
+        <div class="field"><label>Направление</label><input type="text" name="topic" placeholder="Например: IT, медицина, бизнес, дизайн"></div>
+        <div class="field"><label>Кто обращается</label>
+          <select name="segment"><option>Абитуриент</option><option>Родитель</option><option>Студент — перевод или магистратура</option></select>
+        </div>
+        <label class="consent"><input type="checkbox" required> Согласен(а) с обработкой данных по GDPR и политикой конфиденциальности KYPRIA.</label>
+        <button type="submit" class="btn btn-gold" style="justify-content:center"><span class="ic">✦</span>Записаться на консультацию</button>
+        <div class="ok" id="ok">✓ Заявка принята. Свяжемся в течение рабочего дня и пришлём подборку программ.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#" class="logo" style="margin-bottom:16px"><b></b>KYPRIA</a>
+        <p>Образование на Кипре: подбор университета, документы, виза, заселение. KYPRIA, Limassol, Cyprus.</p>
+      </div>
+      <div><h4>Услуги</h4><a href="#creators">Что мы берём на себя</a><a href="#sound">Как проходит поступление</a><a href="#pricing">Пакеты</a><a href="#provider">Как мы работаем</a></div>
+      <div><h4>Компания</h4><a href="#cyprus">Кипр</a><a href="#legal">Право</a><a href="#contact">Контакты</a><a href="#">Карьера</a></div>
+      <div><h4>Контакты</h4><a href="mailto:hello@kypria.ai">hello@kypria.ai</a><a href="#">+357 25 000 000</a><a href="#">Limassol, Agiou Athanasiou 46</a></div>
+    </div>
+    <div class="copy"><span>© 2026 Kypria AI Ltd. Все права защищены.</span><span>Политика конфиденциальности · Оферта · Cookies</span></div>
+  </div>
+</footer>
+
+<script>
+// reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+// stagger cards
+document.querySelectorAll('.creators .rv,.cy-grid .rv,.plans .rv,.prov-grid .rv,.cy-facts .rv').forEach((el,i)=>el.style.transitionDelay=(i%4)*70+'ms');
+// hero glow follows cursor (desktop / fine pointer / motion allowed)
+(function(){
+  const hero=document.querySelector('.hero'),glow=hero&&hero.querySelector('.glow');
+  if(!hero||!glow||!matchMedia('(pointer:fine)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  let tx=60,ty=42,cx=60,cy=42,raf=null;
+  function loop(){cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;
+    glow.style.setProperty('--mx',cx.toFixed(2)+'%');glow.style.setProperty('--my',cy.toFixed(2)+'%');
+    if(Math.abs(tx-cx)>.05||Math.abs(ty-cy)>.05){raf=requestAnimationFrame(loop)}else{raf=null}}
+  hero.addEventListener('mouseenter',()=>glow.classList.add('on'));
+  hero.addEventListener('mouseleave',()=>glow.classList.remove('on'));
+  hero.addEventListener('mousemove',e=>{const r=hero.getBoundingClientRect();
+    tx=((e.clientX-r.left)/r.width)*100;ty=((e.clientY-r.top)/r.height)*100;
+    if(!raf)raf=requestAnimationFrame(loop)});
+})();
+// pricing toggle
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  const m=b.dataset.mode;document.querySelectorAll('.price span[data-m]').forEach(s=>s.textContent=s.dataset[m]);
+}));
+// burger
+const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+burger.addEventListener('click',()=>menu.classList.toggle('open'));
+menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+// form
+document.getElementById('lead').addEventListener('submit',e=>{
+  e.preventDefault();const f=e.target;
+  const req=[...f.querySelectorAll('input[required]')];
+  let bad=false;
+  req.forEach(i=>{const empty=i.type==='checkbox'?!i.checked:!i.value.trim();if(empty){bad=true;if(i.type!=='checkbox')i.style.borderColor='#ff6b6b'}else if(i.type!=='checkbox')i.style.borderColor=''});
+  if(bad)return;
+  document.getElementById('ok').style.display='block';f.querySelector('button[type=submit]').style.display='none';
+});
+</script>
+
+
+</body>
+</html>
