@@ -1,0 +1,13 @@
+{
+  "name": "kipr-cyprus-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Telegram-бот про Кипр: консультант по учёбе + свободный чат + голосовые сообщения",
+  "type": "commonjs",
+  "scripts": {
+    "set-webhook": "node scripts/set-webhook.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0"
+  }
+}
